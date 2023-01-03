@@ -1,8 +1,8 @@
-import { Link } from "@remix-run/react";
 import { DateTime } from "luxon";
-import Navbar from "~/components/navigation/NavBar";
+import Navbar from "../components/navigation/Navbar";
 import { FaHome } from "react-icons/fa";
 import { FaLightbulb } from "react-icons/fa";
+
 export const routes = [
   { to: "/", label: "HOME", icon: FaHome },
   { to: "/posts", label: "POSTS", icon: FaLightbulb },
