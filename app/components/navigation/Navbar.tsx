@@ -8,12 +8,16 @@ interface NavbarProps {
 
 export default function Navbar({ links }: NavbarProps) {
   return (
-    <div className="flex h-full min-h-screen flex-col">
-      <header className="flex items-center bg-slate-800 p-4 text-white">
+    <div>
+      <header className="flex rounded-2xl  bg-rose-300 p-4 text-white sm:flex sm:items-center sm:justify-center sm:rounded-2xl">
         {links.map(({ to, label, icon: Icon }, idx) => (
-          <Link className={idx === 0 ? undefined : "ml-8"} key={to} to={to}>
-            <Icon />
-          </Link>
+          <a
+            className={idx === 0 ? undefined : " ml-8  active:fill-teal-500 "}
+            href={to}
+            key={to}
+          >
+            <Icon className="hover:fill-blue-700  " />
+          </a>
         ))}
       </header>
 
