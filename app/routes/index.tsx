@@ -17,7 +17,7 @@ export default function Index() {
         <div className="max-w-7xl p-3 ">
           {/* <span>📍 🇨🇷 Costa Rica</span>
           <span>{` / ${time.hour}:${time.minute}`}</span> */}
-          <div className="relative overflow-hidden rounded-2xl bg-amber-300 p-5 shadow-xl">
+          <div className="relative overflow-hidden rounded-2xl bg-amber-300 p-12 shadow-xl">
             <div className="relative ">
               <h1 className="text-center text-6xl font-extrabold tracking-tight text-white sm:text-8xl lg:text-5xl">
                 <span className="mt-12 block uppercase drop-shadow-md">

@@ -1,17 +1,6 @@
-type Post = {
-  slug: string;
-  title: string;
-};
+import { prisma } from "~/db.server";
 
-export async function getPosts(): Promise<Array<Post>> {
-  return [
-    {
-      slug: "my-first-post",
-      title: "My First Post",
-    },
-    {
-      slug: "90s-mixtape",
-      title: "A Mixtape I Made Just For You",
-    },
-  ];
+export async function getPostListItems() {
+  //from the db it just request these values
+  return prisma.post.findMany({ select: { title: true, slug: true } });
 }

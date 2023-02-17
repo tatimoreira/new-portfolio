@@ -1,24 +1,16 @@
 import { json } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
+import { getPostListItems } from "~/models/post.server";
 
 export const loader = async () => {
-  return json({
-    posts: [
-      {
-        slug: "my-first-post",
-        title: "My First Post",
-      },
-      {
-        slug: "90s-mixtape",
-        title: "A Mixtape I Made Just For ME",
-      },
-    ],
-  });
+  const posts = await getPostListItems();
+  return json({ posts });
 };
 
 export default function Posts() {
+  console.log("posts");
   const { posts } = useLoaderData<typeof loader>();
-  console.log(posts);
+  console.log("posts", posts);
   return (
     <main>
       <h1>Posts</h1>

@@ -24,21 +24,26 @@ async function seed() {
     },
   });
 
-  await prisma.note.create({
-    data: {
-      title: "My first note",
-      body: "Hello, world!",
-      userId: user.id,
+  const posts = [
+    {
+      slug: "my-first-post",
+      title: "My First Post",
+      markdown: `This is my first post`.trim(),
     },
-  });
+    {
+      slug: "90s-mixtape",
+      title: "A Mixtape I Made Just For ME",
+      markdown: `# 90s mixtape`.trim(),
+    },
+  ];
 
-  await prisma.note.create({
-    data: {
-      title: "My second note",
-      body: "Hello, world!",
-      userId: user.id,
-    },
-  });
+  for (const post of posts) {
+    await prisma.post.upsert({
+      where: { slug: post.slug },
+      update: post,
+      create: post,
+    });
+  }
 
   console.log(`Database has been seeded. 🌱`);
 }
