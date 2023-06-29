@@ -20,8 +20,6 @@ export default function Navbar({ links }: NavbarProps) {
           </a>
         ))}
       </header>
-
-      <Outlet />
     </div>
   );
 }
