@@ -13,7 +13,7 @@ export default function Index() {
   var time = DateTime.local().setZone("America/Costa_Rica");
   console.log(time);
   return (
-    <main className="min-h-screen   bg-blue-700  backdrop-blur-sm sm:items-center sm:justify-center ">
+    <main className="min-h-screen   bg-white backdrop-blur-sm sm:items-center sm:justify-center ">
       <div className="relative sm:pb-16 sm:pt-8">
         <Outlet />
       </div>
