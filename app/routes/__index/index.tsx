@@ -2,8 +2,8 @@ import { Outlet } from "@remix-run/react";
 
 export default function Index() {
   return (
-    <div>
-      <div className="relative w-6/12 overflow-hidden rounded-2xl bg-fuchsia-500  p-12 shadow-xl">
+    <div className="flex justify-center">
+      <div className="relative  overflow-hidden rounded-2xl bg-orange-300  p-12 shadow-xl">
         <div className="relative ">
           <h1 className="text-center text-6xl font-extrabold tracking-tight text-white sm:text-8xl lg:text-5xl">
             <span className="mt-12 block uppercase drop-shadow-md">
