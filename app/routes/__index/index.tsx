@@ -12,7 +12,7 @@ export default function Index() {
           </h1>
           <div className="text-center text-white">
             <p className="mx-auto mt-6 max-w-lg  text-xl  sm:max-w-3xl">
-              Creating software for cool people
+              Developing cool software
             </p>
           </div>
         </div>

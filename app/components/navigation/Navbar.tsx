@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
 import type { IconType } from "react-icons";
+import { NavLink } from "@remix-run/react";
 
 interface NavbarProps {
   links: Array<{
@@ -12,17 +13,26 @@ interface NavbarProps {
 
 export default function Navbar({ links }: NavbarProps) {
   return (
-    <header className="flex rounded-2xl  bg-orange-400 p-4 text-white sm:flex sm:items-center sm:justify-center sm:rounded-2xl">
+    <header className="flex rounded-2xl  bg-teal-500 p-4 text-white sm:flex sm:items-center sm:justify-center sm:rounded-2xl">
       {links.map(({ to, label, icon: Icon, external }, idx) => (
-        <a
-          className={idx === 0 ? undefined : " ml-8  active:fill-teal-500 "}
-          href={to}
+        <NavLink
+          to={to}
           key={to}
           target={external ? "_blank" : ""}
           rel="noreferrer"
+          className={({ isActive, isPending }) =>
+            isPending ? "pending" : isActive ? "active" : ""
+          }
+          style={({ isActive, isPending }) => {
+            return {
+              marginLeft: idx === 0 ? undefined : " 2rem ",
+              fontWeight: isActive ? "bold " : "",
+              color: isActive ? "rgb(253 186 116)" : "white",
+            };
+          }}
         >
-          <Icon className="hover:fill-blue-700  " />
-        </a>
+          <Icon className="hover:fill-orange-300  " />
+        </NavLink>
       ))}
     </header>
   );

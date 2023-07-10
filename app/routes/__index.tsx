@@ -4,10 +4,38 @@ import { FaHome } from "react-icons/fa";
 import { FaLightbulb } from "react-icons/fa";
 import { FaLinkedin } from "react-icons/fa";
 import { FaGithub } from "react-icons/fa";
-import { Outlet } from "@remix-run/react";
+import { NavLink, Outlet } from "@remix-run/react";
 import { Theme, useTheme } from "~/utils/theme-provider";
 import { FaEnvelope } from "react-icons/fa";
 import { BsSun } from "react-icons/bs";
+import { BsMoon } from "react-icons/bs";
+
+export const menu = [
+  <NavLink
+    key="messages"
+    to="/messages"
+    style={({ isActive, isPending }) => {
+      return {
+        fontWeight: isActive ? "bold" : "",
+        color: isPending ? "red" : "black",
+      };
+    }}
+  >
+    Messages
+  </NavLink>,
+  <NavLink
+    key="messages"
+    to="/messages"
+    style={({ isActive, isPending }) => {
+      return {
+        fontWeight: isActive ? "bold" : "",
+        color: isPending ? "red" : "black",
+      };
+    }}
+  >
+    Messages
+  </NavLink>,
+];
 
 export const MenuItems = [
   { to: "/", label: "HOME", icon: FaHome, active: true, external: false },
@@ -44,11 +72,13 @@ export const MenuItems = [
 export default function Index() {
   var time = DateTime.local().setZone("America/Costa_Rica");
   console.log(time);
-  const [, setTheme] = useTheme();
+  const [theme, setTheme] = useTheme();
 
   const toggleTheme = () => {
-    setTheme((prevTheme) =>
-      prevTheme === Theme.LIGHT ? Theme.DARK : Theme.LIGHT
+    debugger;
+
+    setTheme((prevTheme) => 
+       prevTheme === Theme.LIGHT ? Theme.DARK : Theme.LIGHT;
     );
   };
   return (
@@ -57,7 +87,11 @@ export default function Index() {
         onClick={toggleTheme}
         className="m-4 rounded-full border-2  border-neutral-500 p-4 dark:border-white"
       >
-        <BsSun className="h-6 w-6 text-neutral-500 dark:text-white"></BsSun>
+        {prevTheme === Theme.LIGHT ? (
+          <BsSun className="h-6 w-6 text-neutral-500 dark:text-white"></BsSun>
+        ) : (
+          <BsMoon className="h-6 w-6 text-neutral-500 dark:text-white"></BsMoon>
+        )}
       </button>
 
       <div className="flex w-full flex-col items-center p-40 ">
