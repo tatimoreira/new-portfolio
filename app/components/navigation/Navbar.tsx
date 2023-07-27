@@ -12,18 +12,17 @@ interface NavbarProps {
 }
 
 export default function Navbar({ links }: NavbarProps) {
+  debugger;
   return (
-    <header className="flex rounded-2xl  bg-teal-500 p-4 text-white sm:flex sm:items-center sm:justify-center sm:rounded-2xl">
+    <header className=" flex w-full rounded-2xl  bg-teal-500 p-4 text-white sm:flex sm:items-center sm:justify-center sm:rounded-2xl">
       {links.map(({ to, label, icon: Icon, external }, idx) => (
         <NavLink
           to={to}
           key={to}
           target={external ? "_blank" : ""}
           rel="noreferrer"
-          className={({ isActive, isPending }) =>
-            isPending ? "pending" : isActive ? "active" : ""
-          }
-          style={({ isActive, isPending }) => {
+          className={({ isActive }) => (isActive ? "active" : "pending")}
+          style={({ isActive }) => {
             return {
               marginLeft: idx === 0 ? undefined : " 2rem ",
               fontWeight: isActive ? "bold " : "",
