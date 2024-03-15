@@ -13,7 +13,6 @@ interface NavbarProps {
 }
 
 export default function Navbar({ links }: NavbarProps) {
-  debugger;
   return (
     <header className=" flex w-full rounded-2xl  bg-teal-500 p-4 text-white sm:flex sm:items-center sm:justify-center sm:rounded-2xl">
       {links.map(({ to, label, icon: Icon, external }, idx) => (
