@@ -61,8 +61,6 @@ export const MenuItems = [
 ];
 
 export default function Index() {
-  var time = DateTime.local().setZone("America/Costa_Rica");
-  console.log(time);
   return (
     <main className=" min-h-screen bg-neutral-200 backdrop-blur-sm dark:bg-black sm:items-center sm:justify-center ">
       <Toggle />
