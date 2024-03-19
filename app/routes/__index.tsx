@@ -38,13 +38,6 @@ export const menu = [
 export const MenuItems = [
   { to: "/", label: "HOME", icon: FaHome, active: true, external: false },
   {
-    to: "/posts",
-    label: "POSTS",
-    icon: FaLightbulb,
-    active: false,
-    external: false,
-  },
-  {
     to: "https://github.com/tatimoreira",
     label: "POSTS",
     icon: FaGithub,
@@ -71,7 +64,7 @@ export default function Index() {
   var time = DateTime.local().setZone("America/Costa_Rica");
   console.log(time);
   return (
-    <main className=" min-h-screen bg-neutral-200 backdrop-blur-sm dark:bg-neutral-500 sm:items-center sm:justify-center ">
+    <main className=" min-h-screen bg-neutral-200 backdrop-blur-sm dark:bg-black sm:items-center sm:justify-center ">
       <Toggle />
       <div className="flex w-full flex-col items-center p-32 sm:p-40">
         <div className="relative  m-9">
