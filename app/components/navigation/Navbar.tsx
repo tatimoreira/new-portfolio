@@ -14,12 +14,12 @@ interface NavbarProps {
 
 export default function Navbar({ links }: NavbarProps) {
   return (
-    <header className=" flex w-full rounded-2xl  bg-teal-500 p-4 text-white sm:flex sm:items-center sm:justify-center sm:rounded-2xl">
+    <header className=" flex w-full rounded-2xl border-4 border-black dark:border-white bg-white dark:bg-black p-4 text-white sm:flex sm:items-center sm:justify-center sm:rounded-2xl">
       {links.map(({ to, label, icon: Icon, external }, idx) => (
 
         external
           ?
-          (<a href={to} target="_blank" className="ml-8">  <Icon className="hover:fill-orange-300  " /></a>) : (
+          (<a href={to} target="_blank" className="ml-8">  <Icon className="hover:fill-black text-slate-500 " /></a>) : (
             <NavLink
               to={to}
               key={to}
@@ -30,11 +30,11 @@ export default function Navbar({ links }: NavbarProps) {
                 return {
                   marginLeft: idx === 0 ? undefined : " 2rem ",
                   fontWeight: isActive ? "bold " : "",
-                  color: isActive ? "rgb(253 186 116)" : "white",
+                  color: isActive ? "black" : "white",
                 };
               }}
             >
-              <Icon className="hover:fill-orange-300  " />
+              <Icon className="hover:fill-black dark:text-white " />
             </NavLink>
           )
 

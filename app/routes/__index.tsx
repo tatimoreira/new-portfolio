@@ -62,7 +62,7 @@ export const MenuItems = [
 
 export default function Index() {
   return (
-    <main className=" min-h-screen bg-neutral-200 backdrop-blur-sm dark:bg-black sm:items-center sm:justify-center ">
+    <main className=" min-h-screen bg-white backdrop-blur-sm dark:bg-black sm:items-center sm:justify-center ">
       <Toggle />
       <div className="flex w-full flex-col items-center p-32 sm:p-40">
         <div className="relative  m-9">

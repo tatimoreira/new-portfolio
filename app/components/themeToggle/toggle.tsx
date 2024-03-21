@@ -14,7 +14,7 @@ export default function Toggle() {
   return (
     <button
       onClick={toggleTheme}
-      className="m-4 rounded-full border-2  border-neutral-500 p-4 dark:border-white"
+      className="m-4 rounded-full border-2  border-black p-4 dark:border-white"
     >
 
       {
@@ -27,12 +27,12 @@ export default function Toggle() {
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 30, opacity: 0 }}
             transition={{ duration: .2 }}>
-            <BsSun className="h-6 w-6 text-neutral-500 dark:text-white"></BsSun>
+            <BsSun className="h-6 w-6 text-black dark:text-white"></BsSun>
           </motion.div>
 
         ) : (
 
-          <BsMoon className="h-6 w-6 text-neutral-500 dark:text-white"></BsMoon>
+          <BsMoon className="h-6 w-6 text-black dark:text-white"></BsMoon>
         )}
     </button>
   );
