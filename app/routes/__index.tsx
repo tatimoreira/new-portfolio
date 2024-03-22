@@ -62,17 +62,23 @@ export const MenuItems = [
 
 export default function Index() {
   return (
-    <main className=" min-h-screen bg-white backdrop-blur-sm dark:bg-black sm:items-center sm:justify-center ">
-      <Toggle />
-      <div className="flex w-full flex-col items-center p-32 sm:p-40">
-        <div className="relative  m-9">
-          <Outlet />
-        </div>
+    <div>
 
-        <div className=" flex items-center p-3 ">
-          <Navbar links={MenuItems} />
+      <main className="min-h-screen bg-white backdrop-blur-sm dark:bg-black sm:items-center sm:justify-center ">
+        <div
+          className="w-screen h-screen pattern-dots pattern-black dark:pattern-white pattern-bg-transparent pattern-opacity-90 pattern-size-4"
+        >
+          <Toggle />
+          <div className="flex w-full flex-col items-center p-32 sm:p-40">
+            <div className="relative  m-9">
+              <Outlet />
+            </div>
+            <div className=" flex items-center p-3 ">
+              <Navbar links={MenuItems} />
+            </div>
+          </div>
         </div>
-      </div>
-    </main>
+      </main>
+    </div>
   );
 }

@@ -63,6 +63,7 @@ export function App() {
         <Links />
       </head>
       <body className="h-full">
+
         <Outlet />
         <ScrollRestoration />
         <Scripts />
@@ -76,8 +77,10 @@ export default function AppWithProviders() {
   const data = useLoaderData<LoaderData>();
 
   return (
+
     <ThemeProvider specifiedTheme={data.theme}>
       <App />
     </ThemeProvider>
+
   );
 }
