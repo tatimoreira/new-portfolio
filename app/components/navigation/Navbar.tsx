@@ -2,6 +2,7 @@ import { ReactNode } from "react";
 import type { IconType } from "react-icons";
 import { NavLink } from "@remix-run/react";
 import { redirect } from "@remix-run/node";
+import { motion } from "framer-motion";
 
 interface NavbarProps {
   links: Array<{
@@ -14,7 +15,11 @@ interface NavbarProps {
 
 export default function Navbar({ links }: NavbarProps) {
   return (
-    <header className=" flex w-full rounded-2xl border-4 border-black dark:border-white bg-white dark:bg-black p-4 text-white sm:flex sm:items-center sm:justify-center sm:rounded-2xl">
+    <motion.header
+      initial={{ opacity: 0, scale: 0.5 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ ease: [0, 0.71, 0.2, 1.01], duration: 0.8, delay: 0.5 }}
+      className=" flex w-full rounded-2xl border-4 border-black dark:border-white bg-white dark:bg-black p-4 text-white sm:flex sm:items-center sm:justify-center sm:rounded-2xl">
       {links.map(({ to, label, icon: Icon, external }, idx) => (
 
         external
@@ -40,6 +45,6 @@ export default function Navbar({ links }: NavbarProps) {
 
 
       ))}
-    </header >
+    </motion.header >
   );
 }
