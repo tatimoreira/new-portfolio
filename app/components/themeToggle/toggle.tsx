@@ -14,7 +14,7 @@ export default function Toggle() {
   return (
     <button
       onClick={toggleTheme}
-      className="m-4 rounded-full border-2  border-black p-4 dark:border-white bg-white dark:bg-black"
+      className="m-4 rounded-full border-4  border-black p-4 dark:border-white bg-white dark:bg-black"
     >
 
       {

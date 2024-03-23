@@ -69,7 +69,7 @@ export default function Index() {
           className="w-screen h-screen pattern-dots pattern-black dark:pattern-white pattern-bg-transparent pattern-opacity-90 pattern-size-4"
         >
           <Toggle />
-          <div className="flex w-full flex-col items-center p-32 sm:p-40">
+          <div className="flex w-full flex-col items-center  sm:p-40">
             <div className="relative  m-9">
               <Outlet />
             </div>
