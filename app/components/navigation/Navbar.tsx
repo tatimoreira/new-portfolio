@@ -24,7 +24,7 @@ export default function Navbar({ links }: NavbarProps) {
 
         external
           ?
-          (<a href={to} target="_blank" className="ml-8">  <Icon className="hover:fill-black text-slate-500 " /></a>) : (
+          (<a href={to} target="_blank" className="ml-8">  <Icon className="hover:fill-black dark:hover:fill-white text-slate-500 " /></a>) : (
             <NavLink
               to={to}
               key={to}

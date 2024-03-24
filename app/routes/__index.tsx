@@ -1,12 +1,8 @@
 import { DateTime } from "luxon";
 import Navbar from "../components/navigation/Navbar";
-import { FaHome } from "react-icons/fa";
-import { FaLightbulb } from "react-icons/fa";
-import { FaLinkedin } from "react-icons/fa";
-import { FaGithub } from "react-icons/fa";
 import { NavLink, Outlet } from "@remix-run/react";
-import { FaEnvelope } from "react-icons/fa";
 import Toggle from "~/components/themeToggle/toggle";
+import { MenuItems } from "~/components/navigation/MenuItems";
 
 export const menu = [
   <NavLink
@@ -35,30 +31,7 @@ export const menu = [
   </NavLink>,
 ];
 
-export const MenuItems = [
-  { to: "/", label: "HOME", icon: FaHome, active: true, external: false },
-  {
-    to: "https://github.com/tatimoreira",
-    label: "POSTS",
-    icon: FaGithub,
-    active: false,
-    external: true,
-  },
-  {
-    to: "https://www.linkedin.com/in/tmoreirab/",
-    label: "POSTS",
-    icon: FaLinkedin,
-    active: false,
-    external: true,
-  },
-  {
-    to: "mailto:tatimb14@gmail.com",
-    label: "POSTS",
-    icon: FaEnvelope,
-    active: false,
-    external: true,
-  },
-];
+
 
 export default function Index() {
   return (
