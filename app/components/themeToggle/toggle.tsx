@@ -13,8 +13,9 @@ export default function Toggle() {
 
   return (
     <button
+      aria-label="switch-theme"
       onClick={toggleTheme}
-      className="m-4 rounded-full border-4  border-black p-4 dark:border-white bg-white dark:bg-black"
+      className="m-4 rounded-full border-4  border-purple-500 p-4 bg-white dark:bg-black"
     >
 
       {

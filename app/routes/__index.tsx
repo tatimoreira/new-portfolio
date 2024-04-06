@@ -37,18 +37,16 @@ export default function Index() {
   return (
     <div>
 
-      <main className="min-h-screen bg-white backdrop-blur-sm dark:bg-black sm:items-center sm:justify-center ">
+      <main className="min-h-screen bg-white backdrop-blur-sm dark:bg-black  ">
         <div
-          className="w-screen h-screen pattern-dots pattern-black dark:pattern-white pattern-bg-transparent pattern-opacity-90 pattern-size-4"
+          className="w-screen h-screen pattern-dots pattern-pink-500 dark:pattern-pink-500 pattern-bg-transparent  "
         >
           <Toggle />
-          <div className="flex w-full flex-col items-center  sm:p-40">
+          <div className="flex w-full flex-col items-center sm:p-40">
             <div className="relative  m-9">
               <Outlet />
             </div>
-            <div className=" flex items-center p-3 ">
-              <Navbar links={MenuItems} />
-            </div>
+            <Navbar links={MenuItems} />
           </div>
         </div>
       </main>
