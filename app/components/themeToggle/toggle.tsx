@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { BsMoon, BsSun } from "react-icons/bs";
 import { Theme, useTheme } from "~/utils/theme-provider";
 import { motion } from "framer-motion";
+import { MoonIcon } from "../navigation/MoonIcon";
+import { SunIcon } from "../navigation/SunIcon";
 
 export default function Toggle() {
   const [theme, setTheme] = useTheme();
@@ -15,7 +16,7 @@ export default function Toggle() {
     <button
       aria-label="switch-theme"
       onClick={toggleTheme}
-      className="m-4 rounded-full border-4  border-purple-500 p-4 bg-white dark:bg-black"
+      className="m-4 rounded-full  p-4 bg-yellow-500 dark:bg-blue-500"
     >
 
       {
@@ -28,13 +29,14 @@ export default function Toggle() {
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 30, opacity: 0 }}
             transition={{ duration: .2 }}>
-            <BsSun className="h-6 w-6 text-black dark:text-white"></BsSun>
+            <SunIcon></SunIcon>
           </motion.div>
 
         ) : (
 
-          <BsMoon className="h-6 w-6 text-black dark:text-white"></BsMoon>
-        )}
-    </button>
+          <MoonIcon ></MoonIcon>
+        )
+      }
+    </button >
   );
 }
