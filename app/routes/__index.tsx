@@ -8,10 +8,9 @@ export const menu = [
   <NavLink
     key="messages"
     to="/messages"
-    style={({ isActive, isPending }) => {
+    style={({ isActive }) => {
       return {
         fontWeight: isActive ? "bold" : "",
-        color: isPending ? "red" : "black",
       };
     }}
   >
@@ -20,10 +19,9 @@ export const menu = [
   <NavLink
     key="messages"
     to="/messages"
-    style={({ isActive, isPending }) => {
+    style={({ isActive }) => {
       return {
         fontWeight: isActive ? "bold" : "",
-        color: isPending ? "red" : "black",
       };
     }}
   >
