@@ -91,7 +91,7 @@
     "vitest": "^0.22.1"
   },
   "engines": {
-    "node": "20.x"
+    "node": ">=18.13.0"
   },
   "prisma": {
     "seed": "ts-node --require tsconfig-paths/register prisma/seed.ts"
