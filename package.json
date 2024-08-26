@@ -31,9 +31,9 @@
   "dependencies": {
     "@prisma/client": "^4.2.1",
     "@remix-run/node": "^2.9.0",
-    "@remix-run/react": "^1.7.0",
-    "@remix-run/serve": "^1.7.0",
-    "@remix-run/server-runtime": "^1.7.0",
+    "@remix-run/react": "^2.9.0",
+    "@remix-run/serve": "^2.9.0",
+    "@remix-run/server-runtime": "^2.9.0",
     "@types/marked": "^4.0.8",
     "bcryptjs": "^2.4.3",
     "clsx": "^1.2.1",
@@ -49,8 +49,8 @@
   },
   "devDependencies": {
     "@faker-js/faker": "^7.4.0",
-    "@remix-run/dev": "^1.7.0",
-    "@remix-run/eslint-config": "^1.7.0",
+    "@remix-run/dev": "^2.9.0",
+    "@remix-run/eslint-config": "^2.9.0",
     "@testing-library/cypress": "^8.0.3",
     "@testing-library/dom": "^8.17.1",
     "@testing-library/jest-dom": "^5.16.5",
