@@ -8,7 +8,7 @@ import { installGlobals } from "@remix-run/node";
 
 import { prisma } from "~/db.server";
 
-installGlobals();
+installGlobals({ nativeFetch: true });
 
 async function deleteUser(email: string) {
   if (!email) {

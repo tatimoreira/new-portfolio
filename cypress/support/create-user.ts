@@ -10,7 +10,7 @@ import { parse } from "cookie";
 import { createUser } from "~/models/user.server";
 import { createUserSession } from "~/session.server";
 
-installGlobals();
+installGlobals({ nativeFetch: true });
 
 async function createAndLogin(email: string) {
   if (!email) {
