@@ -33,22 +33,24 @@ export const menu = [
 
 export default function Index() {
   return (
-    <div>
+    <div >
+      <div className="absolute top-0 -z-10 h-full w-full bg-white">
+        <div className="absolute bottom-auto left-auto right-0 top-0 h-[500px] w-[500px] -translate-x-[30%] translate-y-[20%] rounded-full bg-[rgba(173,109,244,0.5)] opacity-50 blur-[80px]">
 
-      <main className="min-h-screen bg-white backdrop-blur-sm dark:bg-black  ">
+        </div>
+      </div>
+      <main className="min-h-screen   backdrop-blur-sm dark:bg-black  ">
 
         <Toggle />
-        <div className="flex w-full flex-col items-center sm:p-40">
+        <div className=" flex  flex-col items-center sm:p-40">
           <div className="relative  m-9">
             <Outlet />
           </div>
           <Navbar links={MenuItems} />
         </div>
-        {/**<div
-          className="w-screen h-screen pattern-dots pattern-pink-500 dark:pattern-pink-500 pattern-bg-transparent  "
-        >
-        </div> */}
       </main>
+
+
     </div>
   );
 }
