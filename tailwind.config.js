@@ -1,3 +1,5 @@
+const defaultTheme = require('tailwindcss/defaultTheme');
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ["./app/**/*.{ts,tsx,jsx,js}"],
@@ -25,7 +27,11 @@ module.exports = {
         32: "8rem",
       }
     },
-    extend: {},
+    extend: {
+      fontFamily: {
+        work: ['"Work Sans"', ...defaultTheme.fontFamily.sans]
+      }
+    },
   },
   plugins: [
     require('tailwindcss-bg-patterns'),
