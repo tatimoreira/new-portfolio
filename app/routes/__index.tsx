@@ -3,6 +3,7 @@ import Navbar from "../components/navigation/Navbar";
 import { NavLink, Outlet } from "@remix-run/react";
 import Toggle from "~/components/themeToggle/toggle";
 import { MenuItems } from "~/components/navigation/MenuItems";
+import Tile from "~/components/Tile";
 
 export const menu = [
   <NavLink
@@ -34,23 +35,31 @@ export const menu = [
 export default function Index() {
   return (
     <div >
-      <div className="absolute top-0 -z-10 h-full w-full bg-white">
+      <div className="absolute top-0 -z-10 h-full w-full  dark:bg-black bg-white">
         <div className="absolute bottom-auto left-auto right-0 top-0 h-[500px] w-[500px] -translate-x-[30%] translate-y-[20%] rounded-full bg-[rgba(173,109,244,0.5)] opacity-50 blur-[80px]">
-
         </div>
       </div>
-      <main className="min-h-screen   backdrop-blur-sm dark:bg-black  ">
+      <Toggle />
+      <main className="w-full relative min-h-screen   backdrop-blur-sm dark:bg-black  ">
+        <section className="w-full grid grid-cols-20 h-screen overflow-y-clip">
+          {
+            Array.from(Array(20 * 12), i => (
+              <Tile key={i} />
+            ))}
+        </section>
 
-        <Toggle />
-        <div className=" flex  flex-col items-center sm:p-40">
-          <div className="relative  m-9">
-            <Outlet />
+        <div className="pointer-events-none absolute flex flex-col gap-5 items-center justify-center z-10 mb-10 inset-0">
+
+          <div className=" flex  flex-col items-center sm:p-40">
+            <div className="relative  m-9">
+              <Outlet />
+            </div>
+            <Navbar links={MenuItems} />
           </div>
-          <Navbar links={MenuItems} />
+
         </div>
+
       </main>
-
-
     </div>
   );
 }
