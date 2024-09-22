@@ -19,7 +19,7 @@ export default function Navbar({ links }: NavbarProps) {
       initial={{ opacity: 0, scale: 0.5 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ ease: [0, 0.71, 0.2, 1.01], duration: 0.8, delay: 0.5 }}
-      className="  w-max rounded-2xl border-4 border-purple-500 bg-white dark:bg-black text-white sm:rounded-2xl">
+      className="  w-max rounded-2xl border-4 border-sub-color bg-white dark:bg-black text-white sm:rounded-2xl">
       <div className="flex m-3 justify-around items-center ">
         {links.map(({ to, label, icon: Icon, external }, idx) => (
           <NavLink
@@ -33,7 +33,7 @@ export default function Navbar({ links }: NavbarProps) {
               return {
                 marginLeft: idx === 0 ? undefined : " 2rem ",
                 fontWeight: isActive ? "bold " : "",
-                color: isActive ? "black" : "white",
+                color: isActive ? "black" : "#e45c96",
               };
             }}
           >
@@ -43,7 +43,7 @@ export default function Navbar({ links }: NavbarProps) {
             >
               {
                 external ?
-                  (<a href={to} aria-label={to} target="_blank" >  <Icon className="hover:fill-black dark:hover:fill-white text-slate-500 " /></a>)
+                  (<a href={to} aria-label={to} target="_blank" >  <Icon className="hover:fill-black dark:hover:fill-white text-[#f5b1cc]" /></a>)
                   :
                   (<Icon className=" dark:text-white " />)
               }
