@@ -48,20 +48,14 @@ export default function Index() {
               <Tile key={i} />
             ))}
         </section>
-
         <div className="pointer-events-none absolute flex flex-col gap-5 items-center justify-center z-10 mb-10 inset-0">
-
           <div className=" flex  flex-col items-center  pointer-events-auto">
             <div className="relative  m-9">
               <Outlet />
-
             </div>
-
             <Navbar links={MenuItems} />
           </div>
-
         </div>
-
       </main>
     </div>
   );

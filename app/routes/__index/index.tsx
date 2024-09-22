@@ -1,7 +1,6 @@
 import { Outlet } from "@remix-run/react";
 import { motion } from "framer-motion";
 import Navbar from "~/components/navigation/Navbar";
-import { MenuItems } from "~/components/navigation/MenuItems";
 
 export default function Index() {
   return (
@@ -24,8 +23,6 @@ export default function Index() {
               Web3 Full-stack web developer
             </p>
           </div>
-          <Navbar links={MenuItems} />
-
         </div>
       </div>
       <Outlet />
