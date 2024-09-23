@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Theme, useTheme } from "~/utils/theme-provider";
 import { motion } from "framer-motion";
 import { MoonIcon } from "../navigation/MoonIcon";

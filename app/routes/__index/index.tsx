@@ -1,6 +1,5 @@
 import { Outlet } from "@remix-run/react";
 import { motion } from "framer-motion";
-import Navbar from "~/components/navigation/Navbar";
 
 export default function Index() {
   return (

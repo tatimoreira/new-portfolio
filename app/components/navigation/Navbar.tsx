@@ -1,7 +1,5 @@
-import { ReactNode } from "react";
 import type { IconType } from "react-icons";
 import { NavLink } from "@remix-run/react";
-import { redirect } from "@remix-run/node";
 import { motion } from "framer-motion";
 
 interface NavbarProps {
