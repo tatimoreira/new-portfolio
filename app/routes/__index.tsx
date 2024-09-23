@@ -53,6 +53,7 @@ export default function Index() {
             <div className="relative  m-9">
               <Outlet />
             </div>
+
             <Navbar links={MenuItems} />
           </div>
         </div>
