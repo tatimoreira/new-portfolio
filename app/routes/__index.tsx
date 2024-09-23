@@ -4,6 +4,7 @@ import { NavLink, Outlet } from "@remix-run/react";
 import Toggle from "~/components/themeToggle/toggle";
 
 import Tile from "~/components/Tile";
+import { MenuItems } from "~/components/navigation/MenuItems";
 
 export const menu = [
   <NavLink
@@ -50,12 +51,13 @@ export default function Index() {
 
         <div className="pointer-events-none absolute flex flex-col gap-5 items-center justify-center z-10 mb-10 inset-0">
 
-          <div className=" flex  flex-col items-center sm:p-40">
+          <div className=" flex  flex-col items-center  pointer-events-auto">
             <div className="relative  m-9">
               <Outlet />
 
             </div>
 
+            <Navbar links={MenuItems} />
           </div>
 
         </div>
