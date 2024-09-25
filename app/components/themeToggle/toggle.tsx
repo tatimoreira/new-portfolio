@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Theme, useTheme } from "~/utils/theme-provider";
 import { motion } from "framer-motion";
 import { MoonIcon } from "../navigation/MoonIcon";
@@ -16,7 +15,7 @@ export default function Toggle() {
     <button
       aria-label="switch-theme"
       onClick={toggleTheme}
-      className="m-4 rounded-full  p-4 bg-yellow-500 dark:bg-blue-500"
+      className="m-4 rounded-full  p-4 text-white bg-caret-color "
     >
 
       {

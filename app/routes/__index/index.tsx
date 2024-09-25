@@ -12,17 +12,16 @@ export default function Index() {
     >
 
       <div className="grid ">
-        <div className="relative  overflow-hidden rounded-2xl bg-white dark:bg-black p-12 shadow-xl border-4 border-purple-500">
+        <div className="relative  overflow-hidden rounded-2xl bg-white dark:bg-black p-12 shadow-xl border-4 border-sub-color">
           <div className="relative ">
-            <p className="text-4xl sm:text-8xl font-extralight text-black dark:text-white">Hi,</p>
-            <p className="font-work text-3xl sm:text-7xl font-extrabold text-black dark:text-white">
-              I am <span className="underline decoration-purple-500">Tatiana Moreira</span>
-            </p>
-            <p className="mt-3.5 font-work text-3xl sm:text-7xl font-extralight text-black dark:text-white">
+            <p className="text-4xl sm:text-8xl font-extralight text-light-text-color dark:text-dark-text-color">Hi,</p>
+            <p className="font-work text-3xl sm:text-7xl font-extrabold text-light-text-color dark:text-dark-text-color">I am <span className="font-work text-3xl sm:text-7xl font-extrabold text-[#f5b1cc] underline decoration-[#f5b1cc]">Tatiana Moreira</span></p>
+
+
+            <p className="mt-3.5 font-work text-3xl sm:text-7xl font-extralight text-light-text-color dark:text-dark-text-color">
               Web3 Full-stack web developer
             </p>
           </div>
-
         </div>
       </div>
       <Outlet />

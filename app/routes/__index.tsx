@@ -2,8 +2,9 @@ import { DateTime } from "luxon";
 import Navbar from "../components/navigation/Navbar";
 import { NavLink, Outlet } from "@remix-run/react";
 import Toggle from "~/components/themeToggle/toggle";
-import { MenuItems } from "~/components/navigation/MenuItems";
+
 import Tile from "~/components/Tile";
+import { MenuItems } from "~/components/navigation/MenuItems";
 
 export const menu = [
   <NavLink
@@ -47,9 +48,7 @@ export default function Index() {
               <Tile key={i} />
             ))}
         </section>
-
         <div className="pointer-events-none absolute flex flex-col gap-5 items-center justify-center z-10 mb-10 inset-0">
-
           <div className=" flex  flex-col items-center  pointer-events-auto">
             <div className="relative  m-9">
               <Outlet />
@@ -57,9 +56,7 @@ export default function Index() {
 
             <Navbar links={MenuItems} />
           </div>
-
         </div>
-
       </main>
     </div>
   );
