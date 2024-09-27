@@ -19,7 +19,7 @@ export default function Index() {
 
 
             <p className="mt-3.5 font-work text-3xl sm:text-7xl font-extralight text-light-text-color dark:text-dark-text-color">
-              Web3 Full-stack web developer
+              Full-stack web developer
             </p>
           </div>
         </div>
