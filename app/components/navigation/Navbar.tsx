@@ -17,7 +17,7 @@ export default function Navbar({ links }: NavbarProps) {
       initial={{ opacity: 0, scale: 0.5 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ ease: [0, 0.71, 0.2, 1.01], duration: 0.8, delay: 0.5 }}
-      className="  w-max rounded-2xl border-4 border-sub-color bg-white dark:bg-black text-white sm:rounded-2xl">
+      className="  w-max rounded-2xl border-4 border-sub-color text-white sm:rounded-2xl">
       <div className="flex m-3 justify-around items-center ">
         {links.map(({ to, label, icon: Icon, external }, idx) => (
           <NavLink

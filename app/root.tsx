@@ -11,6 +11,7 @@ import clsx from "clsx";
 import { useLoaderData } from "@remix-run/react";
 
 import tailwindStylesheetUrl from "./styles/tailwind.css";
+import stylesheet from "./tailwind.css";
 import type { Theme } from "~/utils/theme-provider";
 import {
   NonFlashOfWrongThemeEls,
@@ -41,7 +42,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 };
 
 export const links: LinksFunction = () => {
-  return [{ rel: "stylesheet", href: tailwindStylesheetUrl }];
+  return [{ rel: "stylesheet", href: tailwindStylesheetUrl }, { rel: "stylesheet", href: stylesheet }];
 };
 
 export const meta: MetaFunction = () => ({
@@ -76,6 +77,7 @@ export function App() {
 
 export default function AppWithProviders() {
   const data = useLoaderData<LoaderData>();
+  console.log('data.theme', data.theme)
 
   return (
 

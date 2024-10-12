@@ -12,7 +12,7 @@ export default function Index() {
     >
 
       <div className="grid ">
-        <div className="relative  overflow-hidden rounded-2xl bg-white dark:bg-black p-12 shadow-xl border-4 border-sub-color">
+        <div className="relative  overflow-hidden rounded-2xl p-12 shadow-xl border-4 border-sub-color">
           <div className="relative ">
             <p className="text-4xl sm:text-8xl font-extralight text-light-text-color dark:text-dark-text-color">Hi,</p>
             <p className="font-work text-3xl sm:text-7xl font-extrabold text-light-text-color dark:text-dark-text-color">I am <span className="font-work text-3xl sm:text-7xl font-extrabold text-[#f5b1cc] underline decoration-[#f5b1cc]">Tatiana Moreira</span></p>

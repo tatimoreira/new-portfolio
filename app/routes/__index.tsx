@@ -5,6 +5,30 @@ import Toggle from "~/components/themeToggle/toggle";
 
 import Tile from "~/components/Tile";
 import { MenuItems } from "~/components/navigation/MenuItems";
+import { motion, useCycle } from "framer-motion";
+import { useRef } from "react";
+import { Theme, useTheme } from "~/utils/theme-provider";
+import useDimensions from "~/utils/hooks/use-dimentions";
+
+const sidebar = {
+  light: (height = 1000) => ({
+    clipPath: `circle(${height * 2 + 200}px at 40px 40px)`,
+    transition: {
+      type: "spring",
+      stiffness: 20,
+      restDelta: 2,
+    },
+  }),
+  dark: {
+    clipPath: "circle(38px at 46px 48px)",
+    transition: {
+      delay: 0.5,
+      type: "spring",
+      stiffness: 400,
+      damping: 40,
+    },
+  },
+};
 
 export const menu = [
   <NavLink
@@ -34,30 +58,57 @@ export const menu = [
 
 
 export default function Index() {
-  return (
-    <div >
-      <div className="absolute top-0 -z-10 h-full w-full  dark:bg-black bg-white">
-        <div className="absolute bottom-auto left-auto right-0 top-0 h-[500px] w-[500px] -translate-x-[30%] translate-y-[20%] rounded-full bg-[rgba(173,109,244,0.5)] opacity-50 blur-[80px]">
-        </div>
-      </div>
-      <Toggle />
-      <main className="w-full relative min-h-screen   backdrop-blur-sm dark:bg-black  ">
-        <section className="w-full grid grid-cols-20 h-screen overflow-y-clip">
-          {
-            Array.from(Array(20 * 12), i => (
-              <Tile key={i} />
-            ))}
-        </section>
-        <div className="pointer-events-none absolute flex flex-col gap-5 items-center ustify-start sm:justify-center z-10 mb-10 inset-0">
-          <div className=" flex  flex-col items-center  pointer-events-auto">
-            <div className="relative  m-9">
-              <Outlet />
-            </div>
+  const [theme, setTheme] = useTheme();
+  const [isBgExpanded, setIsBgExpanded] = useCycle(false, true);
+  const [dimensions, ref] = useDimensions<HTMLDivElement>();
 
-            <Navbar links={MenuItems} />
+
+
+  const toggleTheme = () => {
+    console.log("theme", theme)
+    setTheme((prevTheme) =>
+      prevTheme === Theme.LIGHT ? Theme.DARK : Theme.LIGHT
+    )
+  };
+  return (
+
+    <div>
+      <main className="w-full relative min-h-screen   backdrop-blur-sm   ">
+        <motion.div
+          initial={false}
+          animate={isBgExpanded ? "light" : "dark"}
+          custom={dimensions.height}
+          ref={ref}
+
+        >
+          <motion.div className="bg-[#091f2c] " variants={sidebar} >
+
+            <Toggle toggle={() => {
+
+              setIsBgExpanded()
+              toggleTheme()
+
+            }} />
+            <section className="w-full grid grid-cols-20 h-screen overflow-y-clip">
+              {
+                Array.from(Array(20 * 12), i => (
+                  <Tile key={i} />
+                ))}
+            </section>
+          </motion.div>
+          <div className="pointer-events-none absolute flex flex-col gap-5 items-center ustify-start sm:justify-center z-10 mb-10 inset-0">
+            <div className=" flex  flex-col items-center  pointer-events-auto">
+              <div className="relative  m-9">
+                <Outlet />
+              </div>
+
+              <Navbar links={MenuItems} />
+            </div>
           </div>
-        </div>
+
+        </motion.div>
       </main>
     </div>
+
   );
 }

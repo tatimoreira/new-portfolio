@@ -1,21 +1,20 @@
 import { Theme, useTheme } from "~/utils/theme-provider";
-import { motion } from "framer-motion";
+import { motion, useCycle } from "framer-motion";
 import { MoonIcon } from "../navigation/MoonIcon";
 import { SunIcon } from "../navigation/SunIcon";
+import useDimensions from "~/hooks/use-dimentions";
+import { useRef } from "react";
 
-export default function Toggle() {
+export default function Toggle({ toggle }) {
   const [theme, setTheme] = useTheme();
-  const toggleTheme = () => {
-    setTheme((prevTheme) =>
-      prevTheme === Theme.LIGHT ? Theme.DARK : Theme.LIGHT
-    );
-  };
+
+
 
   return (
     <button
       aria-label="switch-theme"
-      onClick={toggleTheme}
-      className="m-4 rounded-full  p-4 text-white bg-caret-color "
+      onClick={toggle}
+      className="m-4 rounded-full  p-4 text-white  "
     >
 
       {

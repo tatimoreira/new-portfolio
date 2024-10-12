@@ -1,0 +1,36 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --bkg: 0deg 0% 100%;
+    --baseTwo: hsl(252, 2%, 51%);
+    --baseThree: hsl(0, 0%, 96%);
+    --baseFour: hsl(0, 0%, 100%);
+    --accent1: hsl(6, 100%, 80%);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bkg: 229deg 57% 11%;
+      --baseTwo: hsl(243, 100%, 93%);
+      --baseThree: hsl(228, 56%, 26%);
+      --baseFour: hsl(229, 57%, 11%);
+      --accent1: hsl(6, 100%, 80%);
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --bkg: 6deg 100% 80%;
+    --baseTwo: hsl(243, 100%, 93%);
+    --baseThree: hsl(228, 56%, 26%);
+    --baseFour: hsl(229, 57%, 11%);
+    --accent1: hsl(6, 100%, 80%);
+  }
+
+  :root[data-theme="light"] {
+    --bkg: 39deg 85% 95%;
+    --color-content: 0deg 0% 20%;
+  }
+}

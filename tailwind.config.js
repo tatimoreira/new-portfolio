@@ -30,12 +30,13 @@ module.exports = {
     },
     extend: {
       colors: {
-        'main-color': 'rgb(245, 177, 204)',
-        'caret-color': "rgb(162, 136, 217)",
-        "sub-color": "rgb(147, 232, 211)",
-        "light-text-color": "rgb(0, 172, 140)",
-        "dark-text-color": "rgb(162, 136, 217)",
-        "link-color": "rgb(228, 92, 150)"
+        'bkg': 'hsl(var(--bkg) / <alpha-value>)',
+        'main-color': 'hsl(var(--main-color))',
+        'caret-color': "hsl(259.26, 51.59%, 69.22%)",
+        "sub-color": "hsl(165.18, 64.89%, 74.31%)",
+        "light-text-color": "hsl(168.84, 100%, 33.73%)",
+        "dark-text-color": "hsl(259.26, 51.59%, 69.22%)",
+        "link-color": "hsl(334.41, 71.58%, 62.75%)"
       },
       fontFamily: {
         work: ['"Work Sans"', ...defaultTheme.fontFamily.sans]
