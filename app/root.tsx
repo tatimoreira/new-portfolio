@@ -20,6 +20,7 @@ import {
 } from "~/utils/theme-provider";
 import type { LoaderFunction } from "@remix-run/node";
 import { getThemeSession } from "./utils/theme.server";
+import { Analytics } from "@vercel/analytics/react"
 
 export type LoaderData = {
   theme: Theme | null;
@@ -70,6 +71,7 @@ export function App() {
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
+        <Analytics />
       </body>
     </html>
   );
