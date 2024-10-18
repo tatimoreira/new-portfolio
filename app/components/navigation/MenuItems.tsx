@@ -10,7 +10,7 @@ import { FaDownload } from "react-icons/fa";
 export const MenuItems = [
   { to: "/", label: "HOME", icon: FaHome, active: true, external: false },
   {
-    to: "https://drive.google.com/file/d/1Yjy2_-1OTlM6hdP5hAMuEUWJKOIhQtvB/view?usp=drive_link",
+    to: "https://drive.google.com/file/d/1Px0G7dOpRjqvlDODfOHANUBqqEdBppaA/view?usp=sharing",
     label: "CV",
     icon: FaDownload,
     active: false,
