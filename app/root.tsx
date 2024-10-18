@@ -77,7 +77,6 @@ export function App() {
 
 export default function AppWithProviders() {
   const data = useLoaderData<LoaderData>();
-  console.log('data.theme', data.theme)
 
   return (
 

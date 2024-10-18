@@ -34,6 +34,7 @@ module.exports = {
         'main-color': 'hsl(var(--main-color))',
         'caret-color': "hsl(259.26, 51.59%, 69.22%)",
         "sub-color": "hsl(165.18, 64.89%, 74.31%)",
+        "dark-sub-color": "hsl(165.18, 64.89%, 74.31%)",
         "light-text-color": "hsl(168.84, 100%, 33.73%)",
         "dark-text-color": "hsl(259.26, 51.59%, 69.22%)",
         "link-color": "hsl(334.41, 71.58%, 62.75%)"

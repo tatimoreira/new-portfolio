@@ -11,7 +11,7 @@ import { Theme, useTheme } from "~/utils/theme-provider";
 import useDimensions from "~/utils/hooks/use-dimentions";
 
 const sidebar = {
-  light: (height = 1000) => ({
+  dark: (height = 1000) => ({
     clipPath: `circle(${height * 2 + 200}px at 40px 40px)`,
     transition: {
       type: "spring",
@@ -19,7 +19,7 @@ const sidebar = {
       restDelta: 2,
     },
   }),
-  dark: {
+  light: {
     clipPath: "circle(38px at 46px 48px)",
     transition: {
       delay: 0.5,
@@ -59,13 +59,11 @@ export const menu = [
 
 export default function Index() {
   const [theme, setTheme] = useTheme();
-  const [isBgExpanded, setIsBgExpanded] = useCycle(false, true);
+  const [isBgExpanded, setIsBgExpanded] = useCycle(theme === Theme.LIGHT == false, theme === Theme.DARK == true);
   const [dimensions, ref] = useDimensions<HTMLDivElement>();
 
 
-
   const toggleTheme = () => {
-    console.log("theme", theme)
     setTheme((prevTheme) =>
       prevTheme === Theme.LIGHT ? Theme.DARK : Theme.LIGHT
     )
@@ -76,7 +74,7 @@ export default function Index() {
       <main className="w-full relative min-h-screen   backdrop-blur-sm   ">
         <motion.div
           initial={false}
-          animate={isBgExpanded ? "light" : "dark"}
+          animate={theme === Theme.LIGHT ? "light" : "dark"}
           custom={dimensions.height}
           ref={ref}
 
