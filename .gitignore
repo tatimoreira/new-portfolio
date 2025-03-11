@@ -11,3 +11,8 @@ node_modules
 
 /app/styles/tailwind.css
 .vercel
+
+
+
+.nx/cache
+.nx/workspace-data

@@ -1,5 +1,8 @@
 import { Outlet } from "@remix-run/react";
 import { motion } from "framer-motion";
+import { GithubIcon } from "~/components/Icons/GithubIcon";
+import { LinkedInLogo } from "~/components/Icons/LinkedInLogo";
+import ParagraphText from "~/components/ParagraphText/ParagraphText";
 
 export default function Index() {
   return (
@@ -14,13 +17,13 @@ export default function Index() {
       <div className="grid ">
         <div className="relative  overflow-hidden rounded-2xl p-12 shadow-xl border-4 dark:border-sub-color border-dark-text-color">
           <div className="relative ">
-            <p className="text-4xl sm:text-8xl font-extralight text-light-text-color dark:text-dark-text-color">Hi,</p>
-            <p className="font-work text-3xl sm:text-7xl font-extrabold text-light-text-color dark:text-dark-text-color">I am <span className="font-work text-3xl sm:text-7xl font-extrabold text-[#f5b1cc] underline decoration-[#f5b1cc]">Tatiana Moreira</span></p>
-
-
-            <p className="mt-3.5 font-work text-3xl sm:text-7xl font-extralight text-light-text-color dark:text-dark-text-color">
-              Full-stack web developer
-            </p>
+            <span className="font-work text-3xl sm:text-5xl font-extrabold text-[#f5b1cc]">Tatiana Moreira</span>
+            <p className="font-work text-3xl sm:text-5xl font-extrabold text-light-text-color dark:text-dark-text-color">Software Developer </p>
+            <ParagraphText>Crafting web experiences</ParagraphText>
+            <div className="flex">
+              <GithubIcon fillColor="white" />
+              <LinkedInLogo fillColor="white" />
+            </div>
           </div>
         </div>
       </div>

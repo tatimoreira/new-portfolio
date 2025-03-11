@@ -8,8 +8,10 @@ import { FaGithub } from "react-icons/fa";
 import { FaDownload } from "react-icons/fa";
 
 export const MenuItems = [
-  { to: "/", label: "HOME", icon: FaHome, active: true, external: false },
-  {
+  { to: "/", label: "Hi!", icon: FaHome, active: true, external: false },
+  { to: "/about", label: "ABOUT", icon: FaHome, active: true, external: false },
+  { to: "/experience", label: "EXPERIENCE", icon: FaHome, active: true, external: false },
+  /*{
     to: "https://drive.google.com/file/d/1Px0G7dOpRjqvlDODfOHANUBqqEdBppaA/view?usp=sharing",
     label: "CV",
     icon: FaDownload,
@@ -36,5 +38,5 @@ export const MenuItems = [
     icon: FaEnvelope,
     active: false,
     external: true,
-  }
+  }*/
 ];

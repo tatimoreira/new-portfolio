@@ -14,7 +14,7 @@ export default function Toggle({ toggle }) {
     <button
       aria-label="switch-theme"
       onClick={toggle}
-      className="m-4 rounded-full  p-4 text-white  "
+      className="m-2 rounded-full  p-4 text-white  "
     >
 
       {
