@@ -32,7 +32,7 @@ export default function Navbar({ links }: NavbarProps) {
               return {
                 marginLeft: idx === 0 ? undefined : " 2rem ",
                 fontWeight: isActive ? "bold " : "",
-                color: isActive ? "white" : "#e45c96",
+                color: isActive ? "#f5b1cc" : "#e45c96",
               };
             }}
           >
