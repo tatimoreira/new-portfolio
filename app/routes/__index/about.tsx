@@ -14,7 +14,7 @@ export default function Index() {
       transition={{ ease: [0, 0.71, 0.2, 1.01], duration: 0.8, delay: 0.5 }}
     >
       <div className="grid ">
-        <div className="relative  overflow-hidden rounded-2xl p-12 shadow-xl border-4 dark:border-sub-color border-dark-text-color">
+        <div className="relative sm:mt-0 mt-10 overflow-hidden rounded-2xl p-8 shadow-xl border-4 dark:border-sub-color border-dark-text-color">
           <div className="relative ">
             <SubtitleText>About</SubtitleText>
             <hr className="border-gray-500 dark:border-neutral-500 mb-4"></hr>
@@ -24,10 +24,12 @@ export default function Index() {
             </div>
             <div >
               <ParagraphText>Tech stack</ParagraphText>
-              <div className="flex gap-2 mt-3">
+              <div className="flex gap-2 mt-3 flex-wrap">
                 <Pill text="ReactJs"></Pill>
                 <Pill text="NextJs"></Pill>
                 <Pill text="Tailwind CSS"></Pill>
+                <Pill text="Remix"></Pill>
+                <Pill text="GraphQl"></Pill>
               </div>
             </div>
           </div>
