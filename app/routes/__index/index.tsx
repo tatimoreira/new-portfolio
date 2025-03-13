@@ -23,7 +23,7 @@ export default function Index() {
     >
 
       <div className="grid ">
-        <div className="relative sm:mt-0 mt-[50%] overflow-hidden rounded-2xl p-12 shadow-xl border-4 dark:border-sub-color border-dark-text-color">
+        <div className="relative max-w-2xl sm:mt-0 mt-[50%] overflow-hidden rounded-2xl p-12 shadow-xl border-4 dark:border-sub-color border-dark-text-color">
           <div className="relative ">
             <span className="font-work text-3xl sm:text-5xl font-extrabold text-[#f5b1cc]">Tatiana Moreira</span>
             <p className="font-work text-3xl sm:text-5xl font-extrabold text-light-text-color dark:text-dark-text-color">Software Developer </p>
