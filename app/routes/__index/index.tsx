@@ -5,9 +5,11 @@ import { DocumentIcon } from "~/components/Icons/DocumentIcon";
 import { GithubIcon } from "~/components/Icons/GithubIcon";
 import { LinkedInLogo } from "~/components/Icons/LinkedInLogo";
 import ParagraphText from "~/components/ParagraphText/ParagraphText";
+import { Theme, useTheme } from "~/utils/theme-provider";
 
 
 export default function Index() {
+  const [theme] = useTheme();
   let navigate = useNavigate();
   const routeChange = () => {
     window.open('https://drive.google.com/file/d/1Px0G7dOpRjqvlDODfOHANUBqqEdBppaA/view?usp=sharing', '_blank')
@@ -29,8 +31,8 @@ export default function Index() {
             <p className="font-work text-3xl sm:text-5xl font-extrabold text-light-text-color dark:text-dark-text-color">Software Developer </p>
             <ParagraphText>Crafting web experiences</ParagraphText>
             <div className="flex mb-4">
-              <a href="https://github.com/tatimoreira" target="_blank" rel="noopener noreferrer"><GithubIcon fillColor="white" /></a>
-              <a href="https://www.linkedin.com/in/tmoreirab/" target="_blank" rel="noopener noreferrer"><LinkedInLogo fillColor="white" /></a>
+              <a href="https://github.com/tatimoreira" target="_blank" rel="noopener noreferrer"><GithubIcon fillColor={theme === Theme.LIGHT ? "black" : "white"} /></a>
+              <a href="https://www.linkedin.com/in/tmoreirab/" target="_blank" rel="noopener noreferrer"><LinkedInLogo fillColor={theme === Theme.LIGHT ? "black" : "white"} /></a>
             </div>
             <Button onClick={routeChange} icon={<DocumentIcon fillColor="#f5b1cc" />}>Resume</Button>
           </div>

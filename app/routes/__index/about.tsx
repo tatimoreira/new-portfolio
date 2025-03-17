@@ -20,7 +20,6 @@ export default function Index() {
             <hr className="border-gray-500 dark:border-neutral-500 mb-4"></hr>
             <div className="mb-6">
               <ParagraphText>I am an experienced Web Developer with a solid background in modern web technologies, I specialize in crafting user-centric web applications. I have worked in multiple industries and different company sizes delivering optimal web experiences.</ParagraphText>
-              <ParagraphText> I'm always eager to expand my knowledge, as a self-driven and quick learner I thrive in agile team environments. I'm constsntly exploring the industry trends and best practices, this allows me to  deliver solutions that align with user needs and business goals.</ParagraphText>
             </div>
             <div >
               <ParagraphText>Tech stack</ParagraphText>
