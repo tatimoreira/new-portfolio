@@ -81,7 +81,7 @@ export default function Index() {
           ref={ref}
 
         >
-          <motion.div className="bg-[#091f2c] h-full" variants={sidebar} >
+          <motion.div className="bg-[#091f2c] h-full h-screen" variants={sidebar} >
             <div className="flex">
 
 
@@ -93,21 +93,16 @@ export default function Index() {
               }} />
 
             </div>
-            <section className="w-full grid grid-cols-20 h-screen overflow-y-clip">
-              {
-                Array.from(Array(20 * 12), i => (
-                  <Tile key={i} />
-                ))}
-            </section>
+
           </motion.div>
           <Navbar links={MenuItems} />
           <div className="pointer-events-none absolute flex flex-col gap-5 items-center ustify-start sm:justify-center z-10 mb-10 inset-0">
-
-            <div className="relative  m-9">
-              <Navbar links={MenuItems} />
-              <Outlet />
+            <div className="flex flex-col items-center pointer-events-auto">
+              <div className="relative  m-9">
+                <Navbar links={MenuItems} />
+                <Outlet />
+              </div>
             </div>
-
           </div>
 
         </motion.div>
