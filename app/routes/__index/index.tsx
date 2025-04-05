@@ -1,3 +1,4 @@
+import React from "react";
 import { Outlet, useNavigate } from "@remix-run/react";
 import { motion } from "framer-motion";
 import Button from "~/components/Button/Button";
@@ -6,6 +7,9 @@ import { GithubIcon } from "~/components/Icons/GithubIcon";
 import { LinkedInLogo } from "~/components/Icons/LinkedInLogo";
 import ParagraphText from "~/components/ParagraphText/ParagraphText";
 import { Theme, useTheme } from "~/utils/theme-provider";
+import { Canvas, useFrame, ThreeElements } from '@react-three/fiber'
+import Box from "~/components/Box/Box";
+
 
 
 export default function Index() {
@@ -27,6 +31,13 @@ export default function Index() {
 
       <div className="relative max-w-2xl sm:mt-0 mt-[50%] overflow-hidden rounded-2xl p-12 shadow-xl border-4 dark:border-sub-color border-dark-text-color">
         <div className="relative ">
+          <Canvas>
+            <ambientLight intensity={Math.PI / 2} />
+            <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} decay={0} intensity={Math.PI} />
+            <pointLight position={[-10, -10, -10]} decay={0} intensity={Math.PI} />
+            <Box position={[-1.2, 0, 0]} />
+            <Box position={[1.2, 0, 0]} />
+          </Canvas>
           <span className="font-work text-3xl sm:text-5xl font-extrabold text-[#f5b1cc]">Tatiana Moreira</span>
           <p className="font-work text-3xl sm:text-5xl font-extrabold text-light-text-color dark:text-dark-text-color">Software Developer </p>
           <ParagraphText>Crafting web experiences</ParagraphText>
@@ -42,3 +53,5 @@ export default function Index() {
     </motion.div >
   );
 }
+
+

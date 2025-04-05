@@ -21,6 +21,8 @@ import {
 import type { LoaderFunction } from "@remix-run/node";
 import { getThemeSession } from "./utils/theme.server";
 import { Analytics } from "@vercel/analytics/react"
+import { Canvas } from "@react-three/fiber";
+import Box from "./components/Box/Box";
 
 export type LoaderData = {
   theme: Theme | null;
@@ -66,7 +68,14 @@ export function App() {
         <link href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" />
       </head>
       <body className="h-full">
-
+        <Canvas>
+          <ambientLight intensity={0.5} />
+          <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
+          <pointLight position={[-10, -10, -10]} />
+          <Box position={[-1.2, 0, 0]} />
+          <Box position={[1.2, 0, 0]} />
+        </Canvas>
+        <script type="module" src="main.js"></script>
         <Outlet />
         <ScrollRestoration />
         <Scripts />
