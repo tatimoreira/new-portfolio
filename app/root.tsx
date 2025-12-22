@@ -21,6 +21,7 @@ import {
 import type { LoaderFunction } from "@remix-run/node";
 import { getThemeSession } from "./utils/theme.server";
 import { Analytics } from "@vercel/analytics/react"
+import { useEffect } from "react";
 
 export type LoaderData = {
   theme: Theme | null;
@@ -55,6 +56,16 @@ export const meta: MetaFunction = () => ({
 export function App() {
   const [theme] = useTheme();
   const data = useLoaderData<LoaderData>();
+
+  useEffect(() => {
+    if (process.env.NODE_ENV === 'development') {
+      import('../mocks/browser').then(({ worker }) => {
+        worker.start({
+          onUnhandledRequest: 'bypass',
+        })
+      })
+    }
+  }, [])
   return (
     <html lang="en" className={clsx(theme)}>
       <head>
