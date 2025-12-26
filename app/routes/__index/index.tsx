@@ -9,6 +9,8 @@ import ParagraphText from "~/components/ParagraphText/ParagraphText";
 import SwipeCard from "~/components/SwitchingCard/SwipeCard";
 import { Theme, useTheme } from "~/utils/theme-provider";
 import { Html, Environment } from "@react-three/drei";
+import SubtitleText from "~/components/SubtitleText/SubtitleText";
+import Pill from "~/components/Pill/Pill";
 
 
 export default function Index() {
@@ -19,6 +21,7 @@ export default function Index() {
   }
 
   const [page, setPage] = useState("home");
+  const [flipped, setFlipped] = useState(false);
 
   const tiltX = useMotionValue(0);
   const tiltY = useMotionValue(0);
@@ -28,14 +31,8 @@ export default function Index() {
   const rotateY = useSpring(tiltY, { stiffness: 150, damping: 20 });
 
   return (
+    <div className="min-h-screen flex items-center justify-center p-10 perspective">
 
-    <motion.div
-      className=" justify-center "
-      initial={{ opacity: 0, scale: 0.5 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ ease: [0, 0.71, 0.2, 1.01], duration: 0.8, delay: 0.5 }}
-
-    >
       <motion.div
         style={{ rotateX, rotateY }}
         onMouseMove={(e) => {
@@ -50,20 +47,73 @@ export default function Index() {
           tiltX.set(0);
           tiltY.set(0);
         }}
-        className="relative max-w-2xl sm:mt-0 mt-[50%] overflow-hidden rounded-2xl p-12 shadow-xl border-4 dark:border-sub-color border-dark-text-color">
-        <div className="relative ">
-          <span className="font-work text-3xl sm:text-5xl font-extrabold text-[#f5b1cc]">Tatiana Moreira</span>
-          <p className="font-work text-3xl sm:text-5xl font-extrabold text-light-text-color dark:text-dark-text-color">Software Developer </p>
-          <ParagraphText>Crafting web experiences</ParagraphText>
-          <div className="flex mb-4">
-            <a href="https://github.com/tatimoreira" target="_blank" rel="noopener noreferrer"><GithubIcon fillColor={theme === Theme.LIGHT ? "black" : "white"} /></a>
-            <a href="https://www.linkedin.com/in/tmoreirab/" target="_blank" rel="noopener noreferrer"><LinkedInLogo fillColor={theme === Theme.LIGHT ? "black" : "white"} /></a>
+        className="relative  w-[700px] h-96 cursor-pointer">
+
+        <motion.div
+          className="relative w-full h-full preserve-3d"
+          onClick={() => setFlipped(!flipped)}
+          animate={{ rotateY: flipped ? 180 : 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          {/* Front */}
+          {/* Front */}
+          <div className="absolute w-full h-full  rounded-2xl shadow-xl flex items-center justify-center backface-hidden text-xl font-semibold bg-white/10 backdrop-blur-md border border-white/25">
+            <div className="p-4 text-center">
+              <span className="font-work text-3xl sm:text-5xl font-extrabold text-[#f5b1cc]">Tatiana Moreira</span>
+              <p className="font-work text-3xl sm:text-5xl font-extrabold text-light-text-color dark:text-dark-text-color">Software Developer </p>
+              <ParagraphText>Crafting web experiences</ParagraphText>
+              <div className="flex mb-4">
+                <a href="https://github.com/tatimoreira" target="_blank" rel="noopener noreferrer"><GithubIcon fillColor={theme === Theme.LIGHT ? "black" : "white"} /></a>
+                <a href="https://www.linkedin.com/in/tmoreirab/" target="_blank" rel="noopener noreferrer"><LinkedInLogo fillColor={theme === Theme.LIGHT ? "black" : "white"} /></a>
+              </div>
+              <Button onClick={routeChange} icon={<DocumentIcon fillColor="#f5b1cc" />}>Resume</Button>
+            </div>
           </div>
-          <Button onClick={routeChange} icon={<DocumentIcon fillColor="#f5b1cc" />}>Resume</Button>
-        </div>
+
+          {/*  <div className=" absolute w-full h-full  bg-white rounded-2xl  flex items-center backface-hidden text-xl font-semibold">
+            <div className="relative ">
+              <span className="font-work text-3xl sm:text-5xl font-extrabold text-[#f5b1cc]">Tatiana Moreira</span>
+              <p className="font-work text-3xl sm:text-5xl font-extrabold text-light-text-color dark:text-dark-text-color">Software Developer </p>
+              <ParagraphText>Crafting web experiences</ParagraphText>
+              <div className="flex mb-4">
+                <a href="https://github.com/tatimoreira" target="_blank" rel="noopener noreferrer"><GithubIcon fillColor={theme === Theme.LIGHT ? "black" : "white"} /></a>
+                <a href="https://www.linkedin.com/in/tmoreirab/" target="_blank" rel="noopener noreferrer"><LinkedInLogo fillColor={theme === Theme.LIGHT ? "black" : "white"} /></a>
+              </div>
+              <Button onClick={routeChange} icon={<DocumentIcon fillColor="#f5b1cc" />}>Resume</Button>
+            </div>
+          </div> */}
+
+          {/* Back */}
+          <div className="absolute w-full h-full rounded-2xl shadow-xl flex items-center justify-center backface-hidden rotate-y-180 text-xl font-semibold bg-white/10 backdrop-blur-md border border-white/25">
+            <div className="p-4 text-center">
+              <div className="relative ">
+                <SubtitleText>About</SubtitleText>
+                <hr className="border-gray-500 dark:border-neutral-500 mb-4"></hr>
+                <div className="mb-6">
+                  <ParagraphText>I am an experienced Web Developer with a solid background in modern web technologies, I specialize in crafting user-centric web applications. I have worked in multiple industries and different company sizes delivering optimal web experiences.</ParagraphText>
+                </div>
+                <div >
+                  <div className="flex gap-2 mt-3 flex-wrap">
+                    <Pill text="ReactJs"></Pill>
+                    <Pill text="NextJs"></Pill>
+                    <Pill text="Tailwind CSS"></Pill>
+                    <Pill text="Remix"></Pill>
+                    <Pill text="GraphQl"></Pill>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+        <style>{`
+        .perspective { perspective: 1000px; }
+        .preserve-3d { transform-style: preserve-3d; }
+        .backface-hidden { backface-visibility: hidden; }
+        .rotate-y-180 { transform: rotateY(180deg); }
+      `}</style>
       </motion.div>
 
       <Outlet />
-    </motion.div >
+    </div>
   );
 }
