@@ -47,7 +47,7 @@ export default function Index() {
           tiltX.set(0);
           tiltY.set(0);
         }}
-        className="relative  w-[700px] h-96 cursor-pointer">
+        className="relative  w-[300px] h-[450px]  sm:w-[700px] sm:h-96 cursor-pointer">
 
         <motion.div
           className="relative w-full h-full preserve-3d"
@@ -55,7 +55,6 @@ export default function Index() {
           animate={{ rotateY: flipped ? 180 : 0 }}
           transition={{ duration: 0.6 }}
         >
-          {/* Front */}
           {/* Front */}
           <div className="absolute w-full h-full  rounded-2xl shadow-xl flex items-center justify-center backface-hidden text-xl font-semibold bg-white/10 backdrop-blur-md border border-white/25">
             <div className="p-4 text-center">
