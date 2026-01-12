@@ -98,7 +98,7 @@ export default function Index() {
           {/* <Navbar links={MenuItems} /> */}
           <div className="pointer-events-none absolute flex flex-col gap-5 items-center ustify-start sm:justify-center z-10 mb-10 inset-0">
             <div className="flex flex-col items-center pointer-events-auto">
-              <div className="relative  m-9">
+              <div className="absolute sm:relative  m-20">
                 {/* <Navbar links={MenuItems} /> */}
                 <Outlet />
               </div>
