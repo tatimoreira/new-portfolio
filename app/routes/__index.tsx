@@ -10,6 +10,8 @@ import { useRef } from "react";
 import { Theme, useTheme } from "~/utils/theme-provider";
 import useDimensions from "~/utils/hooks/use-dimentions";
 import Pill from "~/components/Pill/Pill";
+import PageLoadCircle from "~/components/GrowingCircle/PageLoadCirlcle";
+import ThrownToCenter from "~/components/GrowingCircle/ThrownToCenter";
 
 const sidebar = {
   dark: (height = 1000) => ({
@@ -98,12 +100,14 @@ export default function Index() {
           {/* <Navbar links={MenuItems} /> */}
           <div className="pointer-events-none absolute flex flex-col gap-5 items-center ustify-start sm:justify-center z-10 mb-10 inset-0">
             <div className="flex flex-col items-center pointer-events-auto">
-              <div className="absolute sm:relative  m-20">
+              <div className="absolute   m-20">
                 {/* <Navbar links={MenuItems} /> */}
+
                 <Outlet />
               </div>
             </div>
           </div>
+
 
         </motion.div>
       </main>
