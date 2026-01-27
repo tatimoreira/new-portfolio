@@ -51,140 +51,133 @@ export default function CardFixed() {
 
     const animate = isMobile
         ? {
-            x: 900,
-            y: 80,
-            rotate: 0,
-            scale: 1,
+            x: [-300, 80, 0],   // throw → overshoot → center
+            y: [200, 40, 0],
+            rotate: [-180, 20, 0],
+            scale: [0.9, 1.05, 1],
             opacity: 1,
         }
         : {
-            x: 50,
-            y: 50,
-            rotate: 0,
-            scale: 1,
+            x: [-1400, 100, 50],
+            y: [500, 120, 50],
+            rotate: [-540, 30, 0],
+            scale: [0.85, 1.05, 1],
             opacity: 1,
         };
 
-
     return (
-        <div className="pointer-events-auto [perspective:1000px]">
-            <motion.div
-                className="w-[300px] h-[450px] sm:w-[700px] sm:h-96"
-                style={{ rotateX, rotateY }}
-                initial={initial}
-                animate={{
-                    x: 0,
-                    y: 0,
-                    rotate: 0,
-                    scale: 1,
-                    opacity: 1,
-                }}
-                transition={{
-                    x: {
-                        type: "inertia",
-                        velocity: isMobile ? 600 : 1600,
-                        power: 0.85,
-                        timeConstant: 500,
-                    },
-                    y: {
-                        type: "spring", // mobile-safe
-                        stiffness: 130,
-                        damping: 22,
-                    },
-                    rotate: {
-                        type: "spring",
-                        stiffness: 90,
-                        damping: 16,
-                    },
-                    scale: {
-                        duration: 3,
-                        ease: "easeOut",
-                    },
-                    opacity: { duration: 0.3 },
-                }}
-                onMouseMove={(e) => {
-                    const rect = e.currentTarget.getBoundingClientRect();
-                    const x = e.clientX - rect.left - rect.width / 2;
-                    const y = e.clientY - rect.top - rect.height / 2;
-
-                    tiltX.set((y / rect.height) * -15);
-                    tiltY.set((x / rect.width) * 15);
-                }}
-                onMouseLeave={() => {
-                    tiltX.set(0);
-                    tiltY.set(0);
-                }}
-                onClick={() => setFlipped((v) => !v)}
-            >
+        <div className="w-screen overflow-x-hidden">
+            <div className="pointer-events-auto flex justify-center [perspective:1000px] py-24">
                 <motion.div
-                    className="relative w-full h-full [transform-style:preserve-3d]"
-                    animate={{ rotateY: flipped ? 180 : 0 }}
-                    transition={{ duration: 0.6, ease: "easeInOut" }}
+                    className="w-[300px] h-[450px] sm:w-[700px] sm:h-96"
+                    style={{ rotateX, rotateY }}
+                    initial={initial}
+                    animate={animate}
+                    transition={{
+                        x: {
+                            type: "spring",
+                            stiffness: isMobile ? 140 : 120,
+                            damping: isMobile ? 18 : 20,
+                            mass: 0.8,
+                        },
+                        y: {
+                            type: "spring",
+                            stiffness: 130,
+                            damping: 22,
+                        },
+                        rotate: {
+                            type: "spring",
+                            stiffness: 90,
+                            damping: 16,
+                        },
+                        scale: {
+                            duration: 0.6,
+                            ease: "easeOut",
+                        },
+                        opacity: { duration: 0.2 },
+                    }}
+                    onMouseMove={(e) => {
+                        const rect = e.currentTarget.getBoundingClientRect();
+                        const x = e.clientX - rect.left - rect.width / 2;
+                        const y = e.clientY - rect.top - rect.height / 2;
+
+                        tiltX.set((y / rect.height) * -15);
+                        tiltY.set((x / rect.width) * 15);
+                    }}
+                    onMouseLeave={() => {
+                        tiltX.set(0);
+                        tiltY.set(0);
+                    }}
+                    onClick={() => setFlipped((v) => !v)}
                 >
-                    {/* FRONT */}
-                    <div className="absolute w-full h-full rounded-2xl shadow-xl flex items-center justify-center backface-hidden bg-white/10 backdrop-blur-md border border-white/25">
-                        <div className="p-4 text-center">
-                            <span className="font-work text-3xl sm:text-5xl font-extrabold text-[#f5b1cc]">
-                                Tatiana Moreira
-                            </span>
-                            <p className="font-work text-3xl sm:text-5xl font-extrabold text-light-text-color dark:text-dark-text-color">
-                                Software Developer
-                            </p>
-
-                            <ParagraphText>Crafting web experiences</ParagraphText>
-
-                            <div className="flex mb-4 justify-center gap-2">
-                                <a
-                                    href="https://github.com/tatimoreira"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                >
-                                    <GithubIcon fillColor={theme === Theme.LIGHT ? "black" : "white"} />
-                                </a>
-                                <a
-                                    href="https://www.linkedin.com/in/tmoreirab/"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                >
-                                    <LinkedInLogo fillColor={theme === Theme.LIGHT ? "black" : "white"} />
-                                </a>
-                            </div>
-
-                            <Button onClick={routeChange} icon={<DocumentIcon fillColor="#f5b1cc" />}>
-                                Resume
-                            </Button>
-                        </div>
-                    </div>
-
-                    {/* BACK */}
                     <motion.div
-                        className="absolute w-full h-full rounded-2xl shadow-xl flex items-center justify-center backface-hidden rotate-y-180 bg-white/10 backdrop-blur-md border border-white/25"
-                        style={{
-                            backfaceVisibility: "hidden",
-                            rotateY: 180, // 👈 IMPORTANT: motion style, not CSS
-                        }}>
-                        <div className="p-4 text-center">
-                            <SubtitleText>About</SubtitleText>
-                            <hr className="border-gray-500 dark:border-neutral-500 mb-4" />
+                        className="relative w-full h-full [transform-style:preserve-3d]"
+                        animate={{ rotateY: flipped ? 180 : 0 }}
+                        transition={{ duration: 0.6, ease: "easeInOut" }}
+                    >
+                        {/* FRONT */}
+                        <div className="absolute w-full h-full rounded-2xl shadow-xl flex items-center justify-center backface-hidden bg-white/10 backdrop-blur-md border border-white/25">
+                            <div className="p-4 text-center">
+                                <span className="font-work text-3xl sm:text-5xl font-extrabold text-[#f5b1cc]">
+                                    Tatiana Moreira
+                                </span>
+                                <p className="font-work text-3xl sm:text-5xl font-extrabold text-light-text-color dark:text-dark-text-color">
+                                    Software Developer
+                                </p>
 
-                            <ParagraphText>
-                                I am an experienced Web Developer with a solid background in modern web
-                                technologies. I specialize in crafting user-centric web applications.
-                            </ParagraphText>
+                                <ParagraphText>Crafting web experiences</ParagraphText>
 
-                            <div className="flex gap-2 mt-4 flex-wrap justify-center">
-                                <Pill text="ReactJs" />
-                                <Pill text="NextJs" />
-                                <Pill text="Tailwind CSS" />
-                                <Pill text="Remix" />
-                                <Pill text="GraphQl" />
+                                <div className="flex mb-4 justify-center gap-2">
+                                    <a
+                                        href="https://github.com/tatimoreira"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        <GithubIcon fillColor={theme === Theme.LIGHT ? "black" : "white"} />
+                                    </a>
+                                    <a
+                                        href="https://www.linkedin.com/in/tmoreirab/"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        <LinkedInLogo fillColor={theme === Theme.LIGHT ? "black" : "white"} />
+                                    </a>
+                                </div>
+
+                                <Button onClick={routeChange} icon={<DocumentIcon fillColor="#f5b1cc" />}>
+                                    Resume
+                                </Button>
                             </div>
                         </div>
+
+                        {/* BACK */}
+                        <motion.div
+                            className="absolute w-full h-full rounded-2xl shadow-xl flex items-center justify-center backface-hidden rotate-y-180 bg-white/10 backdrop-blur-md border border-white/25"
+                            style={{
+                                backfaceVisibility: "hidden",
+                                rotateY: 180, // 👈 IMPORTANT: motion style, not CSS
+                            }}>
+                            <div className="p-4 text-center">
+                                <SubtitleText>About</SubtitleText>
+                                <hr className="border-gray-500 dark:border-neutral-500 mb-4" />
+
+                                <ParagraphText>
+                                    I am an experienced Web Developer with a solid background in modern web
+                                    technologies. I specialize in crafting user-centric web applications.
+                                </ParagraphText>
+
+                                <div className="flex gap-2 mt-4 flex-wrap justify-center">
+                                    <Pill text="ReactJs" />
+                                    <Pill text="NextJs" />
+                                    <Pill text="Tailwind CSS" />
+                                    <Pill text="Remix" />
+                                    <Pill text="GraphQl" />
+                                </div>
+                            </div>
+                        </motion.div>
                     </motion.div>
                 </motion.div>
-            </motion.div>
+            </div>
         </div>
-
-
     );
 }
