@@ -65,6 +65,18 @@ export default function CardFixed() {
             opacity: 1,
         };
 
+    async function callAPI() {
+
+        const res = await fetch("/api/chat", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ message: "mensaje" }),
+        });
+
+        const data = await res.json();
+        console.log("data", data)
+    }
+
     return (
         <div className="w-screen overflow-x-hidden">
             <div className="flex justify-center [perspective:1000px] py-24">
@@ -143,16 +155,13 @@ export default function CardFixed() {
                                         <LinkedInLogo fillColor={theme === Theme.LIGHT ? "black" : "white"} />
                                     </a>
                                 </div>
-                                <a
-                                    className="border-2 rounded-2xl p-2 border-[#f5b1cc] text-[#f5b1cc]"
-                                    href="/resume/Tatiana_Moreira_Resume.pdf"
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                    }}
-                                    download
-                                >
-                                    Download Resume
-                                </a>
+
+                                <Button onClick={routeChange} icon={<DocumentIcon fillColor="#f5b1cc" />}>
+                                    Resume
+                                </Button>
+                                <Button onClick={callAPI} icon={<DocumentIcon fillColor="#f5b1cc" />}>
+                                    OpenAI
+                                </Button>
                             </div>
                         </div>
 
