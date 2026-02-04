@@ -143,10 +143,16 @@ export default function CardFixed() {
                                         <LinkedInLogo fillColor={theme === Theme.LIGHT ? "black" : "white"} />
                                     </a>
                                 </div>
-
-                                <Button onClick={routeChange} icon={<DocumentIcon fillColor="#f5b1cc" />}>
-                                    Resume
-                                </Button>
+                                <a
+                                    className="border-2 rounded-2xl p-2 border-[#f5b1cc] text-[#f5b1cc]"
+                                    href="/resume/Tatiana_Moreira_Resume.pdf"
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                    }}
+                                    download
+                                >
+                                    Download Resume
+                                </a>
                             </div>
                         </div>
 
