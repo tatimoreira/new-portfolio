@@ -1,20 +1,9 @@
-import fs from "fs"
-import path from "path"
+import { posts, postsBySlug } from "~/blog-data.server"
 
-const GENERATED_DIR = path.join(process.cwd(), "generated")
-
-export async function getAllPosts(): Promise<{ slug: string; title: string }[]> {
-  const file = path.join(GENERATED_DIR, "posts.json")
-  if (!fs.existsSync(file)) return []
-  return JSON.parse(fs.readFileSync(file, "utf-8"))
+export async function getAllPosts() {
+  return posts
 }
 
 export async function getPost(slug: string) {
-  const file = path.join(GENERATED_DIR, `${slug}.json`)
-  if (!fs.existsSync(file)) return null
-  return JSON.parse(fs.readFileSync(file, "utf-8")) as {
-    slug: string
-    title: string
-    body: string
-  }
+  return postsBySlug[slug] ?? null
 }
