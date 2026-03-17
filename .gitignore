@@ -1,4 +1,6 @@
 node_modules
+/generated
+/target
 
 /build
 /public/build
@@ -16,3 +18,4 @@ node_modules
 
 .nx/cache
 .nx/workspace-data
+.env*.local

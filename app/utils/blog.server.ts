@@ -1,35 +1,20 @@
-const BLOG_API_URL = process.env.BLOG_API_URL!
+import fs from "fs"
+import path from "path"
 
-async function gql<T>(
-  query: string,
-  variables?: Record<string, unknown>
-): Promise<T> {
-  const res = await fetch(BLOG_API_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ query, variables }),
-  })
-  const contentType = res.headers.get("content-type") ?? ""
-  if (!res.ok || !contentType.includes("application/json")) {
-    throw new Error(`Blog API error: ${res.status} ${res.statusText}`)
-  }
-  const { data } = await res.json()
-  return data
-}
+const GENERATED_DIR = path.join(process.cwd(), "generated")
 
-export async function getAllPosts() {
-  const data = await gql<{ posts: { slug: string; title: string }[] }>(`
-    query { posts { slug title } }
-  `)
-  return data.posts
+export async function getAllPosts(): Promise<{ slug: string; title: string }[]> {
+  const file = path.join(GENERATED_DIR, "posts.json")
+  if (!fs.existsSync(file)) return []
+  return JSON.parse(fs.readFileSync(file, "utf-8"))
 }
 
 export async function getPost(slug: string) {
-  const data = await gql<{
-    post: { slug: string; title: string; body: string } | null
-  }>(
-    `query GetPost($slug: String!) { post(slug: $slug) { slug title body } }`,
-    { slug }
-  )
-  return data.post
+  const file = path.join(GENERATED_DIR, `${slug}.json`)
+  if (!fs.existsSync(file)) return null
+  return JSON.parse(fs.readFileSync(file, "utf-8")) as {
+    slug: string
+    title: string
+    body: string
+  }
 }
