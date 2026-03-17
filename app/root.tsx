@@ -76,7 +76,7 @@ export function App() {
         <link rel="preconnect" href="https://fonts.gstatic.com" />
         <link href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" />
       </head>
-      <body className="h-full">
+      <body className="h-full dark:bg-[#091f2c]">
 
         <Outlet />
         <ScrollRestoration />

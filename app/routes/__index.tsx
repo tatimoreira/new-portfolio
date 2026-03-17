@@ -75,7 +75,7 @@ export default function Index() {
 
     <div>
 
-      <main className="w-full relative min-h-screen  h-full backdrop-blur-sm   ">
+      <main className="w-full relative min-h-screen h-full backdrop-blur-sm dark:bg-[#091f2c]">
         <motion.div
           initial={false}
           animate={theme === Theme.LIGHT ? "light" : "dark"}
@@ -83,7 +83,7 @@ export default function Index() {
           ref={ref}
 
         >
-          <motion.div className="bg-[#091f2c] h-full h-screen" variants={sidebar} >
+          <motion.div className="bg-[#091f2c] min-h-screen" variants={sidebar} >
             <div className="flex">
 
 
