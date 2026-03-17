@@ -49,5 +49,6 @@ module.exports = {
   },
   plugins: [
     require('tailwindcss-bg-patterns'),
+    require('@tailwindcss/typography'),
   ],
 };
