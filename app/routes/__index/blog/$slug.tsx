@@ -12,7 +12,7 @@ export default function BlogPost() {
   const post = useLoaderData<typeof loader>()
 
   return (
-    <div className="py-12 max-w-3xl">
+    <div className="p-12 max-w-3xl w-full overflow-x-hidden">
       <h1 className="text-3xl font-bold mb-8 capitalize">{post.title}</h1>
       <article
         className="prose dark:prose-invert prose-headings:text-[#f5b1cc] prose-a:text-link-color prose-code:text-link-color dark:prose-a:text-[--accent1] dark:prose-code:text-[--accent1] max-w-none"

@@ -99,7 +99,7 @@ export default function Index() {
           </motion.div>
           <div className="pointer-events-none absolute flex flex-col gap-5 items-center ustify-start z-10 mb-10 inset-0">
             <div className="flex flex-col items-center pointer-events-auto">
-              <div className="absolute   m-20">
+              <div className="absolute mx-6 my-6 sm:mx-12 sm:my-12 md:mx-20 md:my-20 max-w-full overflow-x-hidden">
                 <Navbar links={MenuItems} />
 
                 <Outlet />
