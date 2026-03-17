@@ -19,6 +19,18 @@ A SSG's are system engines that use text input files to generate static pages.
 
 I decided to use [Tera](https://docs.rs/tera/latest/tera/) as template engine. I have a base template and a post template which extends from base and builds the post from a content folder which contains md files. I also added a GraphQL handler using [async_graphql](https://docs.rs/async-graphql/latest/async_graphql/) so in this way I can consume them and use them in my Remix portfolio as the client.
 
+## Technologies
+
+- **Rust** — systems language used to build the SSG binary
+- **pulldown-cmark** — markdown to HTML parser
+- **async-graphql** — GraphQL server library (original architecture)
+- **Axum** — HTTP framework (original architecture)
+- **Tera** — template engine
+- **Remix** — React framework used as the client
+- **Tailwind CSS** — styling, with `@tailwindcss/typography` for blog post rendering
+- **Vercel** — deployment platform for the Remix frontend
+- **Claude Code** — AI coding assistant used throughout development
+
 ## Deployment: What Nobody Tells You
 
 When I set out to deploy this to Vercel, I assumed it would be a matter of a few config lines and a `vercel deploy`. It was not.
@@ -68,6 +80,34 @@ Markdown files → Rust runs at deploy time → TypeScript module → Remix bund
 
 The binary generates `app/blog-data.server.ts` containing all post data, which Remix bundles at build time. No live server. No external API. No runtime filesystem reads. The core Rust logic is unchanged — `find_content()`, `load_post()`, `pulldown-cmark` parsing — all the same. What changed is only the output: instead of an HTTP response, it writes a file to disk.
 
+## Working with Claude Code
+
+This project was developed with Claude Code as an AI coding assistant. The experience taught me as much about working with AI tools as it did about Rust and deployment.
+
+### The Cost of Missing Context
+
+Early in the deployment debugging, Claude suggested replacing the Rust blog API with a Node.js implementation that read the markdown files directly in Remix. The suggestion was technically sound. It would have worked. But the Rust code was the point — removing it would have defeated the purpose of the project entirely.
+
+The AI had no way of knowing that without being told. And I hadn't told it.
+
+After pushing back, I asked directly: how can I work with you better so this doesn't happen again? The answer was a `CLAUDE.md` file — a plain text file at the project root where you document architectural constraints, decisions, and things that must not change. Claude reads it at the start of every conversation.
+
+Adding a single constraint:
+
+```
+The Rust GraphQL API must remain functional, not just decorative. Do not replace Rust logic with Node.js equivalents.
+```
+
+Would have changed the entire direction of that conversation from the start.
+
+### AI Still Requires a Developer
+
+Even with context, AI suggestions need to be validated. During this project, Claude proposed solutions that seemed reasonable but turned out to be wrong — packages that were abandoned, platform features that no longer existed, version numbers that didn't exist on npm.
+
+The AI doesn't know what it doesn't know. It can't check whether a library is actively maintained, whether a CLI tool actually connects, or whether a platform has changed its infrastructure since its training data was collected. That verification is still the developer's job.
+
+The practical lesson: use AI to move fast, but own the decisions. Understand what every suggested change does before applying it. When something fails, read the error yourself rather than just passing it back and asking for a fix.
+
 ## Lessons
 
 **Check if your dependencies are maintained before building on them.** `vercel-rust` had no commits in years. That's a sign.
@@ -75,5 +115,9 @@ The binary generates `app/blog-data.server.ts` containing all post data, which R
 **"Free tier" doesn't mean "works."** Several platforms offer free Rust hosting in theory. In practice, CLI tools time out, runtimes are deprecated, and documentation lags behind reality.
 
 **Sometimes the architecture needs to change, not the config.** The live GraphQL API wasn't wrong — it just wasn't necessary. Removing the requirement for a persistent server eliminated the entire class of hosting problems.
+
+**Give your AI assistant context upfront.** A `CLAUDE.md` file with key architectural decisions saves significant back-and-forth and prevents suggestions that technically work but miss the point entirely.
+
+**AI is a tool, not a decision maker.** The best use of Claude Code in this project was generating code quickly and exploring options. The decisions — what to keep, what to change, what mattered — those were mine.
 
 The Rust code is still in the repo. It still compiles. It still does exactly what it was written to do. It just doesn't need to run 24/7 to do it.
