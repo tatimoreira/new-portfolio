@@ -47,10 +47,24 @@ export const links: LinksFunction = () => {
   return [{ rel: "stylesheet", href: tailwindStylesheetUrl }, { rel: "stylesheet", href: stylesheet }];
 };
 
+const SITE_URL = "https://www.tatimoreira.me";
+
 export const meta: MetaFunction = () => ({
   charset: "utf-8",
-  title: "Tati Moreira",
+  title: "Tatiana Moreira | Software Engineer",
   viewport: "width=device-width,initial-scale=1",
+  description:
+    "Tatiana Moreira is a software engineer building web applications with Rust, TypeScript, and React. Personal portfolio and blog.",
+  "og:type": "website",
+  "og:url": SITE_URL,
+  "og:title": "Tatiana Moreira | Software Engineer",
+  "og:description":
+    "Tatiana Moreira is a software engineer building web applications with Rust, TypeScript, and React.",
+  "og:site_name": "Tatiana Moreira",
+  "twitter:card": "summary",
+  "twitter:title": "Tatiana Moreira | Software Engineer",
+  "twitter:description":
+    "Tatiana Moreira is a software engineer building web applications with Rust, TypeScript, and React.",
 });
 
 export function App() {
@@ -75,6 +89,24 @@ export function App() {
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" />
         <link href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Person",
+              name: "Tatiana Moreira",
+              url: "https://www.tatimoreira.me",
+              jobTitle: "Software Engineer",
+              description:
+                "Software engineer building web applications with Rust, TypeScript, and React.",
+              sameAs: [
+                "https://github.com/tatemoreira",
+                "https://www.linkedin.com/in/tatemoreira",
+              ],
+            }),
+          }}
+        />
       </head>
       <body className="h-full dark:bg-[#091f2c]">
 

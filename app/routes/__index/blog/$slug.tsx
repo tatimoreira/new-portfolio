@@ -1,11 +1,22 @@
 import { json, LoaderFunctionArgs } from "@remix-run/node"
 import { useLoaderData } from "@remix-run/react"
+import type { MetaFunction } from "@remix-run/node"
 import { getPost } from "~/utils/blog.server"
 
 export async function loader({ params }: LoaderFunctionArgs) {
   const post = await getPost(params.slug!)
   if (!post) throw new Response("Not Found", { status: 404 })
   return json(post)
+}
+
+export const meta: MetaFunction<typeof loader> = ({ data }) => {
+  if (!data) return {}
+  const title = `${data.title} | Tatiana Moreira`
+  return {
+    title,
+    "og:title": title,
+    "og:type": "article",
+  }
 }
 
 export default function BlogPost() {
