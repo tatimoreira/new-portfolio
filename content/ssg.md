@@ -1,3 +1,6 @@
+---
+date: 2025-10-15
+---
 # Building a SSG in Rust for my personal blog
 
 My intention in developing a static site generator to build my personal blog is to document my way to learn Rust and start once and for all my writing journey.
