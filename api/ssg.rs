@@ -53,7 +53,10 @@ fn load_post(file: &str) -> Option<Post> {
         .unwrap_or("")
         .to_owned();
 
-    let title = slug.replace('-', " ").replace('_', " ");
+    let title = markdown
+        .lines()
+        .find_map(|line| line.strip_prefix("# ").map(|t| t.trim().to_owned()))
+        .unwrap_or_else(|| slug.replace('-', " ").replace('_', " "));
 
     Some(Post { slug, title, body, date: date.unwrap_or_default() })
 }
