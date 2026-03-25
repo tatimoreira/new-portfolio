@@ -9,12 +9,8 @@ enum Theme {
 
 type ThemeContextType = [Theme | null, Dispatch<SetStateAction<Theme | null>>];
 
-interface ThemeContextProps {
-  theme: Theme;
-  toggleTheme: () => void;
-}
 
-const ThemeContext = createContext<ThemeContextProps | undefined>(undefined);
+const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 const prefersDarkMQ = "(prefers-color-scheme: dark)";
 const getPreferredTheme = () =>
   window.matchMedia(prefersDarkMQ).matches ? Theme.DARK : Theme.LIGHT;
@@ -101,22 +97,6 @@ function ThemeProvider({
   );
 }
 
-const ThemeProvider2: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [theme, setTheme] = useState<Theme>(Theme.LIGHT);
-
-  function toggleTheme() {
-    setTheme((prevTheme) =>
-      prevTheme === Theme.LIGHT ? Theme.DARK : Theme.LIGHT
-    );
-
-  }
-  return (
-    <ThemeContext.Provider value={[theme, setTheme]}>
-      {children}
-    </ThemeContext.Provider>
-  );
-
-}
 
 function useTheme() {
   const context = useContext(ThemeContext);

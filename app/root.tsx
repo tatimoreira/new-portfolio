@@ -108,7 +108,7 @@ export function App() {
           }}
         />
       </head>
-      <body className="h-full dark:bg-[#091f2c]">
+      <body className="h-full">
 
         <Outlet />
         <ScrollRestoration />

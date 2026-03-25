@@ -20,40 +20,28 @@ export default function Navbar({ links }: NavbarProps) {
       className="w-max content-center fixed top-4 right-4 text-white sm:rounded-2xl">
       <div className="flex m-3 justify-end items-center ">
 
-        {links.map(({ to, label, icon: Icon, external }, idx) => (
+        {links.map(({ to, label, external }, idx) => (
           <NavLink
             to={to}
             key={to}
+            end={to === "/"}
             target={external ? "_blank" : ""}
             rel="noreferrer"
             aria-label={to}
-            className={({ isActive }) => (isActive ? "active" : "pending")}
-            style={({ isActive }) => {
-              return {
-                marginLeft: idx === 0 ? undefined : " 2rem ",
-                fontWeight: isActive ? "bold " : "",
-                color: isActive ? "#f5b1cc" : "#e45c96",
-              };
-            }}
+            className="relative pb-1"
+            style={({ isActive }) => ({
+              marginLeft: idx === 0 ? undefined : "2rem",
+              color: isActive ? "#f5b1cc" : "#e45c96",
+            })}
           >
-
-            <motion.div
-              whileHover={{ scale: 1.5 }}
-              whileTap={{ scale: 0.9 }}
-            >
-
-              {/*
-             {
-
-                external ?
-                  (<a href={to} aria-label={to} target="_blank" >  <Icon className="hover:fill-black dark:hover:fill-white text-[#f5b1cc]" /></a>)
-                  :
-                  (<Icon className=" dark:text-white " />)
-              }
-              */}
-
-            </motion.div>
-            <span>{label}</span>
+            {({ isActive }) => (
+              <>
+                <span className={isActive ? "font-semibold" : "font-normal"}>{label}</span>
+                {isActive && (
+                  <span className="pointer-events-none absolute -bottom-0.5 left-0 right-0 h-[2px] rounded-full bg-[#f5b1cc]" />
+                )}
+              </>
+            )}
           </NavLink>
 
 

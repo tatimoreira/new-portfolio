@@ -67,9 +67,9 @@ export default function CardFixed() {
 
     return (
         <div className="w-screen overflow-x-hidden">
-            <div className="pointer-events-auto flex justify-center [perspective:1000px] py-24">
+            <div className="flex justify-center [perspective:1000px] py-24">
                 <motion.div
-                    className="w-[300px] h-[450px] sm:w-[700px] sm:h-96"
+                    className="pointer-events-auto w-[300px] h-[450px] sm:w-[700px] sm:h-96"
                     style={{ rotateX, rotateY }}
                     initial={initial}
                     animate={animate}

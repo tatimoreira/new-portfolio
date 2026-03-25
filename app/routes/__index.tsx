@@ -5,33 +5,14 @@ import Toggle from "~/components/themeToggle/toggle";
 
 import Tile from "~/components/Tile";
 import { MenuItems } from "~/components/navigation/MenuItems";
-import { motion, useCycle } from "framer-motion";
-import { useRef } from "react";
+import { motion, useCycle, useAnimation } from "framer-motion";
+import { useEffect } from "react";
 import { Theme, useTheme } from "~/utils/theme-provider";
-import useDimensions from "~/utils/hooks/use-dimentions";
 import Pill from "~/components/Pill/Pill";
 import PageLoadCircle from "~/components/GrowingCircle/PageLoadCirlcle";
 import ThrownToCenter from "~/components/GrowingCircle/ThrownToCenter";
 
-const sidebar = {
-  dark: (height = 1000) => ({
-    clipPath: `circle(${height * 2 + 200}px at 40px 40px)`,
-    transition: {
-      type: "spring",
-      stiffness: 20,
-      restDelta: 2,
-    },
-  }),
-  light: {
-    clipPath: "circle(38px at 41px 42px)",
-    transition: {
-      delay: 0.5,
-      type: "spring",
-      stiffness: 400,
-      damping: 40,
-    },
-  },
-};
+const lightClip = "circle(38px at 41px 42px)";
 
 export const menu = [
   <NavLink
@@ -63,11 +44,21 @@ export const menu = [
 export default function Index() {
   const [theme, setTheme] = useTheme();
   const [isBgExpanded, setIsBgExpanded] = useCycle(theme === Theme.LIGHT == false, theme === Theme.DARK == true);
-  const [dimensions, ref] = useDimensions<HTMLDivElement>();
+  const bgControls = useAnimation();
 
+  useEffect(() => {
+    if (theme === Theme.DARK) {
+      const radius = Math.ceil(Math.sqrt(
+        Math.pow(window.innerWidth - 40, 2) + Math.pow(window.innerHeight - 40, 2)
+      )) + 100;
+      bgControls.start({ clipPath: `circle(${radius}px at 40px 40px)`, transition: { type: "tween", duration: 0.6, ease: [0.4, 0, 0.2, 1] } });
+    } else {
+      bgControls.start({ clipPath: lightClip, transition: { delay: 0.5, type: "spring", stiffness: 400, damping: 40 } });
+    }
+  }, [theme]);
 
   const toggleTheme = () => {
-    setTheme((prevTheme) =>
+    setTheme((prevTheme: Theme | null) =>
       prevTheme === Theme.LIGHT ? Theme.DARK : Theme.LIGHT
     )
   };
@@ -75,15 +66,13 @@ export default function Index() {
 
     <div>
 
-      <main className="w-full relative min-h-screen h-full backdrop-blur-sm dark:bg-[#091f2c]">
-        <motion.div
-          initial={false}
-          animate={theme === Theme.LIGHT ? "light" : "dark"}
-          custom={dimensions.height}
-          ref={ref}
-
-        >
-          <motion.div className="bg-[#091f2c] min-h-screen" variants={sidebar} >
+      <main className="w-full relative min-h-screen h-full backdrop-blur-sm">
+        <motion.div>
+          <motion.div
+            className="bg-[#091f2c] min-h-screen"
+            initial={{ clipPath: lightClip }}
+            animate={bgControls}
+          >
             <div className="flex">
 
 
