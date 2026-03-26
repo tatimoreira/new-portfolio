@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { MoonIcon } from "../navigation/MoonIcon";
 import { SunIcon } from "../navigation/SunIcon";
 
-export default function Toggle({ toggle }) {
+export default function Toggle({ toggle }: { toggle: () => void }) {
   const [theme] = useTheme();
 
 
