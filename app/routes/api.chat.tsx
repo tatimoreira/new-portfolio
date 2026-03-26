@@ -4,13 +4,13 @@ import { getChatResponse } from "~/utils/openai.server";
 
 export const action: ActionFunction = async ({ request }) => {
     const body = await request.json();
-    const { message } = body;
+    const { message, conversationHistory = [] } = body;
 
     if (!message || typeof message !== "string") {
         return json({ error: "Invalid message" }, { status: 400 });
     }
 
-    const reply = await getChatResponse(message);
+    const reply = await getChatResponse(message, conversationHistory);
 
     return json({ reply });
 };
