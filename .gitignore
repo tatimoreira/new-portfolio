@@ -1,7 +1,6 @@
 node_modules
 /generated
 /target
-/app/blog-data.server.ts
 
 /build
 /public/build

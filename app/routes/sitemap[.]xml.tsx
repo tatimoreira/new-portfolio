@@ -1,4 +1,4 @@
-import { LoaderFunction } from "@remix-run/node"
+import type { LoaderFunction } from "@remix-run/node"
 import { getAllPosts } from "~/utils/blog.server"
 
 const SITE_URL = "https://www.tatimoreira.me"
@@ -13,7 +13,7 @@ export const loader: LoaderFunction = async () => {
       loc: `${SITE_URL}${path}`,
       priority: path === "/" ? "1.0" : "0.8",
     })),
-    ...posts.map((post) => ({
+    ...posts.map((post: { slug: string }) => ({
       loc: `${SITE_URL}/blog/${post.slug}`,
       priority: "0.6",
     })),

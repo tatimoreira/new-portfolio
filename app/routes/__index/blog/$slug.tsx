@@ -1,9 +1,9 @@
-import { json, LoaderFunctionArgs } from "@remix-run/node"
+import { json } from "@remix-run/node"
+import type { LoaderFunction, MetaFunction } from "@remix-run/node"
 import { useLoaderData } from "@remix-run/react"
-import type { MetaFunction } from "@remix-run/node"
 import { getPost } from "~/utils/blog.server"
 
-export async function loader({ params }: LoaderFunctionArgs) {
+export const loader: LoaderFunction = async ({ params }) => {
   const post = await getPost(params.slug!)
   if (!post) throw new Response("Not Found", { status: 404 })
   return json(post)

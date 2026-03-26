@@ -1,11 +1,4 @@
-
-
-import { FaEnvelope } from "react-icons/fa";
 import { FaHome } from "react-icons/fa";
-import { FaLightbulb } from "react-icons/fa";
-import { FaLinkedin } from "react-icons/fa";
-import { FaGithub } from "react-icons/fa";
-import { FaDownload } from "react-icons/fa";
 
 export const MenuItems = [
   { to: "/", label: "Hi!", icon: FaHome, active: true, external: false },

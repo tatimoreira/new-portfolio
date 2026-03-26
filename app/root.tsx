@@ -1,4 +1,4 @@
-import type { LinksFunction, MetaFunction } from "@remix-run/node";
+import type { LinksFunction, LoaderFunction, MetaFunction } from "@remix-run/node";
 import {
   Links,
   LiveReload,
@@ -6,9 +6,9 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLoaderData,
 } from "@remix-run/react";
 import clsx from "clsx";
-import { useLoaderData } from "@remix-run/react";
 
 import tailwindStylesheetUrl from "./styles/tailwind.css";
 import stylesheet from "./tailwind.css";
@@ -18,7 +18,6 @@ import {
   ThemeProvider,
   useTheme,
 } from "~/utils/theme-provider";
-import type { LoaderFunction } from "@remix-run/node";
 import { getThemeSession } from "./utils/theme.server";
 import { Analytics } from "@vercel/analytics/react"
 import { useEffect } from "react";

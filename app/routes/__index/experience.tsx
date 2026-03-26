@@ -1,7 +1,5 @@
 import { Outlet } from "@remix-run/react";
 import { motion } from "framer-motion";
-import ParagraphText from "~/components/ParagraphText/ParagraphText";
-import Pill from "~/components/Pill/Pill";
 import SubtitleText from "~/components/SubtitleText/SubtitleText";
 
 export default function Index() {

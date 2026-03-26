@@ -103,11 +103,11 @@ jobs:
         with:
           useLockFile: false
 
-      - name: 🛠 Setup Database
-        run: npx prisma migrate reset --force
-
       - name: ⚙️ Build
         run: npm run build
+        env:
+          SESSION_SECRET: "test"
+          OPENAI_API_KEY: "test"
 
       - name: 🌳 Cypress run
         uses: cypress-io/github-action@v4
@@ -116,6 +116,8 @@ jobs:
           wait-on: "http://localhost:8811"
         env:
           PORT: "8811"
+          SESSION_SECRET: "test"
+          OPENAI_API_KEY: "test"
 
   build:
     name: 🐳 Build

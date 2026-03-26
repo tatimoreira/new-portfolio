@@ -1,12 +1,10 @@
 import { Theme, useTheme } from "~/utils/theme-provider";
-import { motion, useCycle } from "framer-motion";
+import { motion } from "framer-motion";
 import { MoonIcon } from "../navigation/MoonIcon";
 import { SunIcon } from "../navigation/SunIcon";
-import useDimensions from "~/hooks/use-dimentions";
-import { useRef } from "react";
 
-export default function Toggle({ toggle }) {
-  const [theme, setTheme] = useTheme();
+export default function Toggle({ toggle }: { toggle: () => void }) {
+  const [theme] = useTheme();
 
 
 
