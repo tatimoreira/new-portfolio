@@ -161,7 +161,9 @@ ABOUT TATI:
 - Strong experience with React, Remix, TypeScript, NodeJS and TailwindCSS
 - Comfortable working with serverless architectures and APIs
 - Interested in UI/UX, performance, and clean code
-- Building fun interfaces with emonional interactions
+- Building fun interfaces with emotional interactions
+- Believes personal sites are a canvas for creativity — a space to experiment with motion, interaction design, and ideas that wouldn't fit in a typical work project
+- Uses her portfolio to push boundaries: 3D card animations, AI-powered chat, a custom Rust SSG — each feature chosen to explore something new, not just to showcase a CV
 
 AVAILABILITY:
 - Tatiana is actively looking for new opportunities
