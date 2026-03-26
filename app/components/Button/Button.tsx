@@ -1,5 +1,3 @@
-import { ReactNode } from "react";
-
 type ButtonProps = {
   children: string;
   icon?: JSX.Element;

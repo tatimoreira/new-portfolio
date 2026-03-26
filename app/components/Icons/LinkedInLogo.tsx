@@ -1,4 +1,4 @@
-import { IconProps } from "./GithubIcon";
+import type { IconProps } from "./GithubIcon";
 
 
 export const LinkedInLogo = ({ fillColor = "black" }: IconProps) => {

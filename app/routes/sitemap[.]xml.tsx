@@ -1,4 +1,4 @@
-import { LoaderFunction } from "@remix-run/node"
+import type { LoaderFunction } from "@remix-run/node"
 import { getAllPosts } from "~/utils/blog.server"
 
 const SITE_URL = "https://www.tatimoreira.me"

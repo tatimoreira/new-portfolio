@@ -1,49 +1,16 @@
-import { DateTime } from "luxon";
 import Navbar from "../components/navigation/Navbar";
-import { NavLink, Outlet } from "@remix-run/react";
+import { Outlet } from "@remix-run/react";
 import Toggle from "~/components/themeToggle/toggle";
-
-import Tile from "~/components/Tile";
 import { MenuItems } from "~/components/navigation/MenuItems";
 import { motion, useCycle, useAnimation } from "framer-motion";
 import { useEffect } from "react";
 import { Theme, useTheme } from "~/utils/theme-provider";
-import Pill from "~/components/Pill/Pill";
-import PageLoadCircle from "~/components/GrowingCircle/PageLoadCirlcle";
-import ThrownToCenter from "~/components/GrowingCircle/ThrownToCenter";
 
 const lightClip = "circle(38px at 41px 42px)";
 
-export const menu = [
-  <NavLink
-    key="messages"
-    to="/messages"
-    style={({ isActive }) => {
-      return {
-        fontWeight: isActive ? "bold" : "",
-      };
-    }}
-  >
-    Messages
-  </NavLink>,
-  <NavLink
-    key="messages"
-    to="/messages"
-    style={({ isActive }) => {
-      return {
-        fontWeight: isActive ? "bold" : "",
-      };
-    }}
-  >
-    Messages
-  </NavLink>,
-];
-
-
-
 export default function Index() {
   const [theme, setTheme] = useTheme();
-  const [isBgExpanded, setIsBgExpanded] = useCycle(theme === Theme.LIGHT == false, theme === Theme.DARK == true);
+  const [, setIsBgExpanded] = useCycle(theme === Theme.LIGHT == false, theme === Theme.DARK == true);
   const bgControls = useAnimation();
 
   useEffect(() => {

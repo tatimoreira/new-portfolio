@@ -1,4 +1,3 @@
-import { useNavigate } from "@remix-run/react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
 import { useState } from "react";
 import { useIsMobile } from "~/utils/hooks/useIsMobile";
@@ -14,7 +13,6 @@ import { DocumentIcon } from "../Icons/DocumentIcon";
 export default function Card() {
   const [theme] = useTheme();
 
-  let navigate = useNavigate();
   const tiltX = useMotionValue(0);
   const tiltY = useMotionValue(0);
 
@@ -27,7 +25,6 @@ export default function Card() {
   const rotateY = useSpring(tiltY, { stiffness: 150, damping: 20 });
 
 
-  const [page, setPage] = useState("home");
   const [flipped, setFlipped] = useState(false);
 
 
@@ -48,23 +45,6 @@ export default function Card() {
       scale: 0.85,
       opacity: 0,
     };
-
-  const animate = isMobile
-    ? {
-      x: 900,
-      y: 80,
-      rotate: 0,
-      scale: 1,
-      opacity: 1,
-    }
-    : {
-      x: 50,
-      y: 50,
-      rotate: 0,
-      scale: 1,
-      opacity: 1,
-    };
-
 
   return (
     <motion.div
