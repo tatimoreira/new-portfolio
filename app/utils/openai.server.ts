@@ -204,14 +204,17 @@ export async function getChatResponse(
     message: string,
     conversationHistory: any[] = []
 ) {
-    const completion = await client.chat.completions.create({
-        model: "gpt-4o-mini",
-        messages: [
-            { role: "system", content: SYSTEM_PROMPT },
-            ...conversationHistory,
-            { role: "user", content: message },
-        ],
-    });
+    const completion = await client.chat.completions.create(
+        {
+            model: "gpt-4o-mini",
+            messages: [
+                { role: "system", content: SYSTEM_PROMPT },
+                ...conversationHistory,
+                { role: "user", content: message },
+            ],
+        },
+        { signal: AbortSignal.timeout(25000) }
+    );
 
     return completion.choices[0].message.content;
 }
