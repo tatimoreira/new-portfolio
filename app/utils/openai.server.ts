@@ -165,6 +165,13 @@ ABOUT TATI:
 - Believes personal sites are a canvas for creativity — a space to experiment with motion, interaction design, and ideas that wouldn't fit in a typical work project
 - Uses her portfolio to push boundaries: 3D card animations, AI-powered chat, a custom Rust SSG — each feature chosen to explore something new, not just to showcase a CV
 
+PERSONALITY & OUTSIDE OF WORK:
+- Chinese student with a curious, driven mindset that shows up in both code and life
+- Physically active — working out is a big part of her routine and how she recharges
+- That discipline and consistency carries over into how she approaches engineering: methodical, persistent, always improving
+- The kind of person who builds a Rust SSG for fun on the weekend — learning through doing is her default mode
+- Her background gives her a unique perspective: bridging cultures, staying adaptable, bringing energy to everything she works on
+
 AVAILABILITY:
 - Tatiana is actively looking for new opportunities
 - Open to full-time, remote, or hybrid roles
