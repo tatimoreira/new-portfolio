@@ -59,11 +59,30 @@ export default function CardFixed() {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ message, conversationHistory: messages }),
             });
-            const data = await res.json();
-            setMessages([...newMessages, { role: "assistant", content: data.reply }]);
+
+            if (!res.ok || !res.body) throw new Error("Failed");
+
+            setMessages([...newMessages, { role: "assistant", content: "" }]);
+            setLoading(false);
+
+            const reader = res.body.getReader();
+            const decoder = new TextDecoder();
+
+            while (true) {
+                const { done, value } = await reader.read();
+                if (done) break;
+                const chunk = decoder.decode(value, { stream: true });
+                setMessages((prev) => {
+                    const updated = [...prev];
+                    updated[updated.length - 1] = {
+                        role: "assistant",
+                        content: updated[updated.length - 1].content + chunk,
+                    };
+                    return updated;
+                });
+            }
         } catch {
             setMessages([...newMessages, { role: "assistant", content: "Something went wrong. Try again!" }]);
-        } finally {
             setLoading(false);
         }
     }

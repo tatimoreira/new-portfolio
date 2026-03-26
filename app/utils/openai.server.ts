@@ -200,21 +200,32 @@ TONE:
 
 
 
-export async function getChatResponse(
+export function streamChatResponse(
     message: string,
     conversationHistory: any[] = []
-) {
-    const completion = await client.chat.completions.create(
-        {
-            model: "gpt-4o-mini",
-            messages: [
-                { role: "system", content: SYSTEM_PROMPT },
-                ...conversationHistory,
-                { role: "user", content: message },
-            ],
-        },
-        { signal: AbortSignal.timeout(25000) }
-    );
+): ReadableStream {
+    return new ReadableStream({
+        async start(controller) {
+            try {
+                const stream = await client.chat.completions.create({
+                    model: "gpt-4o-mini",
+                    stream: true,
+                    messages: [
+                        { role: "system", content: SYSTEM_PROMPT },
+                        ...conversationHistory,
+                        { role: "user", content: message },
+                    ],
+                });
 
-    return completion.choices[0].message.content;
+                for await (const chunk of stream) {
+                    const content = chunk.choices[0]?.delta?.content;
+                    if (content) {
+                        controller.enqueue(new TextEncoder().encode(content));
+                    }
+                }
+            } finally {
+                controller.close();
+            }
+        },
+    });
 }

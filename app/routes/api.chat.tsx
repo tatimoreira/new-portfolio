@@ -1,6 +1,6 @@
 import type { ActionFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { getChatResponse } from "~/utils/openai.server";
+import { streamChatResponse } from "~/utils/openai.server";
 
 export const config = { maxDuration: 30 };
 
@@ -12,7 +12,9 @@ export const action: ActionFunction = async ({ request }) => {
         return json({ error: "Invalid message" }, { status: 400 });
     }
 
-    const reply = await getChatResponse(message, conversationHistory);
+    const stream = streamChatResponse(message, conversationHistory);
 
-    return json({ reply });
+    return new Response(stream, {
+        headers: { "Content-Type": "text/plain; charset=utf-8" },
+    });
 };
