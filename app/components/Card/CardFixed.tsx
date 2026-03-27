@@ -72,6 +72,9 @@ export default function CardFixed() {
                 const { done, value } = await reader.read();
                 if (done) break;
                 const chunk = decoder.decode(value, { stream: true });
+                if (chunk.startsWith("\x00ERROR:")) {
+                    throw new Error(chunk.slice(7));
+                }
                 setMessages((prev) => {
                     const updated = [...prev];
                     updated[updated.length - 1] = {
@@ -81,8 +84,9 @@ export default function CardFixed() {
                     return updated;
                 });
             }
-        } catch {
-            setMessages([...newMessages, { role: "assistant", content: "Something went wrong. Try again!" }]);
+        } catch (err) {
+            const msg = err instanceof Error ? err.message : "Something went wrong. Try again!";
+            setMessages([...newMessages, { role: "assistant", content: `Error: ${msg}` }]);
             setLoading(false);
         }
     }

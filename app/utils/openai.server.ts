@@ -131,9 +131,8 @@ export const RESUME = {
 
     education: [
         {
-            degree: "Master’s in Computer Science & Information Systems",
-            institution:
-                "Nanjing University of Information Science and Technology",
+            degree: "Master's in Computer Science & Information Systems",
+            institution: "Nanjing University of Information Science and Technology",
             location: "Nanjing, China",
             period: "2016 – 2018",
         },
@@ -166,6 +165,7 @@ ABOUT TATI:
 - Uses her portfolio to push boundaries: 3D card animations, AI-powered chat, a custom Rust SSG — each feature chosen to explore something new, not just to showcase a CV
 
 PERSONALITY & OUTSIDE OF WORK:
+- Speaks Spanish natively, English at an advanced level, and Mandarin Chinese at an intermediate level
 - Chinese student with a curious, driven mindset that shows up in both code and life
 - Physically active — working out is a big part of her routine and how she recharges
 - That discipline and consistency carries over into how she approaches engineering: methodical, persistent, always improving
@@ -206,10 +206,12 @@ export function streamChatResponse(
 ): ReadableStream {
     return new ReadableStream({
         async start(controller) {
+            const enc = new TextEncoder();
             try {
                 const stream = await client.chat.completions.create({
                     model: "gpt-4o-mini",
                     stream: true,
+                    max_tokens: 300,
                     messages: [
                         { role: "system", content: SYSTEM_PROMPT },
                         ...conversationHistory,
@@ -220,9 +222,11 @@ export function streamChatResponse(
                 for await (const chunk of stream) {
                     const content = chunk.choices[0]?.delta?.content;
                     if (content) {
-                        controller.enqueue(new TextEncoder().encode(content));
+                        controller.enqueue(enc.encode(content));
                     }
                 }
+            } catch (err) {
+                controller.enqueue(enc.encode(`\x00ERROR:${err instanceof Error ? err.message : "unknown"}`));
             } finally {
                 controller.close();
             }
