@@ -1,3 +1,6 @@
 {
-  "buildCommand": "curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain stable && export PATH=\"$HOME/.cargo/bin:$PATH\" && cargo build --release && ./target/release/ssg && npm run build"
+  "buildCommand": "curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain stable && export PATH=\"$HOME/.cargo/bin:$PATH\" && cargo build --release && ./target/release/ssg && npm run build",
+  "functions": {
+    "api/chat.js": { "maxDuration": 30 }
+  }
 }

@@ -171,36 +171,18 @@ PERSONALITY: Curious, disciplined, builds things to learn. Works out to recharge
 
 
 
-export function streamChatResponse(
+export async function getChatResponse(
     message: string,
     conversationHistory: any[] = []
-): ReadableStream {
-    return new ReadableStream({
-        async start(controller) {
-            const enc = new TextEncoder();
-            try {
-                const stream = await client.chat.completions.create({
-                    model: "gpt-4o-mini",
-                    stream: true,
-                    max_tokens: 300,
-                    messages: [
-                        { role: "system", content: SYSTEM_PROMPT },
-                        ...conversationHistory,
-                        { role: "user", content: message },
-                    ],
-                });
-
-                for await (const chunk of stream) {
-                    const content = chunk.choices[0]?.delta?.content;
-                    if (content) {
-                        controller.enqueue(enc.encode(content));
-                    }
-                }
-            } catch (err) {
-                controller.enqueue(enc.encode(`\x00ERROR:${err instanceof Error ? err.message : "unknown"}`));
-            } finally {
-                controller.close();
-            }
-        },
+): Promise<string> {
+    const completion = await client.chat.completions.create({
+        model: "gpt-4o-mini",
+        max_tokens: 200,
+        messages: [
+            { role: "system", content: SYSTEM_PROMPT },
+            ...conversationHistory,
+            { role: "user", content: message },
+        ],
     });
+    return completion.choices[0].message.content ?? "";
 }
