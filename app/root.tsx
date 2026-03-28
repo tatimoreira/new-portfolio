@@ -21,6 +21,7 @@ import {
 import { getThemeSession } from "./utils/theme.server";
 import { Analytics } from "@vercel/analytics/react"
 import { useEffect } from "react";
+import CustomCursor from "~/components/CustomCursor/CustomCursor";
 
 export type LoaderData = {
   theme: Theme | null;
@@ -107,8 +108,8 @@ export function App() {
           }}
         />
       </head>
-      <body className="h-full">
-
+      <body className="h-full [&_*]:cursor-none cursor-none">
+        <CustomCursor />
         <Outlet />
         <ScrollRestoration />
         <Scripts />
