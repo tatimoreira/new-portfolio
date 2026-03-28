@@ -36,7 +36,7 @@ export default function Index() {
       <main className="w-full relative min-h-screen h-full backdrop-blur-sm">
         <motion.div>
           <motion.div
-            className="bg-[#091f2c] min-h-screen"
+            className="bg-[#091f2c] fixed inset-0"
             initial={{ clipPath: lightClip }}
             animate={bgControls}
           >
@@ -55,7 +55,7 @@ export default function Index() {
           </motion.div>
           <div className="pointer-events-none absolute flex flex-col gap-5 items-center ustify-start z-10 mb-10 inset-0">
             <div className="flex flex-col items-center pointer-events-auto">
-              <div className="absolute mx-6 my-6 sm:mx-12 sm:my-12 md:mx-20 md:my-20 max-w-full overflow-x-hidden">
+              <div className="absolute mx-6 mt-20 mb-6 sm:mx-12 sm:my-12 md:mx-20 md:my-20 max-w-full overflow-x-hidden">
                 <Navbar links={MenuItems} />
 
                 <Outlet />

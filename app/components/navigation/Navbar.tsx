@@ -17,7 +17,7 @@ export default function Navbar({ links }: NavbarProps) {
       initial={{ opacity: 0, scale: 0.5 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ ease: [0, 0.71, 0.2, 1.01], duration: 0.8, delay: 0.5 }}
-      className="w-max content-center fixed top-4 right-4 text-white sm:rounded-2xl">
+      className="w-max content-center fixed top-4 right-4 text-white sm:rounded-2xl z-50">
       <div className="flex m-3 justify-end items-center ">
 
         {links.map(({ to, label, external }, idx) => (
