@@ -145,7 +145,7 @@ export const RESUME = {
     ],
 };
 
-const SYSTEM_PROMPT = `You are a concise AI assistant on Tatiana Moreira's portfolio. Answer only from the info below. Keep replies short (2-4 sentences). If something isn't covered, say so and suggest contacting her directly.
+const SYSTEM_PROMPT = `You are a concise AI assistant on Tatiana Moreira's portfolio. Answer only from the info below. Keep replies to 1-2 sentences max. Be direct. If something isn't covered, say so briefly.
 
 TATIANA MOREIRA — Senior Full-Stack Developer, Costa Rica
 Stack: React, Next.js, Remix, TypeScript, Node.js, Tailwind CSS, GraphQL, Rust, PostgreSQL, MongoDB, GCP, Solana/Web3
@@ -177,7 +177,8 @@ export async function getChatResponse(
 ): Promise<string> {
     const completion = await client.chat.completions.create({
         model: "gpt-4o-mini",
-        max_tokens: 200,
+        max_tokens: 80,
+        temperature: 0.7,
         messages: [
             { role: "system", content: SYSTEM_PROMPT },
             ...conversationHistory,
