@@ -1,8 +1,3 @@
-import OpenAI from "openai";
-
-const client = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY,
-});
 
 
 export const RESUME = {
@@ -175,15 +170,23 @@ export async function getChatResponse(
     message: string,
     conversationHistory: any[] = []
 ): Promise<string> {
-    const completion = await client.chat.completions.create({
-        model: "gpt-4o-mini",
-        max_tokens: 80,
-        temperature: 0.7,
-        messages: [
-            { role: "system", content: SYSTEM_PROMPT },
-            ...conversationHistory,
-            { role: "user", content: message },
-        ],
+    const res = await fetch("https://api.openai.com/v1/chat/completions", {
+        method: "POST",
+        headers: {
+            "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`,
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            model: "gpt-4o-mini",
+            max_tokens: 80,
+            temperature: 0.7,
+            messages: [
+                { role: "system", content: SYSTEM_PROMPT },
+                ...conversationHistory,
+                { role: "user", content: message },
+            ],
+        }),
     });
-    return completion.choices[0].message.content ?? "";
+    const data = await res.json();
+    return data.choices[0].message.content ?? "";
 }
