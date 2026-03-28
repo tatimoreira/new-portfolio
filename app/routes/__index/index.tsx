@@ -1,5 +1,5 @@
 import { Outlet } from "@remix-run/react";
-import CardFixed from "~/components/Card/CardFixed";
+import Card from "~/components/Card/Card";
 
 export default function Index() {
   return (
@@ -7,7 +7,7 @@ export default function Index() {
       {/* FULLSCREEN CENTER ANCHOR */}
       {/* CARD — viewport anchored */}
       <div className="fixed inset-0 z-50 flex items-center justify-center pointer-events-none">
-        <CardFixed />
+        <Card />
       </div>
 
       <Outlet />
