@@ -31,13 +31,14 @@ module.exports = {
     extend: {
       colors: {
         'bkg': 'hsl(var(--bkg) / <alpha-value>)',
+        'icon-color': 'rgb(var(--icon-color) / <alpha-value>)',
         'main-color': 'hsl(var(--main-color))',
-        'caret-color': "hsl(259.26, 51.59%, 69.22%)",
-        "sub-color": "hsl(165.18, 64.89%, 74.31%)",
-        "dark-sub-color": "hsl(165.18, 64.89%, 74.31%)",
-        "light-text-color": "hsl(168.84, 100%, 33.73%)",
-        "dark-text-color": "hsl(259.26, 51.59%, 69.22%)",
-        "link-color": "hsl(334.41, 71.58%, 62.75%)"
+        'caret-color': "hsl(var(--caret-color) / <alpha-value>)",
+        "sub-color": "hsl(var(--sub-color) / <alpha-value>)",
+        "dark-sub-color": "hsl(var(--dark-sub-color) / <alpha-value>)",
+        "main-color": "hsl(var(--main-color) / <alpha-value>)",
+        "dark-text-color": "hsl(var(--dark-text-color) / <alpha-value>)",
+        "accent-color": "hsl(var(--accent-color) / <alpha-value>)"
       },
       fontFamily: {
         work: ['"Work Sans"', ...defaultTheme.fontFamily.sans]
@@ -50,5 +51,8 @@ module.exports = {
   plugins: [
     require('tailwindcss-bg-patterns'),
     require('@tailwindcss/typography'),
+    function ({ addVariant }) {
+      addVariant('frutiger', 'html.frutiger &');
+    },
   ],
 };

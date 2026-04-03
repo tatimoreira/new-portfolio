@@ -108,7 +108,7 @@ export function App() {
           }}
         />
       </head>
-      <body className="h-full [&_*]:cursor-none cursor-none">
+      <body className="h-full [&_*]:cursor-none cursor-none bg-bkg transition-colors duration-500">
         <CustomCursor />
         <Outlet />
         <ScrollRestoration />

@@ -2,19 +2,23 @@ import Navbar from "../components/navigation/Navbar";
 import { Outlet } from "@remix-run/react";
 import Toggle from "~/components/themeToggle/toggle";
 import { MenuItems } from "~/components/navigation/MenuItems";
-import { motion, useCycle, useAnimation } from "framer-motion";
+import { motion, useAnimation } from "framer-motion";
 import { useEffect } from "react";
+import { flushSync } from "react-dom";
 import { Theme, useTheme } from "~/utils/theme-provider";
+
+const themes = Object.values(Theme);
 
 const lightClip = "circle(38px at 41px 42px)";
 
 export default function Index() {
   const [theme, setTheme] = useTheme();
-  const [, setIsBgExpanded] = useCycle(theme === Theme.LIGHT == false, theme === Theme.DARK == true);
   const bgControls = useAnimation();
 
+  const isDark = theme === Theme.DARK;
+
   useEffect(() => {
-    if (theme === Theme.DARK) {
+    if (isDark) {
       const radius = Math.ceil(Math.sqrt(
         Math.pow(window.innerWidth - 40, 2) + Math.pow(window.innerHeight - 40, 2)
       )) + 100;
@@ -24,10 +28,21 @@ export default function Index() {
     }
   }, [theme]);
 
-  const toggleTheme = () => {
-    setTheme((prevTheme: Theme | null) =>
-      prevTheme === Theme.LIGHT ? Theme.DARK : Theme.LIGHT
-    )
+  const cycleTheme = () => {
+    const idx = themes.indexOf(theme ?? Theme.LIGHT);
+    const nextTheme = themes[(idx + 1) % themes.length];
+    const involvesFrutiger = theme === Theme.FRUTIGER || nextTheme === Theme.FRUTIGER;
+
+    if (involvesFrutiger && document.startViewTransition) {
+      document.documentElement.dataset.transitionTo = nextTheme;
+      document.startViewTransition(() => {
+        flushSync(() => setTheme(nextTheme));
+      }).finished.then(() => {
+        delete document.documentElement.dataset.transitionTo;
+      });
+    } else {
+      setTheme(nextTheme);
+    }
   };
   return (
 
@@ -43,12 +58,7 @@ export default function Index() {
             <div className="flex">
 
 
-              <Toggle toggle={() => {
-
-                setIsBgExpanded()
-                toggleTheme()
-
-              }} />
+              <Toggle toggle={cycleTheme} />
 
             </div>
 

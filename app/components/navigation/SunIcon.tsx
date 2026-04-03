@@ -1,4 +1,3 @@
-import React from "react";
 import { motion } from "framer-motion";
 import { transition } from "./constants";
 
@@ -23,6 +22,7 @@ export const SunIcon = () => {
       viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      whileHover={{ rotate: 30, scale: 1.15, transition: { duration: 0.4, ease: "easeOut" } }}
       whileTap={whileTap}
       // Centers the rotation anchor point vertically & horizontally
       style={{ originX: "50%", originY: "50%" }}

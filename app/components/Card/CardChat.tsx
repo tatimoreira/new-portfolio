@@ -55,14 +55,14 @@ export default function CardChat({ onBack }: CardChatProps) {
 
     return (
         <motion.div
-            className="absolute w-full h-full rounded-2xl shadow-xl backface-hidden bg-white/10 backdrop-blur-md border border-white/25"
+            className="absolute w-full h-full rounded-2xl shadow-xl backface-hidden bg-white/10 frutiger:bg-sky-200/60 backdrop-blur-md frutiger:backdrop-blur-lg border border-white/25 frutiger:border-blue-300/50"
             style={{ backfaceVisibility: "hidden", rotateY: 180 }}
             onClick={(e) => e.stopPropagation()}
         >
             <div className="flex flex-col h-full p-4">
                 {/* Header */}
                 <div className="flex items-center justify-between mb-3 shrink-0">
-                    <span className="font-work font-bold text-[#f5b1cc] text-sm sm:text-base">
+                    <span className="font-work font-bold text-[#f5b1cc] frutiger:text-[#0032db] text-sm sm:text-base">
                         Ask Tati's AI anything
                     </span>
                     <button
@@ -83,7 +83,7 @@ export default function CardChat({ onBack }: CardChatProps) {
                                     <button
                                         key={s}
                                         onClick={() => handleSend(s)}
-                                        className="text-xs px-3 py-1.5 rounded-full border border-[#f5b1cc]/40 text-[#f5b1cc] hover:bg-[#f5b1cc]/10 transition-colors"
+                                        className="text-xs px-3 py-1.5 rounded-full border border-[#f5b1cc]/40 frutiger:border-[#0032db]/40 text-[#f5b1cc] frutiger:text-[#0032db] hover:bg-[#f5b1cc]/10 frutiger:hover:bg-[#0032db]/10 transition-colors"
                                     >
                                         {s}
                                     </button>
@@ -99,8 +99,8 @@ export default function CardChat({ onBack }: CardChatProps) {
                             <span
                                 className={`text-xs sm:text-sm px-3 py-2 rounded-2xl max-w-[85%] leading-relaxed ${
                                     m.role === "user"
-                                        ? "bg-[#f5b1cc]/20 text-light-text-color dark:text-dark-text-color rounded-br-sm"
-                                        : "bg-white/10 text-light-text-color dark:text-dark-text-color rounded-bl-sm"
+                                        ? "bg-[#f5b1cc]/20 frutiger:bg-[#0032db]/15 text-light-text-color dark:text-dark-text-color frutiger:text-[#0032db] rounded-br-sm"
+                                        : "bg-white/10 frutiger:bg-[#71ab23]/15 text-light-text-color dark:text-dark-text-color frutiger:text-[#0032db] rounded-bl-sm"
                                 }`}
                             >
                                 {m.content}
@@ -127,13 +127,13 @@ export default function CardChat({ onBack }: CardChatProps) {
                         value={input}
                         onChange={(e) => setInput(e.target.value)}
                         placeholder="Ask about skills, experience..."
-                        className="flex-1 text-xs sm:text-sm bg-white/10 border border-white/20 rounded-full px-4 py-2 outline-none focus:border-[#f5b1cc]/50 text-light-text-color dark:text-dark-text-color placeholder-gray-400 transition-colors"
+                        className="flex-1 text-xs sm:text-sm bg-white/10 frutiger:bg-[#0032db]/10 border border-white/20 frutiger:border-[#0032db]/30 rounded-full px-4 py-2 outline-none focus:border-[#f5b1cc]/50 frutiger:focus:border-[#0032db]/50 text-light-text-color dark:text-dark-text-color frutiger:text-[#0032db] placeholder-gray-400 frutiger:placeholder-[#0032db]/50 transition-colors"
                         disabled={loading}
                     />
                     <button
                         type="submit"
                         disabled={loading || !input.trim()}
-                        className="text-xs px-4 py-2 rounded-full bg-[#f5b1cc]/20 text-[#f5b1cc] border border-[#f5b1cc]/40 hover:bg-[#f5b1cc]/30 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                        className="text-xs px-4 py-2 rounded-full bg-[#f5b1cc]/20 frutiger:bg-[#fbb905]/20 text-[#f5b1cc] frutiger:text-[#0032db] border border-[#f5b1cc]/40 frutiger:border-[#fbb905]/60 hover:bg-[#f5b1cc]/30 frutiger:hover:bg-[#fbb905]/30 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
                     >
                         Send
                     </button>

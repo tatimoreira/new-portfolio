@@ -1,6 +1,7 @@
 import type { IconType } from "react-icons";
 import { NavLink } from "@remix-run/react";
 import { motion } from "framer-motion";
+import { Theme, useTheme } from "~/utils/theme-provider";
 
 interface NavbarProps {
   links: Array<{
@@ -11,7 +12,16 @@ interface NavbarProps {
   }>;
 }
 
+const navColors: Record<Theme, { active: string; inactive: string; underline: string }> = {
+  [Theme.LIGHT]:    { active: "#f5b1cc", inactive: "#e45c96", underline: "#f5b1cc" },
+  [Theme.DARK]:     { active: "#f5b1cc", inactive: "#e45c96", underline: "#f5b1cc" },
+  [Theme.FRUTIGER]: { active: "#0032db", inactive: "#0689e4", underline: "#fbb905" },
+};
+
 export default function Navbar({ links }: NavbarProps) {
+  const [theme] = useTheme();
+  const colors = navColors[theme ?? Theme.LIGHT];
+
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.5 }}
@@ -31,24 +41,23 @@ export default function Navbar({ links }: NavbarProps) {
             className="relative pb-1"
             style={({ isActive }) => ({
               marginLeft: idx === 0 ? undefined : "2rem",
-              color: isActive ? "#f5b1cc" : "#e45c96",
+              color: isActive ? colors.active : colors.inactive,
             })}
           >
             {({ isActive }) => (
               <>
                 <span className={isActive ? "font-semibold" : "font-normal"}>{label}</span>
                 {isActive && (
-                  <span className="pointer-events-none absolute -bottom-0.5 left-0 right-0 h-[2px] rounded-full bg-[#f5b1cc]" />
+                  <span
+                    className="pointer-events-none absolute -bottom-0.5 left-0 right-0 h-[2px] rounded-full"
+                    style={{ backgroundColor: colors.underline }}
+                  />
                 )}
               </>
             )}
           </NavLink>
-
-
-
-        ))
-        }
+        ))}
       </div>
-    </motion.div >
+    </motion.div>
   );
 }

@@ -3,34 +3,89 @@
 @tailwind utilities;
 
 @layer base {
+
+  /* Fallback defaults (no theme class applied yet) */
   :root {
+    --bkg: hsl(40deg 30% 97%);
+    --baseTwo: hsl(252, 2%, 51%);
+    --baseThree: hsl(40deg 20% 93%);
+    --baseFour: hsl(0, 0%, 100%);
+    --accent1: hsl(40deg 20% 93%);
+  }
+
+  html.light {
     --bkg: 0deg 0% 100%;
     --baseTwo: hsl(252, 2%, 51%);
     --baseThree: hsl(0, 0%, 96%);
     --baseFour: hsl(0, 0%, 100%);
     --accent1: hsl(6, 100%, 80%);
+    --icon-color: 41 44 51;
+    --caret-color: 259.26deg 51.59% 69.22%;
+    --main-color: 168.84deg 100% 33.73%;
+    --sub-color: 259.26deg 51.59% 69.22%;
+    --accent-color: 334.41deg 71.58% 62.75%;
   }
 
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --bkg: 229deg 57% 11%;
-      --baseTwo: hsl(243, 100%, 93%);
-      --baseThree: hsl(228, 56%, 26%);
-      --baseFour: hsl(229, 57%, 11%);
-      --accent1: hsl(6, 100%, 80%);
-    }
-  }
-
-  :root[data-theme="dark"] {
-    --bkg: 6deg 100% 80%;
+  html.dark {
+    --bkg: 229deg 57% 11%;
     --baseTwo: hsl(243, 100%, 93%);
     --baseThree: hsl(228, 56%, 26%);
     --baseFour: hsl(229, 57%, 11%);
     --accent1: hsl(6, 100%, 80%);
+    --icon-color: 255 255 255;
+    --caret-color: 259.26deg 51.59% 69.22%;
+    --sub-color: 259.26deg 51.59% 69.22%;
+    --dark-sub-color: hsl(165.18deg 64.89% 74.31%);
+    --main-color: 168.84deg 100% 33.73%;
+    --accent-color: 334.41deg 71.58% 62.75%;
   }
 
-  :root[data-theme="light"] {
-    --bkg: 39deg 85% 95%;
-    --color-content: 0deg 0% 20%;
+  /* Frutiger Aero — sky blue, nature green, glossy gold */
+  html.frutiger {
+    --bkg: 208deg 85% 90%;
+    --baseTwo: hsl(228, 100%, 43%);
+    --baseThree: hsl(90, 45%, 85%);
+    --baseFour: hsl(208, 85%, 95%);
+    --accent1: 43 97% 50%;
+    --icon-color: 213 94 15;
+    --caret-color: 228deg 100% 43%;
+    --sub-color: 90deg 45% 45%;
+    --main-color: 228deg 100% 36%;
+    --dark-text-color: 228deg 100% 43%;
+    --accent-color: 43 97% 50%;
+
   }
+}
+
+@keyframes frutiger-bloom-in {
+  from { clip-path: circle(0% at 50% 50%); opacity: 0.6; }
+  to   { clip-path: circle(150% at 50% 50%); opacity: 1; }
+}
+
+@keyframes frutiger-shrink-out {
+  from { clip-path: circle(150% at 50% 50%); opacity: 1; }
+  to   { clip-path: circle(0% at 50% 50%); opacity: 0; }
+}
+
+@keyframes fade-out {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+
+/* Entering frutiger: new state blooms from center */
+[data-transition-to="frutiger"]::view-transition-new(root) {
+  animation: 0.6s cubic-bezier(0.2, 0, 0.4, 1) frutiger-bloom-in;
+}
+[data-transition-to="frutiger"]::view-transition-old(root) {
+  animation: 0.3s ease-in fade-out;
+}
+
+/* Leaving frutiger: old state shrinks to center */
+[data-transition-to="dark"]::view-transition-old(root),
+[data-transition-to="light"]::view-transition-old(root) {
+  animation: 0.5s cubic-bezier(0.4, 0, 0.6, 1) frutiger-shrink-out;
+}
+[data-transition-to="dark"]::view-transition-new(root),
+[data-transition-to="light"]::view-transition-new(root) {
+  animation: 0.3s ease-out fade-out reverse;
 }

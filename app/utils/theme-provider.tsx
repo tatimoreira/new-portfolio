@@ -5,6 +5,7 @@ import { useFetcher } from "@remix-run/react";
 enum Theme {
   DARK = "dark",
   LIGHT = "light",
+  FRUTIGER = "frutiger",
 }
 
 type ThemeContextType = [Theme | null, Dispatch<SetStateAction<Theme | null>>];
@@ -15,19 +16,19 @@ const prefersDarkMQ = "(prefers-color-scheme: dark)";
 const getPreferredTheme = () =>
   window.matchMedia(prefersDarkMQ).matches ? Theme.DARK : Theme.LIGHT;
 
+const validThemes = ['dark', 'light', 'frutiger'];
+
 const clientThemeCode = `
 ;(() => {
-  const theme = window.matchMedia(${JSON.stringify(prefersDarkMQ)}).matches
-    ? 'dark'
-    : 'light';
+  const themes = ${JSON.stringify(validThemes)};
   const cl = document.documentElement.classList;
-  const themeAlreadyApplied = cl.contains('light') || cl.contains('dark');
+  const themeAlreadyApplied = themes.some(t => cl.contains(t));
   if (themeAlreadyApplied) {
-    // this script shouldn't exist if the theme is already applied!
-    console.warn(
-      "Hi there, could you let Matt know you're seeing this message? Thanks!",
-    );
+    console.warn("Theme already applied — this script should not have run.");
   } else {
+    const theme = window.matchMedia(${JSON.stringify(prefersDarkMQ)}).matches
+      ? 'dark'
+      : 'light';
     cl.add(theme);
   }
 })();

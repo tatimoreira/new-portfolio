@@ -38,23 +38,25 @@ export default function BlogIndex() {
 
   return (
     <div className="py-12 max-w-2xl w-full">
-      <h1 className="text-2xl font-semibold mb-10 text-gray-900 dark:text-white">Writing</h1>
+      <h1 className="text-2xl font-semibold mb-10 text-accent-color">
+        Writing
+      </h1>
       <div className="flex flex-col">
         {grouped.map(([year, yearPosts]) => (
-          <div key={year} className="border-t border-gray-200 dark:border-gray-700">
+          <div key={year} className="border-t border-main-color/20 dark:border-main-color/20 frutiger:border-main-color/30">
             {yearPosts.map((post, i) => (
               <Link
                 key={post.slug}
                 to={`/blog/${post.slug}`}
-                className="group grid grid-cols-[80px_1fr_48px] items-baseline gap-4 py-4 border-b border-gray-200 dark:border-gray-700"
+                className="group grid grid-cols-[80px_1fr_48px] items-baseline gap-4 py-4 border-b border-main-color/20 dark:border-main-color/20 frutiger:border-main-color/30 hover:bg-main-color/5 transition-colors duration-150 rounded"
               >
-                <span className="text-sm text-gray-400 dark:text-gray-500">
+                <span className="text-sm font-mono text-sub-color">
                   {i === 0 ? year : ""}
                 </span>
-                <span className="text-sm text-gray-800 dark:text-gray-200 group-hover:text-[#f5b1cc] transition-colors duration-150">
+                <span className="text-sm text-main-color group-hover:text-link-color dark:group-hover:text-link-color frutiger:group-hover:text-link-color transition-colors duration-150">
                   {post.title}
                 </span>
-                <span className="text-sm text-gray-400 dark:text-gray-500 text-right">
+                <span className="text-sm font-mono text-sub-color text-right">
                   {post.date ? monthDay(post.date) : ""}
                 </span>
               </Link>
