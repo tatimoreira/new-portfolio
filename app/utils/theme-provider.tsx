@@ -8,19 +8,18 @@ enum Theme {
   FRUTIGER = "frutiger",
 }
 
-type ThemeContextType = [Theme | null, Dispatch<SetStateAction<Theme | null>>];
+const themes: Array<Theme> = Object.values(Theme);
 
+type ThemeContextType = [Theme | null, Dispatch<SetStateAction<Theme | null>>];
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 const prefersDarkMQ = "(prefers-color-scheme: dark)";
 const getPreferredTheme = () =>
   window.matchMedia(prefersDarkMQ).matches ? Theme.DARK : Theme.LIGHT;
 
-const validThemes = ['dark', 'light', 'frutiger'];
-
 const clientThemeCode = `
 ;(() => {
-  const themes = ${JSON.stringify(validThemes)};
+  const themes = ${JSON.stringify(themes)};
   const cl = document.documentElement.classList;
   const themeAlreadyApplied = themes.some(t => cl.contains(t));
   if (themeAlreadyApplied) {
@@ -52,28 +51,16 @@ function ThemeProvider({
   specifiedTheme: Theme | null;
 }) {
   const [theme, setTheme] = useState<Theme | null>(() => {
-    console.log('specifiedTheme', specifiedTheme)
     if (specifiedTheme) {
-      if (themes.includes(specifiedTheme)) {
-        return specifiedTheme;
-      } else {
-        return null;
-      }
+      return themes.includes(specifiedTheme) ? specifiedTheme : null;
     }
     if (typeof window !== "object") {
       return null;
     }
-
     return getPreferredTheme();
   });
+
   const persistTheme = useFetcher();
-
-  // TODO: remove this when persistTheme is memoized properly
-  const persistThemeRef = useRef(persistTheme);
-  useEffect(() => {
-    persistThemeRef.current = persistTheme;
-  }, [persistTheme]);
-
   const mountRun = useRef(false);
 
   useEffect(() => {
@@ -84,12 +71,11 @@ function ThemeProvider({
     if (!theme) {
       return;
     }
-
-    persistThemeRef.current.submit(
+    persistTheme.submit(
       { theme },
       { action: "action/set-theme", method: "post" }
     );
-  }, [theme]);
+  }, [theme]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <ThemeContext.Provider value={[theme, setTheme]}>
@@ -98,7 +84,6 @@ function ThemeProvider({
   );
 }
 
-
 function useTheme() {
   const context = useContext(ThemeContext);
   if (context === undefined) {
@@ -106,8 +91,6 @@ function useTheme() {
   }
   return context;
 }
-
-const themes: Array<Theme> = Object.values(Theme);
 
 function isTheme(value: unknown): value is Theme {
   return typeof value === "string" && themes.includes(value as Theme);

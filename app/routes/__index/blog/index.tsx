@@ -38,7 +38,7 @@ export default function BlogIndex() {
 
   return (
     <div className="py-12 max-w-2xl w-full">
-      <h1 className="text-2xl font-semibold mb-10 text-accent-color">
+      <h1 className="text-2xl font-semibold mb-10 text-caret-color">
         Writing
       </h1>
       <div className="flex flex-col">

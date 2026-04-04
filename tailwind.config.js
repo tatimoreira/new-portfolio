@@ -38,7 +38,8 @@ module.exports = {
         "dark-sub-color": "hsl(var(--dark-sub-color) / <alpha-value>)",
         "main-color": "hsl(var(--main-color) / <alpha-value>)",
         "dark-text-color": "hsl(var(--dark-text-color) / <alpha-value>)",
-        "accent-color": "hsl(var(--accent-color) / <alpha-value>)"
+        "accent-color": "hsl(var(--accent-color) / <alpha-value>)",
+        "text-color": "hsl(var(--text-color) / <alpha-value>)"
       },
       fontFamily: {
         work: ['"Work Sans"', ...defaultTheme.fontFamily.sans]
