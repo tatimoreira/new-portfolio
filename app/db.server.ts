@@ -1,17 +1,18 @@
 import { PrismaClient } from "@prisma/client";
-// @ts-ignore — types say PrismaLibSql but runtime export is PrismaLibSQL
+// @ts-ignore
 import { PrismaLibSQL } from "@prisma/adapter-libsql";
+import { createClient } from "@libsql/client";
 
 function createPrismaClient() {
   const url = process.env.TURSO_DATABASE_URL;
   const authToken = process.env.TURSO_AUTH_TOKEN;
 
-  // Fall back to local SQLite if Turso env vars are not set (dev without Turso)
   if (!url) {
     return new PrismaClient();
   }
 
-  const adapter = new PrismaLibSQL({ url, authToken } as any);
+  const client = createClient({ url, authToken });
+  const adapter = new PrismaLibSQL(client);
   return new PrismaClient({ adapter } as any);
 }
 
