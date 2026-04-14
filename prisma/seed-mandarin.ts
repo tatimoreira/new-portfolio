@@ -3,11 +3,14 @@
  * Run: npx ts-node --require tsconfig-paths/register prisma/seed-mandarin.ts
  */
 
-import { PrismaClient } from "@prisma/client";
+import { createClient } from "@libsql/client";
 import * as fs from "fs";
 import * as path from "path";
 
-const prisma = new PrismaClient();
+const db = createClient({
+  url: process.env.TURSO_DATABASE_URL!,
+  authToken: process.env.TURSO_AUTH_TOKEN?.trim(),
+});
 
 // Chinese character range
 const HAN_RE = /[\u4e00-\u9fff\u3400-\u4dbf]/;
@@ -241,23 +244,32 @@ async function main() {
   console.log("\nInserting into database...");
 
   for (const cat of categories) {
-    const dbCat = await prisma.vocabCategory.upsert({
-      where: { name: cat.name },
-      update: { emoji: cat.emoji },
-      create: { name: cat.name, emoji: cat.emoji },
+    // Check if category exists
+    const existing = await db.execute({
+      sql: "SELECT id FROM VocabCategory WHERE name = ?",
+      args: [cat.name],
     });
 
+    let catId: string;
+    if (existing.rows.length > 0) {
+      catId = existing.rows[0].id as string;
+      await db.execute({
+        sql: "UPDATE VocabCategory SET emoji = ? WHERE id = ?",
+        args: [cat.emoji, catId],
+      });
+    } else {
+      catId = crypto.randomUUID();
+      await db.execute({
+        sql: "INSERT INTO VocabCategory (id, name, emoji, createdAt) VALUES (?, ?, ?, datetime('now'))",
+        args: [catId, cat.name, cat.emoji],
+      });
+    }
+
     for (const entry of cat.entries) {
-      // Skip entries with empty translation
       if (!entry.english) continue;
-      await prisma.vocabEntry.create({
-        data: {
-          hanzi: entry.hanzi,
-          pinyin: entry.pinyin,
-          english: entry.english,
-          notes: entry.notes,
-          categoryId: dbCat.id,
-        },
+      await db.execute({
+        sql: "INSERT INTO VocabEntry (id, hanzi, pinyin, english, notes, categoryId, createdAt) VALUES (?, ?, ?, ?, ?, ?, datetime('now'))",
+        args: [crypto.randomUUID(), entry.hanzi, entry.pinyin, entry.english, entry.notes ?? null, catId],
       });
     }
   }
@@ -265,9 +277,7 @@ async function main() {
   console.log("\nDone!");
 }
 
-main()
-  .catch((e) => {
-    console.error(e);
-    process.exit(1);
-  })
-  .finally(() => prisma.$disconnect());
+main().catch((e) => {
+  console.error(e);
+  process.exit(1);
+});
