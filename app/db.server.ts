@@ -1,8 +1,11 @@
 import { PrismaClient } from "@prisma/client";
-import { PrismaLibSql } from "@prisma/adapter-libsql";
+
+// Runtime export is PrismaLibSQL (all caps) despite type mismatch
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { PrismaLibSQL } = require("@prisma/adapter-libsql");
 
 function createPrismaClient() {
-  const adapter = new PrismaLibSql({
+  const adapter = new PrismaLibSQL({
     url: process.env.TURSO_DATABASE_URL!,
     authToken: process.env.TURSO_AUTH_TOKEN,
   });
