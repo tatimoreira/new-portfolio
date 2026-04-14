@@ -1,14 +1,17 @@
 import { PrismaClient } from "@prisma/client";
-
-// Runtime export is PrismaLibSQL (all caps) despite type mismatch
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const { PrismaLibSQL } = require("@prisma/adapter-libsql");
+// @ts-ignore — types say PrismaLibSql but runtime export is PrismaLibSQL
+import { PrismaLibSQL } from "@prisma/adapter-libsql";
 
 function createPrismaClient() {
-  const adapter = new PrismaLibSQL({
-    url: process.env.TURSO_DATABASE_URL!,
-    authToken: process.env.TURSO_AUTH_TOKEN,
-  });
+  const url = process.env.TURSO_DATABASE_URL;
+  const authToken = process.env.TURSO_AUTH_TOKEN;
+
+  // Fall back to local SQLite if Turso env vars are not set (dev without Turso)
+  if (!url) {
+    return new PrismaClient();
+  }
+
+  const adapter = new PrismaLibSQL({ url, authToken } as any);
   return new PrismaClient({ adapter } as any);
 }
 
