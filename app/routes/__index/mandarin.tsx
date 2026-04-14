@@ -1,8 +1,20 @@
-import { NavLink, Outlet } from "@remix-run/react";
+import { Form, NavLink, Outlet, useLoaderData } from "@remix-run/react";
+import { json, type LoaderFunction } from "@remix-run/node";
 import { motion } from "framer-motion";
 import SubtitleText from "~/components/SubtitleText/SubtitleText";
+import { isAdmin, destroyAdminSession } from "~/utils/mandarin-auth.server";
+import { type ActionFunction } from "@remix-run/node";
+
+export const loader: LoaderFunction = async ({ request }) => {
+  return json({ admin: await isAdmin(request) });
+};
+
+export const action: ActionFunction = async ({ request }) => {
+  return destroyAdminSession(request);
+};
 
 export default function MandarinLayout() {
+  const { admin } = useLoaderData<typeof loader>();
   return (
     <motion.div
       className="justify-center"
@@ -18,7 +30,7 @@ export default function MandarinLayout() {
               Mandarin vocabulary catalog — for teaching my daughter
             </p>
 
-            <div className="flex gap-2 mb-6">
+            <div className="flex gap-2 mb-6 items-center justify-between flex-wrap">
               <NavLink
                 to="/mandarin"
                 end
@@ -44,6 +56,25 @@ export default function MandarinLayout() {
               >
                 To Research
               </NavLink>
+              <div className="ml-auto flex items-center gap-2">
+                {admin ? (
+                  <Form method="post">
+                    <button
+                      type="submit"
+                      className="font-work text-xs text-text-color opacity-30 hover:opacity-70 transition-opacity"
+                    >
+                      Log out
+                    </button>
+                  </Form>
+                ) : (
+                  <NavLink
+                    to="/mandarin/login"
+                    className="font-work text-xs text-text-color opacity-30 hover:opacity-70 transition-opacity"
+                  >
+                    Admin
+                  </NavLink>
+                )}
+              </div>
             </div>
 
             <hr className="border-gray-500 dark:border-neutral-500 mb-6" />

@@ -17,13 +17,18 @@ import {
   updateCategory,
   updateEntry,
 } from "~/models/vocab.server";
+import { isAdmin, requireAdmin } from "~/utils/mandarin-auth.server";
 
-export const loader: LoaderFunction = async () => {
-  const categories = await getCategories();
-  return json({ categories });
+export const loader: LoaderFunction = async ({ request }) => {
+  const [categories, admin] = await Promise.all([
+    getCategories(),
+    isAdmin(request),
+  ]);
+  return json({ categories, admin });
 };
 
 export const action: ActionFunction = async ({ request }) => {
+  await requireAdmin(request);
   const formData = await request.formData();
   const _action = formData.get("_action") as string;
 
@@ -88,7 +93,7 @@ type Category = {
 };
 
 export default function MandarinCatalog() {
-  const { categories } = useLoaderData<typeof loader>();
+  const { categories, admin } = useLoaderData<typeof loader>();
   const [searchParams, setSearchParams] = useSearchParams();
   const addingCategory = searchParams.get("addCategory") === "1";
   const addingEntryForCategory = searchParams.get("addEntry");
@@ -153,17 +158,19 @@ export default function MandarinCatalog() {
         <p className="font-work text-sm text-text-color opacity-50">
           {categories.length} categories · {totalEntries} entries
         </p>
-        <PillButton
-          onClick={() =>
-            update(
-              addingCategory
-                ? { addCategory: null }
-                : { addCategory: "1", addEntry: null }
-            )
-          }
-        >
-          {addingCategory ? "Cancel" : "+ Category"}
-        </PillButton>
+        {admin && (
+          <PillButton
+            onClick={() =>
+              update(
+                addingCategory
+                  ? { addCategory: null }
+                  : { addCategory: "1", addEntry: null }
+              )
+            }
+          >
+            {addingCategory ? "Cancel" : "+ Category"}
+          </PillButton>
+        )}
       </div>
 
       <input
@@ -174,7 +181,7 @@ export default function MandarinCatalog() {
         className="w-full font-work text-sm bg-transparent border-b border-sub-color/40 text-text-color outline-none py-1.5 placeholder:opacity-30"
       />
 
-      {addingCategory && (
+      {admin && addingCategory && (
         <Form method="post">
           <InlineFormCard className="flex gap-2 items-center p-4">
             <input type="hidden" name="_action" value="addCategory" />
@@ -213,7 +220,7 @@ export default function MandarinCatalog() {
       {filteredCategories.map((category) => (
         <div key={category.id} className="rounded-xl border border-sub-color/20 overflow-hidden">
           {/* Accordion header */}
-          {editingCategory === category.id ? (
+          {admin && editingCategory === category.id ? (
             <Form method="post">
               <InlineFormCard className="flex gap-2 items-center rounded-none border-0">
                 <input type="hidden" name="_action" value="updateCategory" />
@@ -235,25 +242,29 @@ export default function MandarinCatalog() {
                 <span className="text-xs font-light opacity-50">({category.entries.length})</span>
               </h3>
               <div className="flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
-                <PillButton
-                  size="xs"
-                  onClick={() =>
-                    update(
-                      addingEntryForCategory === category.id
-                        ? { addEntry: null }
-                        : { addEntry: category.id, addCategory: null }
-                    )
-                  }
-                >
-                  {addingEntryForCategory === category.id ? "Cancel" : "+ entry"}
-                </PillButton>
-                <button
-                  onClick={() => update({ editCategory: category.id, addEntry: null, addCategory: null })}
-                  className="font-work text-xs text-text-color opacity-30 hover:opacity-70 transition-opacity px-1"
-                  title="Edit category"
-                >
-                  ✎
-                </button>
+                {admin && (
+                  <PillButton
+                    size="xs"
+                    onClick={() =>
+                      update(
+                        addingEntryForCategory === category.id
+                          ? { addEntry: null }
+                          : { addEntry: category.id, addCategory: null }
+                      )
+                    }
+                  >
+                    {addingEntryForCategory === category.id ? "Cancel" : "+ entry"}
+                  </PillButton>
+                )}
+                {admin && (
+                  <button
+                    onClick={() => update({ editCategory: category.id, addEntry: null, addCategory: null })}
+                    className="font-work text-xs text-text-color opacity-30 hover:opacity-70 transition-opacity px-1"
+                    title="Edit category"
+                  >
+                    ✎
+                  </button>
+                )}
                 <span className="text-text-color opacity-30 text-xs transition-transform duration-200" style={{ display: "inline-block", transform: isCategoryOpen(category) ? "rotate(90deg)" : "rotate(0deg)" }}>
                   ›
                 </span>
@@ -264,7 +275,7 @@ export default function MandarinCatalog() {
           {/* Collapsible body */}
           {isCategoryOpen(category) && (
             <div className="border-t border-sub-color/20 px-3 pb-3 pt-2 space-y-2">
-              {addingEntryForCategory === category.id && (
+              {admin && addingEntryForCategory === category.id && (
                 <Form method="post">
                   <InlineFormCard className="grid grid-cols-2 gap-2">
                     <input type="hidden" name="_action" value="addEntry" />
@@ -285,7 +296,7 @@ export default function MandarinCatalog() {
                 </Form>
               )}
 
-              {category.entries.length === 0 && addingEntryForCategory !== category.id && (
+              {category.entries.length === 0 && !(admin && addingEntryForCategory === category.id) && (
                 <p className="font-work text-xs text-text-color opacity-30 pl-2">
                   No entries yet
                 </p>
@@ -293,7 +304,7 @@ export default function MandarinCatalog() {
 
               <div className="space-y-1">
                 {category.entries.map((entry) =>
-                  editingEntry === entry.id ? (
+                  admin && editingEntry === entry.id ? (
                     <Form key={entry.id} method="post">
                       <InlineFormCard className="grid grid-cols-2 gap-2">
                         <input type="hidden" name="_action" value="updateEntry" />
@@ -315,9 +326,9 @@ export default function MandarinCatalog() {
                   ) : (
                     <div
                       key={entry.id}
-                      className="flex items-center gap-3 px-2 py-1.5 rounded-lg hover:bg-sub-color/5 group transition-colors cursor-pointer"
-                      onClick={() => update({ editEntry: entry.id, editCategory: null, addEntry: null })}
-                      title="Click to edit"
+                      className={`flex items-center gap-3 px-2 py-1.5 rounded-lg transition-colors group ${admin ? "hover:bg-sub-color/5 cursor-pointer" : ""}`}
+                      onClick={() => admin && update({ editEntry: entry.id, editCategory: null, addEntry: null })}
+                      title={admin ? "Click to edit" : undefined}
                     >
                       <span className="font-work text-2xl text-text-color min-w-[3rem]">
                         {entry.hanzi}
@@ -333,21 +344,23 @@ export default function MandarinCatalog() {
                           </span>
                         )}
                       </div>
-                      <Form
-                        method="post"
-                        className="opacity-0 group-hover:opacity-100 transition-opacity"
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        <input type="hidden" name="_action" value="deleteEntry" />
-                        <input type="hidden" name="id" value={entry.id} />
-                        <button
-                          type="submit"
-                          title="Delete entry"
-                          className="text-red-400/50 hover:text-red-400 transition-colors px-1 text-lg leading-none"
+                      {admin && (
+                        <Form
+                          method="post"
+                          className="opacity-0 group-hover:opacity-100 transition-opacity"
+                          onClick={(e) => e.stopPropagation()}
                         >
-                          ×
-                        </button>
-                      </Form>
+                          <input type="hidden" name="_action" value="deleteEntry" />
+                          <input type="hidden" name="id" value={entry.id} />
+                          <button
+                            type="submit"
+                            title="Delete entry"
+                            className="text-red-400/50 hover:text-red-400 transition-colors px-1 text-lg leading-none"
+                          >
+                            ×
+                          </button>
+                        </Form>
+                      )}
                     </div>
                   )
                 )}

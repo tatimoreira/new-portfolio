@@ -15,13 +15,19 @@ import {
   getCategories,
   getQueue,
 } from "~/models/vocab.server";
+import { isAdmin, requireAdmin } from "~/utils/mandarin-auth.server";
 
-export const loader: LoaderFunction = async () => {
-  const [queue, categories] = await Promise.all([getQueue(), getCategories()]);
-  return json({ queue, categories });
+export const loader: LoaderFunction = async ({ request }) => {
+  const [queue, categories, admin] = await Promise.all([
+    getQueue(),
+    getCategories(),
+    isAdmin(request),
+  ]);
+  return json({ queue, categories, admin });
 };
 
 export const action: ActionFunction = async ({ request }) => {
+  await requireAdmin(request);
   const formData = await request.formData();
   const _action = formData.get("_action") as string;
 
@@ -67,7 +73,7 @@ type QueueItem = {
 type Category = { id: string; emoji: string; name: string };
 
 export default function MandarinQueue() {
-  const { queue, categories } = useLoaderData<typeof loader>();
+  const { queue, categories, admin } = useLoaderData<typeof loader>();
   const [searchParams, setSearchParams] = useSearchParams();
   const completingId = searchParams.get("completing");
   const addingItem = searchParams.get("add") === "1";
@@ -87,16 +93,18 @@ export default function MandarinQueue() {
         <p className="font-work text-sm text-text-color opacity-50">
           {queue.length} item{queue.length !== 1 ? "s" : ""} to research
         </p>
-        <PillButton
-          onClick={() =>
-            update(addingItem ? { add: null } : { add: "1", completing: null })
-          }
-        >
-          {addingItem ? "Cancel" : "+ Add item"}
-        </PillButton>
+        {admin && (
+          <PillButton
+            onClick={() =>
+              update(addingItem ? { add: null } : { add: "1", completing: null })
+            }
+          >
+            {addingItem ? "Cancel" : "+ Add item"}
+          </PillButton>
+        )}
       </div>
 
-      {addingItem && (
+      {admin && addingItem && (
         <Form method="post">
           <InlineFormCard className="space-y-3 p-4">
             <input type="hidden" name="_action" value="addQueueItem" />
@@ -146,34 +154,36 @@ export default function MandarinQueue() {
                   </p>
                 )}
               </div>
-              <div className="flex gap-2 shrink-0">
-                <PillButton
-                  size="xs"
-                  onClick={() =>
-                    update(
-                      completingId === item.id
-                        ? { completing: null }
-                        : { completing: item.id, add: null }
-                    )
-                  }
-                >
-                  Complete
-                </PillButton>
-                <Form method="post">
-                  <input type="hidden" name="_action" value="deleteQueueItem" />
-                  <input type="hidden" name="id" value={item.id} />
-                  <button
-                    type="submit"
-                    title="Delete"
-                    className="text-red-400/50 hover:text-red-400 transition-colors px-1 text-lg leading-none"
+              {admin && (
+                <div className="flex gap-2 shrink-0">
+                  <PillButton
+                    size="xs"
+                    onClick={() =>
+                      update(
+                        completingId === item.id
+                          ? { completing: null }
+                          : { completing: item.id, add: null }
+                      )
+                    }
                   >
-                    ×
-                  </button>
-                </Form>
-              </div>
+                    Complete
+                  </PillButton>
+                  <Form method="post">
+                    <input type="hidden" name="_action" value="deleteQueueItem" />
+                    <input type="hidden" name="id" value={item.id} />
+                    <button
+                      type="submit"
+                      title="Delete"
+                      className="text-red-400/50 hover:text-red-400 transition-colors px-1 text-lg leading-none"
+                    >
+                      ×
+                    </button>
+                  </Form>
+                </div>
+              )}
             </div>
 
-            {completingId === item.id && (
+            {admin && completingId === item.id && (
               <Form method="post" className="border-t border-sub-color/20">
                 <InlineFormCard className="space-y-3 rounded-none border-0">
                   <input type="hidden" name="_action" value="completeQueueItem" />
