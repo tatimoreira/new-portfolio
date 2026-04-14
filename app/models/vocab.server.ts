@@ -1,10 +1,15 @@
 import { prisma } from "~/db.server";
 
-export function getCategories() {
-  return prisma.vocabCategory.findMany({
-    include: { entries: { orderBy: { createdAt: "asc" } } },
-    orderBy: { name: "asc" },
-  });
+export async function getCategories() {
+  const [categories, entries] = await Promise.all([
+    prisma.vocabCategory.findMany({ orderBy: { name: "asc" } }),
+    prisma.vocabEntry.findMany({ orderBy: { createdAt: "asc" } }),
+  ]);
+
+  return categories.map((cat: { id: string; name: string; emoji: string; createdAt: Date }) => ({
+    ...cat,
+    entries: entries.filter((e: { categoryId: string }) => e.categoryId === cat.id),
+  }));
 }
 
 export function addCategory(name: string, emoji: string) {
