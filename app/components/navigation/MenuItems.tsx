@@ -4,6 +4,7 @@ export const MenuItems = [
   { to: "/", label: "Hi!", icon: FaHome, active: true, external: false },
   { to: "/blog", label: "BLOG", icon: FaHome, active: true, external: false },
   { to: "/now", label: "NOW", icon: FaHome, active: true, external: false },
+  { to: "/mandarin", label: "普通话", icon: FaHome, active: true, external: false },
   /*{ to: "/experience", label: "EXPERIENCE", icon: FaHome, active: true, external: false },
   {
     to: "https://drive.google.com/file/d/1Px0G7dOpRjqvlDODfOHANUBqqEdBppaA/view?usp=sharing",

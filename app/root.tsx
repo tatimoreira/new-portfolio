@@ -86,6 +86,12 @@ export function App() {
         <NonFlashOfWrongThemeEls ssrTheme={Boolean(data.theme)} />
         <Meta />
         <Links />
+        <link rel="manifest" href="/manifest.json" />
+        <meta name="theme-color" content="#f5b1cc" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="apple-mobile-web-app-title" content="普通话" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" />
         <link href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" />

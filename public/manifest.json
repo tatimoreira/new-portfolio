@@ -1,0 +1,17 @@
+{
+  "name": "Tatiana Moreira",
+  "short_name": "Tati",
+  "description": "Personal portfolio and Mandarin vocabulary catalog",
+  "start_url": "/mandarin",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#f5b1cc",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "48x48",
+      "type": "image/x-icon"
+    }
+  ]
+}

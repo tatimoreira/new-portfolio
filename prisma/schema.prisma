@@ -45,3 +45,30 @@ model Post{
 
   createdAt DateTime @default(now())
 }
+
+model VocabCategory {
+  id        String       @id @default(cuid())
+  name      String       @unique
+  emoji     String       @default("📚")
+  createdAt DateTime     @default(now())
+  entries   VocabEntry[]
+}
+
+model VocabEntry {
+  id         String        @id @default(cuid())
+  hanzi      String
+  pinyin     String
+  english    String
+  notes      String?
+  createdAt  DateTime      @default(now())
+  category   VocabCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  categoryId String
+}
+
+model VocabQueue {
+  id          String   @id @default(cuid())
+  description String
+  context     String?
+  priority    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+}
