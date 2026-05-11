@@ -110,12 +110,12 @@ export default function MandarinCatalog() {
       ...cat,
       entries: query
         ? cat.entries.filter(
-            (e) =>
-              e.hanzi.includes(query) ||
-              e.pinyin.toLowerCase().includes(query) ||
-              e.english.toLowerCase().includes(query) ||
-              (e.notes ?? "").toLowerCase().includes(query)
-          )
+          (e) =>
+            e.hanzi.includes(query) ||
+            e.pinyin.toLowerCase().includes(query) ||
+            e.english.toLowerCase().includes(query) ||
+            (e.notes ?? "").toLowerCase().includes(query)
+        )
         : cat.entries,
     }))
     .filter((cat) => {
@@ -326,7 +326,7 @@ export default function MandarinCatalog() {
                   ) : (
                     <div
                       key={entry.id}
-                      className={`flex items-center gap-3 px-2 py-1.5 rounded-lg transition-colors group ${admin ? "hover:bg-sub-color/5 cursor-pointer" : ""}`}
+                      className={`flex flex-col  gap-3 px-2 py-1.5 rounded-lg transition-colors group ${admin ? "hover:bg-sub-color/5 cursor-pointer" : ""}`}
                       onClick={() => admin && update({ editEntry: entry.id, editCategory: null, addEntry: null })}
                       title={admin ? "Click to edit" : undefined}
                     >
@@ -335,6 +335,8 @@ export default function MandarinCatalog() {
                       </span>
                       <div className="flex-1 min-w-0">
                         <span className="font-work text-sm text-sub-color">{entry.pinyin}</span>
+                      </div>
+                      <div className="flex-1 min-w-0">
                         <span className="font-work text-sm text-text-color opacity-60 ml-2">
                           {entry.english}
                         </span>
@@ -344,6 +346,7 @@ export default function MandarinCatalog() {
                           </span>
                         )}
                       </div>
+
                       {admin && (
                         <Form
                           method="post"
