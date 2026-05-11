@@ -324,47 +324,55 @@ export default function MandarinCatalog() {
                       </InlineFormCard>
                     </Form>
                   ) : (
-                    <div
-                      key={entry.id}
-                      className={`flex flex-col  gap-3 px-2 py-1.5 rounded-lg transition-colors group ${admin ? "hover:bg-sub-color/5 cursor-pointer" : ""}`}
-                      onClick={() => admin && update({ editEntry: entry.id, editCategory: null, addEntry: null })}
-                      title={admin ? "Click to edit" : undefined}
-                    >
-                      <span className="font-work text-2xl text-text-color min-w-[3rem]">
-                        {entry.hanzi}
-                      </span>
-                      <div className="flex-1 min-w-0">
-                        <span className="font-work text-sm text-sub-color">{entry.pinyin}</span>
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <span className="font-work text-sm text-text-color opacity-60 ml-2">
-                          {entry.english}
-                        </span>
-                        {entry.notes && (
-                          <span className="font-work text-xs text-text-color opacity-40 ml-2 italic">
-                            {entry.notes}
+                    <>
+                      <div
+                        key={entry.id}
+                        className={`flex flex-col  gap-3 px-2 py-1.5 rounded-lg transition-colors group ${admin ? "hover:bg-sub-color/5 cursor-pointer" : ""}`}
+                        onClick={() => admin && update({ editEntry: entry.id, editCategory: null, addEntry: null })}
+                        title={admin ? "Click to edit" : undefined}
+                      >
+                        <div className="flex justify-between min-w-0">
+                          <span className="font-work text-2xl text-text-color min-w-[3rem]">
+                            {entry.hanzi}
+
                           </span>
-                        )}
+                          {admin && (
+                            <Form
+                              method="post"
+                              className="opacity-0 group-hover:opacity-100 transition-opacity"
+                              onClick={(e) => e.stopPropagation()}
+                            >
+                              <input type="hidden" name="_action" value="deleteEntry" />
+                              <input type="hidden" name="id" value={entry.id} />
+                              <button
+                                type="submit"
+                                title="Delete entry"
+                                className="text-red-400/50 hover:text-red-400 transition-colors px-1 text-lg leading-none"
+                              >
+                                ×
+                              </button>
+                            </Form>
+                          )}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <span className="font-work text-sm text-sub-color">{entry.pinyin}</span>
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <span className="font-work text-sm text-text-color opacity-60 ml-2">
+                            {entry.english}
+                          </span>
+                          {entry.notes && (
+                            <span className="font-work text-xs text-text-color opacity-40 ml-2 italic">
+                              {entry.notes}
+                            </span>
+                          )}
+                        </div>
+
+
+
                       </div>
 
-                      {admin && (
-                        <Form
-                          method="post"
-                          className="opacity-0 group-hover:opacity-100 transition-opacity"
-                          onClick={(e) => e.stopPropagation()}
-                        >
-                          <input type="hidden" name="_action" value="deleteEntry" />
-                          <input type="hidden" name="id" value={entry.id} />
-                          <button
-                            type="submit"
-                            title="Delete entry"
-                            className="text-red-400/50 hover:text-red-400 transition-colors px-1 text-lg leading-none"
-                          >
-                            ×
-                          </button>
-                        </Form>
-                      )}
-                    </div>
+                    </>
                   )
                 )}
               </div>
