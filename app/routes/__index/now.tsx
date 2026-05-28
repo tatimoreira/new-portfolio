@@ -2,18 +2,20 @@ import { motion } from "framer-motion";
 import SubtitleText from "~/components/SubtitleText/SubtitleText";
 
 const CREATED_DATE = "April 2026";
-const UPDATED_DATE = "April 4, 2026";
+const UPDATED_DATE = "May 24, 2026";
 
 const working = [
-  "Adding content and features to my personal site.",
-  "Learning about The IndieWeb.",
-  "Learning to type faster without looking at the keyboard (it has always been something that makes me feel insecure and puts me at a disadvantage).",
-  "Actively looking for a job — trying to stay positive in this really hard stage of the industry.",
-  "Studying new vocabulary on my daughter's Chinese cartoons."
+  "I'm working on an online store using Medusa.js to post there different art projects that I do in my free time ",
+  "Interviews :S so making take-home assigments, studying...",
+  "Doing a lot of different art projects mostly using paper",
+  "Learning to make content and editing",
+  "Practicing my chinese writting",
+  "I'm training a friend so I'm being doing her exercise program",
+  "Training calisthenics on my neighborhood park"
 ];
 
 const consuming = [
-  "Listening again to progressive rock."
+  "Consuming a lot of art content, I love mail clubs"
 ];
 
 export default function Now() {
