@@ -2,20 +2,17 @@ import { motion } from "framer-motion";
 import SubtitleText from "~/components/SubtitleText/SubtitleText";
 
 const CREATED_DATE = "April 2026";
-const UPDATED_DATE = "May 24, 2026";
+const UPDATED_DATE = "Jul 1, 2026";
 
 const working = [
   "I'm working on an online store using Medusa.js to post there different art projects that I do in my free time ",
-  "Interviews :S so making take-home assigments, studying...",
-  "Doing a lot of different art projects mostly using paper",
-  "Learning to make content and editing",
-  "Practicing my chinese writting",
-  "I'm training a friend so I'm being doing her exercise program",
-  "Training calisthenics on my neighborhood park"
+  "I'm working on adding a lightweight RAG to my portfolio so I can generate vector embeddings for each blog post chunk and store them as a JSON file so my AI chat bot can get info from there too and is not just only based on my resume info",
+  "I got a new job 🎉🥳 so being very busy with that",
+  "Still training a friend making her program and mine but now is hard to get time to actually exercise 😔"
 ];
 
 const consuming = [
-  "Consuming a lot of art content, I love mail clubs"
+  "Im binging Kill Tony episodes"
 ];
 
 export default function Now() {
