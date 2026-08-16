@@ -166,10 +166,67 @@ PERSONALITY: Curious, disciplined, builds things to learn. Works out to recharge
 
 
 
+import { supabase } from "~/utils/supabase.server";
+
+// Must match the embedding model/dims used in api/ssg.rs's embed_batch — a mismatch
+// won't error, it'll just silently produce meaningless similarity scores.
+const EMBEDDING_MODEL = "text-embedding-3-small";
+
+async function getEmbedding(text: string): Promise<number[] | null> {
+    try {
+        const res = await fetch("https://api.openai.com/v1/embeddings", {
+            method: "POST",
+            headers: {
+                "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`,
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ model: EMBEDDING_MODEL, input: text }),
+        });
+        if (!res.ok) return null;
+        const data = await res.json();
+        return data.data?.[0]?.embedding ?? null;
+    } catch {
+        return null;
+    }
+}
+
+async function retrieveContext(query: string): Promise<string> {
+    if (!supabase) return "";
+    try {
+        const embedding = await getEmbedding(query);
+        if (!embedding) return "";
+
+        // Params passed explicitly (not omitted) — PostgREST did not reliably fall
+        // through to this RPC function's SQL-level defaults for omitted args.
+        const { data, error } = await supabase.rpc("match_content_chunks", {
+            query_embedding: embedding,
+            match_count: 5,
+            min_similarity: 0.15,
+            filter_source_type: null,
+        });
+        if (error || !data?.length) return "";
+
+        return (
+            "RELEVANT CONTEXT FROM TATIANA'S BLOG:\n" +
+            data
+                .map((c: any) => `[${c.heading ?? c.source_id}] (${c.url})\n${c.content}`)
+                .join("\n\n")
+        );
+    } catch (err) {
+        console.error("RAG retrieval failed:", err);
+        return "";
+    }
+}
+
 export async function getChatResponse(
     message: string,
     conversationHistory: any[] = []
 ): Promise<string> {
+    const context = await retrieveContext(message);
+    const systemPrompt = context
+        ? `${SYSTEM_PROMPT}\n\n${context}\n\nUse the context above for specific details about blog posts/projects when relevant; otherwise rely on the summary above it.`
+        : SYSTEM_PROMPT;
+
     const res = await fetch("https://api.openai.com/v1/chat/completions", {
         method: "POST",
         headers: {
@@ -181,7 +238,7 @@ export async function getChatResponse(
             max_tokens: 80,
             temperature: 0.7,
             messages: [
-                { role: "system", content: SYSTEM_PROMPT },
+                { role: "system", content: systemPrompt },
                 ...conversationHistory,
                 { role: "user", content: message },
             ],
