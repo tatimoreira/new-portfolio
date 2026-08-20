@@ -1,6 +1,7 @@
 import { forwardRef } from "react";
 
-interface VocabInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+interface VocabInputProps
+  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "size"> {
   size?: "sm" | "lg";
 }
 

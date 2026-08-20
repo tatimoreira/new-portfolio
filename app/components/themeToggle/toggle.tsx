@@ -1,8 +1,14 @@
 import { Theme, useTheme } from "~/utils/theme-provider";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence as AnimatePresenceRaw } from "framer-motion";
 import { MoonIcon } from "../navigation/MoonIcon";
 import { SunIcon } from "../navigation/SunIcon";
 import { FrutigerIcon } from "../navigation/DuskIcon";
+
+// framer-motion 11's AnimatePresence typing returns `JSX.Element | undefined`,
+// which TS rejects as a JSX component; re-type it to a valid component signature.
+const AnimatePresence = AnimatePresenceRaw as React.FC<
+  Parameters<typeof AnimatePresenceRaw>[0]
+>;
 
 const themeIcons: Record<Theme, React.ReactNode> = {
   [Theme.LIGHT]: <SunIcon />,
