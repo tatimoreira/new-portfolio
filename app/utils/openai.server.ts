@@ -1,4 +1,4 @@
-
+import { supabase } from "~/utils/supabase.server";
 
 export const RESUME = {
     personal: {
@@ -161,12 +161,6 @@ AVAILABILITY: Actively job hunting. Open to full-time remote/hybrid frontend or 
 Contact: linkedin.com/in/tmoreirab | github.com/tatimoreira
 
 PERSONALITY: Curious, disciplined, builds things to learn. Works out to recharge. Bridges cultures, stays adaptable.`;
-
-
-
-
-
-import { supabase } from "~/utils/supabase.server";
 
 // Must match the embedding model/dims used in api/ssg.rs's embed_batch — a mismatch
 // won't error, it'll just silently produce meaningless similarity scores.
