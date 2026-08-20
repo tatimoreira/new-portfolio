@@ -55,7 +55,7 @@ export default function CardChat({ onBack }: CardChatProps) {
 
     return (
         <motion.div
-            className="absolute w-full h-full rounded-2xl shadow-xl backface-hidden bg-white/10 frutiger:bg-sky-200/60 backdrop-blur-md frutiger:backdrop-blur-lg border border-white/25 frutiger:border-blue-300/50"
+            className="absolute w-full h-full rounded-2xl shadow-xl backface-hidden bg-white/55 dark:bg-white/10 frutiger:bg-sky-200/60 backdrop-blur-xl dark:backdrop-blur-md frutiger:backdrop-blur-lg border border-white/80 dark:border-white/25 frutiger:border-blue-300/50"
             style={{ backfaceVisibility: "hidden", rotateY: 180 }}
             onClick={(e) => e.stopPropagation()}
         >
@@ -67,7 +67,7 @@ export default function CardChat({ onBack }: CardChatProps) {
                     </span>
                     <button
                         onClick={onBack}
-                        className="text-xs text-gray-400 hover:text-gray-200 transition-colors px-2 py-1 rounded hover:bg-white/10"
+                        className="text-xs text-sub-color/60 hover:text-sub-color frutiger:text-[#0032db]/60 frutiger:hover:text-[#0032db] transition-colors px-2 py-1 rounded hover:bg-sub-color/10"
                     >
                         ← back
                     </button>
@@ -77,13 +77,13 @@ export default function CardChat({ onBack }: CardChatProps) {
                 <div className="flex-1 overflow-y-auto space-y-2 min-h-0 pr-1">
                     {messages.length === 0 && !loading && (
                         <div className="flex flex-col gap-2 pt-2">
-                            <p className="text-xs text-gray-400 mb-1">Try asking:</p>
+                            <p className="text-xs text-text-color/60 frutiger:text-[#0032db]/60 mb-1">Try asking:</p>
                             <div className="flex flex-wrap gap-2">
                                 {SUGGESTIONS.map((s) => (
                                     <button
                                         key={s}
                                         onClick={() => handleSend(s)}
-                                        className="text-xs px-3 py-1.5 rounded-full border border-[#f5b1cc]/40 frutiger:border-[#0032db]/40 text-[#f5b1cc] frutiger:text-[#0032db] hover:bg-[#f5b1cc]/10 frutiger:hover:bg-[#0032db]/10 transition-colors"
+                                        className="text-xs px-3 py-1.5 rounded-full border border-main-color/40 frutiger:border-[#0032db]/40 text-main-color frutiger:text-[#0032db] hover:bg-main-color/10 frutiger:hover:bg-[#0032db]/10 transition-colors"
                                     >
                                         {s}
                                     </button>
@@ -99,8 +99,8 @@ export default function CardChat({ onBack }: CardChatProps) {
                             <span
                                 className={`text-xs sm:text-sm px-3 py-2 rounded-2xl max-w-[85%] leading-relaxed ${
                                     m.role === "user"
-                                        ? "bg-[#f5b1cc]/20 frutiger:bg-[#0032db]/15 text-light-text-color dark:text-dark-text-color frutiger:text-[#0032db] rounded-br-sm"
-                                        : "bg-white/10 frutiger:bg-[#71ab23]/15 text-light-text-color dark:text-dark-text-color frutiger:text-[#0032db] rounded-bl-sm"
+                                        ? "bg-main-color/15 frutiger:bg-[#0032db]/15 text-text-color frutiger:text-[#0032db] rounded-br-sm"
+                                        : "bg-white/10 frutiger:bg-[#71ab23]/15 text-text-color frutiger:text-[#0032db] rounded-bl-sm"
                                 }`}
                             >
                                 {m.content}
@@ -109,7 +109,7 @@ export default function CardChat({ onBack }: CardChatProps) {
                     ))}
                     {loading && (
                         <div className="flex justify-start">
-                            <span className="text-xs px-3 py-2 rounded-2xl bg-white/10 text-gray-400 rounded-bl-sm">
+                            <span className="text-xs px-3 py-2 rounded-2xl bg-white/10 text-main-color/70 frutiger:text-[#0032db]/70 rounded-bl-sm">
                                 <span className="inline-flex gap-1">
                                     <span className="animate-bounce [animation-delay:0ms]">·</span>
                                     <span className="animate-bounce [animation-delay:150ms]">·</span>
@@ -127,13 +127,13 @@ export default function CardChat({ onBack }: CardChatProps) {
                         value={input}
                         onChange={(e) => setInput(e.target.value)}
                         placeholder="Ask about skills, experience..."
-                        className="flex-1 text-xs sm:text-sm bg-white/10 frutiger:bg-[#0032db]/10 border border-white/20 frutiger:border-[#0032db]/30 rounded-full px-4 py-2 outline-none focus:border-[#f5b1cc]/50 frutiger:focus:border-[#0032db]/50 text-light-text-color dark:text-dark-text-color frutiger:text-[#0032db] placeholder-gray-400 frutiger:placeholder-[#0032db]/50 transition-colors"
+                        className="flex-1 text-xs sm:text-sm bg-white/10 frutiger:bg-[#0032db]/10 border border-white/20 frutiger:border-[#0032db]/30 rounded-full px-4 py-2 outline-none focus:border-main-color/50 frutiger:focus:border-[#0032db]/50 text-text-color frutiger:text-[#0032db] placeholder:text-text-color placeholder:opacity-40 frutiger:placeholder:text-[#0032db]/50 transition-colors"
                         disabled={loading}
                     />
                     <button
                         type="submit"
                         disabled={loading || !input.trim()}
-                        className="text-xs px-4 py-2 rounded-full bg-[#f5b1cc]/20 frutiger:bg-[#fbb905]/20 text-[#f5b1cc] frutiger:text-[#0032db] border border-[#f5b1cc]/40 frutiger:border-[#fbb905]/60 hover:bg-[#f5b1cc]/30 frutiger:hover:bg-[#fbb905]/30 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                        className="text-xs px-4 py-2 rounded-full bg-main-color/20 frutiger:bg-[#fbb905]/20 text-main-color frutiger:text-[#0032db] border border-main-color/40 frutiger:border-[#fbb905]/60 hover:bg-main-color/30 frutiger:hover:bg-[#fbb905]/30 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
                     >
                         Send
                     </button>

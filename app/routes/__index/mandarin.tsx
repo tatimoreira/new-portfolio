@@ -1,9 +1,8 @@
 import { Form, NavLink, Outlet, useLoaderData } from "@remix-run/react";
-import { json, type LoaderFunction } from "@remix-run/node";
+import { json, type LoaderFunction, type ActionFunction } from "@remix-run/node";
 import { motion } from "framer-motion";
 import SubtitleText from "~/components/SubtitleText/SubtitleText";
 import { isAdmin, destroyAdminSession } from "~/utils/mandarin-auth.server";
-import { type ActionFunction } from "@remix-run/node";
 
 export const loader: LoaderFunction = async ({ request }) => {
   return json({ admin: await isAdmin(request) });
