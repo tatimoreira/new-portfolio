@@ -1,6 +1,8 @@
 import { json } from "@remix-run/node"
 import { Link, useLoaderData } from "@remix-run/react"
+import { motion } from "framer-motion"
 import { getAllPosts } from "~/utils/blog.server"
+import { parseDate, monthDay } from "~/utils/format-date"
 
 export async function loader() {
   try {
@@ -9,10 +11,6 @@ export async function loader() {
   } catch {
     return json([] as { slug: string; title: string; date: string }[])
   }
-}
-
-function parseDate(dateStr: string) {
-  return new Date(dateStr + "T00:00:00")
 }
 
 function groupByYear(posts: { slug: string; title: string; date: string }[]) {
@@ -25,19 +23,12 @@ function groupByYear(posts: { slug: string; title: string; date: string }[]) {
   return Array.from(map.entries()).sort(([a], [b]) => b - a)
 }
 
-function monthDay(dateStr: string) {
-  const d = parseDate(dateStr)
-  const mm = String(d.getMonth() + 1).padStart(2, "0")
-  const dd = String(d.getDate()).padStart(2, "0")
-  return `${mm}/${dd}`
-}
-
 export default function BlogIndex() {
   const posts = useLoaderData<typeof loader>()
   const grouped = groupByYear(posts)
 
   return (
-    <div className="py-12 max-w-2xl w-full">
+    <div className="py-12 sm:pb-28 max-w-2xl w-full">
       <h1 className="text-2xl font-semibold mb-10 text-caret-color">
         Writing
       </h1>
@@ -48,17 +39,23 @@ export default function BlogIndex() {
               <Link
                 key={post.slug}
                 to={`/blog/${post.slug}`}
-                className="group grid grid-cols-[80px_1fr_48px] items-baseline gap-4 py-4 border-b border-main-color/20 dark:border-main-color/20 frutiger:border-main-color/30 hover:bg-main-color/5 transition-colors duration-150 rounded"
+                className="group grid grid-cols-[44px_1fr_40px] sm:grid-cols-[80px_1fr_48px] items-baseline gap-2 sm:gap-4 py-4 border-b border-main-color/20 dark:border-main-color/20 frutiger:border-main-color/30 hover:bg-main-color/5 transition-colors duration-150 rounded"
               >
-                <span className="text-sm font-mono text-sub-color">
+                <span className="text-xs sm:text-sm font-mono text-sub-color">
                   {i === 0 ? year : ""}
                 </span>
-                <span className="text-sm text-main-color group-hover:text-link-color dark:group-hover:text-link-color frutiger:group-hover:text-link-color transition-colors duration-150">
+                <motion.span
+                  layoutId={`blog-title-${post.slug}`}
+                  className="text-sm text-main-color group-hover:text-link-color dark:group-hover:text-link-color frutiger:group-hover:text-link-color transition-colors duration-150"
+                >
                   {post.title}
-                </span>
-                <span className="text-sm font-mono text-sub-color text-right">
+                </motion.span>
+                <motion.span
+                  layoutId={`blog-date-${post.slug}`}
+                  className="text-xs sm:text-sm font-mono text-sub-color text-right"
+                >
                   {post.date ? monthDay(post.date) : ""}
-                </span>
+                </motion.span>
               </Link>
             ))}
           </div>
