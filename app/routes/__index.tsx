@@ -3,9 +3,11 @@ import { Outlet } from "@remix-run/react";
 import Toggle from "~/components/themeToggle/toggle";
 import { MenuItems } from "~/components/navigation/MenuItems";
 import { motion, useAnimation } from "framer-motion";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { flushSync } from "react-dom";
 import { Theme, useTheme } from "~/utils/theme-provider";
+import { ClientOnly } from "~/components/ClientOnly";
+import IdentityOrb from "~/components/IdentityBadge/IdentityOrb.client";
 
 const themes = Object.values(Theme);
 
@@ -14,6 +16,7 @@ const lightClip = "circle(38px at 41px 42px)";
 export default function Index() {
   const [theme, setTheme] = useTheme();
   const bgControls = useAnimation();
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   const isDark = theme === Theme.DARK;
 
@@ -65,7 +68,10 @@ export default function Index() {
           </motion.div>
           <div className="pointer-events-none absolute flex flex-col gap-5 items-center ustify-start z-10 mb-10 inset-0">
             <div className="flex flex-col items-center pointer-events-auto">
-              <div className="absolute left-6 right-6 top-20 bottom-0 sm:left-12 sm:right-12 sm:top-12 sm:bottom-0 md:left-20 md:right-20 md:top-20 md:bottom-0 overflow-y-auto overflow-x-hidden">
+              <div
+                ref={scrollContainerRef}
+                className="absolute left-6 right-6 top-20 bottom-0 sm:left-12 sm:right-12 sm:top-12 sm:bottom-0 md:left-20 md:right-20 md:top-20 md:bottom-0 overflow-y-auto overflow-x-hidden"
+              >
                 <Navbar links={MenuItems} />
 
                 <Outlet />
@@ -73,6 +79,7 @@ export default function Index() {
             </div>
           </div>
 
+          <ClientOnly>{() => <IdentityOrb scrollContainerRef={scrollContainerRef} />}</ClientOnly>
 
         </motion.div>
       </main>
