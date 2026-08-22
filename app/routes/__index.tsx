@@ -6,7 +6,8 @@ import { motion, useAnimation } from "framer-motion";
 import { useEffect, useRef } from "react";
 import { flushSync } from "react-dom";
 import { Theme, useTheme } from "~/utils/theme-provider";
-import IdentityOrb from "~/components/IdentityBadge/IdentityOrb";
+import { ClientOnly } from "~/components/ClientOnly";
+import IdentityOrb from "~/components/IdentityBadge/IdentityOrb.client";
 
 const themes = Object.values(Theme);
 
@@ -78,7 +79,7 @@ export default function Index() {
             </div>
           </div>
 
-          <IdentityOrb scrollContainerRef={scrollContainerRef} />
+          <ClientOnly>{() => <IdentityOrb scrollContainerRef={scrollContainerRef} />}</ClientOnly>
 
         </motion.div>
       </main>
