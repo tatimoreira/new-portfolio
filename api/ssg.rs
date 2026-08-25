@@ -43,13 +43,25 @@ fn content_dir() -> String {
     std::env::var("CONTENT_DIR").unwrap_or_else(|_| "content".into())
 }
 
-fn find_content() -> Vec<String> {
-    walkdir::WalkDir::new(content_dir())
+fn personal_content_dir() -> String {
+    std::env::var("PERSONAL_CONTENT_DIR").unwrap_or_else(|_| "personal".into())
+}
+
+fn find_markdown_in(dir: &str) -> Vec<String> {
+    walkdir::WalkDir::new(dir)
         .into_iter()
         .filter_map(|e| e.ok())
         .filter(|e| e.path().display().to_string().ends_with(".md"))
         .map(|e| e.path().display().to_string())
         .collect()
+}
+
+fn find_content() -> Vec<String> {
+    find_markdown_in(&content_dir())
+}
+
+fn find_personal_content() -> Vec<String> {
+    find_markdown_in(&personal_content_dir())
 }
 
 fn load_post(file: &str) -> Option<Post> {
@@ -196,11 +208,12 @@ fn existing_hash(
     client: &reqwest::blocking::Client,
     supabase_url: &str,
     supabase_key: &str,
+    source_type: &str,
     slug: &str,
 ) -> Option<String> {
     let url = format!(
-        "{}/rest/v1/content_chunks?source_type=eq.blog_post&source_id=eq.{}&select=content_hash&limit=1",
-        supabase_url, slug
+        "{}/rest/v1/content_chunks?source_type=eq.{}&source_id=eq.{}&select=content_hash&limit=1",
+        supabase_url, source_type, slug
     );
     let res = client
         .get(&url)
@@ -258,11 +271,12 @@ fn delete_chunks_for_slug(
     client: &reqwest::blocking::Client,
     supabase_url: &str,
     supabase_key: &str,
+    source_type: &str,
     slug: &str,
 ) -> Result<(), String> {
     let url = format!(
-        "{}/rest/v1/content_chunks?source_type=eq.blog_post&source_id=eq.{}",
-        supabase_url, slug
+        "{}/rest/v1/content_chunks?source_type=eq.{}&source_id=eq.{}",
+        supabase_url, source_type, slug
     );
     let res = client
         .delete(&url)
@@ -304,11 +318,12 @@ fn delete_orphaned_slugs(
     client: &reqwest::blocking::Client,
     supabase_url: &str,
     supabase_key: &str,
+    source_type: &str,
     current_slugs: &[&str],
 ) -> Result<(), String> {
     let url = format!(
-        "{}/rest/v1/content_chunks?source_type=eq.blog_post&select=source_id",
-        supabase_url
+        "{}/rest/v1/content_chunks?source_type=eq.{}&select=source_id",
+        supabase_url, source_type
     );
     let res = client
         .get(&url)
@@ -335,8 +350,8 @@ fn delete_orphaned_slugs(
 
     let list = orphans.iter().map(|s| s.as_str()).collect::<Vec<_>>().join(",");
     let del_url = format!(
-        "{}/rest/v1/content_chunks?source_type=eq.blog_post&source_id=in.({})",
-        supabase_url, list
+        "{}/rest/v1/content_chunks?source_type=eq.{}&source_id=in.({})",
+        supabase_url, source_type, list
     );
     let res = client
         .delete(&del_url)
@@ -353,9 +368,85 @@ fn delete_orphaned_slugs(
     Ok(())
 }
 
-/// Chunks each post, embeds via OpenAI, and upserts into Supabase's `content_chunks` table.
-/// Best-effort throughout: a failure here must never block the actual site build.
-fn ingest_for_rag(posts: &[Post]) {
+/// Chunks each doc, embeds via OpenAI, and upserts into Supabase's `content_chunks` table
+/// under the given `source_type` (e.g. "blog_post", "personal"). Best-effort throughout:
+/// a failure here must never block the actual site build.
+fn ingest_documents(
+    client: &reqwest::blocking::Client,
+    openai_key: &str,
+    supabase_url: &str,
+    supabase_key: &str,
+    docs: &[Post],
+    source_type: &str,
+    url_for: impl Fn(&str) -> String,
+) {
+    let current_slugs: Vec<&str> = docs.iter().map(|p| p.slug.as_str()).collect();
+
+    for doc in docs {
+        let hash = content_hash(&doc.markdown);
+
+        if let Some(existing) = existing_hash(client, supabase_url, supabase_key, source_type, &doc.slug) {
+            if existing == hash {
+                println!("rag: skip {}/{} (unchanged)", source_type, doc.slug);
+                continue;
+            }
+        }
+
+        let chunks = chunk_markdown(&doc.markdown);
+        if chunks.is_empty() {
+            continue;
+        }
+
+        let texts: Vec<&str> = chunks.iter().map(|c| c.content.as_str()).collect();
+        let embeddings = match embed_batch(client, openai_key, &texts) {
+            Ok(e) => e,
+            Err(e) => {
+                eprintln!("rag: embedding failed for {}/{}: {}", source_type, doc.slug, e);
+                continue;
+            }
+        };
+        if embeddings.len() != chunks.len() {
+            eprintln!("rag: embedding count mismatch for {}/{}", source_type, doc.slug);
+            continue;
+        }
+
+        if let Err(e) = delete_chunks_for_slug(client, supabase_url, supabase_key, source_type, &doc.slug) {
+            eprintln!("rag: delete failed for {}/{}: {}", source_type, doc.slug, e);
+            continue;
+        }
+
+        let url = url_for(&doc.slug);
+        let rows: Vec<serde_json::Value> = chunks
+            .iter()
+            .zip(embeddings.iter())
+            .map(|(chunk, embedding)| {
+                serde_json::json!({
+                    "source_type": source_type,
+                    "source_id": doc.slug,
+                    "chunk_index": chunk.chunk_index,
+                    "heading": chunk.heading,
+                    "content": chunk.content,
+                    "content_hash": hash,
+                    "embedding": embedding,
+                    "url": url,
+                })
+            })
+            .collect();
+
+        if let Err(e) = insert_chunks(client, supabase_url, supabase_key, &rows) {
+            eprintln!("rag: insert failed for {}/{}: {}", source_type, doc.slug, e);
+            continue;
+        }
+
+        println!("rag: ingested {} chunks for {}/{}", chunks.len(), source_type, doc.slug);
+    }
+
+    if let Err(e) = delete_orphaned_slugs(client, supabase_url, supabase_key, source_type, &current_slugs) {
+        eprintln!("rag: orphan cleanup failed for {}: {}", source_type, e);
+    }
+}
+
+fn ingest_for_rag(posts: &[Post], personal_docs: &[Post]) {
     let (openai_key, supabase_url, supabase_key) = match (
         std::env::var("OPENAI_API_KEY").ok(),
         std::env::var("SUPABASE_URL").ok(),
@@ -369,73 +460,39 @@ fn ingest_for_rag(posts: &[Post]) {
     };
 
     let client = reqwest::blocking::Client::new();
-    let current_slugs: Vec<&str> = posts.iter().map(|p| p.slug.as_str()).collect();
 
-    for post in posts {
-        let hash = content_hash(&post.markdown);
+    // Technical/blog content — the primary source the chat should lean on.
+    ingest_documents(
+        &client,
+        &openai_key,
+        &supabase_url,
+        &supabase_key,
+        posts,
+        "blog_post",
+        |slug| format!("/blog/{}", slug),
+    );
 
-        if let Some(existing) = existing_hash(&client, &supabase_url, &supabase_key, &post.slug) {
-            if existing == hash {
-                println!("rag: skip {} (unchanged)", post.slug);
-                continue;
-            }
-        }
-
-        let chunks = chunk_markdown(&post.markdown);
-        if chunks.is_empty() {
-            continue;
-        }
-
-        let texts: Vec<&str> = chunks.iter().map(|c| c.content.as_str()).collect();
-        let embeddings = match embed_batch(&client, &openai_key, &texts) {
-            Ok(e) => e,
-            Err(e) => {
-                eprintln!("rag: embedding failed for {}: {}", post.slug, e);
-                continue;
-            }
-        };
-        if embeddings.len() != chunks.len() {
-            eprintln!("rag: embedding count mismatch for {}", post.slug);
-            continue;
-        }
-
-        if let Err(e) = delete_chunks_for_slug(&client, &supabase_url, &supabase_key, &post.slug) {
-            eprintln!("rag: delete failed for {}: {}", post.slug, e);
-            continue;
-        }
-
-        let rows: Vec<serde_json::Value> = chunks
-            .iter()
-            .zip(embeddings.iter())
-            .map(|(chunk, embedding)| {
-                serde_json::json!({
-                    "source_type": "blog_post",
-                    "source_id": post.slug,
-                    "chunk_index": chunk.chunk_index,
-                    "heading": chunk.heading,
-                    "content": chunk.content,
-                    "content_hash": hash,
-                    "embedding": embedding,
-                    "url": format!("/blog/{}", post.slug),
-                })
-            })
-            .collect();
-
-        if let Err(e) = insert_chunks(&client, &supabase_url, &supabase_key, &rows) {
-            eprintln!("rag: insert failed for {}: {}", post.slug, e);
-            continue;
-        }
-
-        println!("rag: ingested {} chunks for {}", chunks.len(), post.slug);
-    }
-
-    if let Err(e) = delete_orphaned_slugs(&client, &supabase_url, &supabase_key, &current_slugs) {
-        eprintln!("rag: orphan cleanup failed: {}", e);
-    }
+    // Hobbies/personality — supplementary, surfaced only for non-technical questions.
+    ingest_documents(
+        &client,
+        &openai_key,
+        &supabase_url,
+        &supabase_key,
+        personal_docs,
+        "personal",
+        |_slug| "/about".to_string(),
+    );
 }
 
 fn main() {
     let posts: Vec<Post> = find_content()
+        .into_iter()
+        .filter_map(|f| load_post(&f))
+        .collect();
+
+    // Not part of the blog listing — ingested into the vector store as supplementary
+    // "personal" context only, never written to blog-data.server.ts.
+    let personal_docs: Vec<Post> = find_personal_content()
         .into_iter()
         .filter_map(|f| load_post(&f))
         .collect();
@@ -461,5 +518,5 @@ fn main() {
     fs::write("app/blog-data.server.ts", output).expect("failed to write blog-data.server.ts");
     println!("Generated {} posts into app/blog-data.server.ts", posts.len());
 
-    ingest_for_rag(&posts);
+    ingest_for_rag(&posts, &personal_docs);
 }
