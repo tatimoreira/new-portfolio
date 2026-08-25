@@ -184,6 +184,12 @@ async function getEmbedding(text: string): Promise<number[] | null> {
     }
 }
 
+function formatChunks(data: any[]): string {
+    return data
+        .map((c: any) => `[${c.heading ?? c.source_id}] (${c.url})\n${c.content}`)
+        .join("\n\n");
+}
+
 async function retrieveContext(query: string): Promise<string> {
     if (!supabase) return "";
     try {
@@ -192,20 +198,38 @@ async function retrieveContext(query: string): Promise<string> {
 
         // Params passed explicitly (not omitted) — PostgREST did not reliably fall
         // through to this RPC function's SQL-level defaults for omitted args.
-        const { data, error } = await supabase.rpc("match_content_chunks", {
-            query_embedding: embedding,
-            match_count: 5,
-            min_similarity: 0.15,
-            filter_source_type: null,
-        });
-        if (error || !data?.length) return "";
+        //
+        // Two-tier retrieval: technical/blog content is the primary source and gets
+        // a generous match count and a lower similarity floor. Personal content
+        // (hobbies/personality) is supplementary — it only gets pulled in above a
+        // higher similarity floor, so it surfaces for "what do you do for fun?" but
+        // doesn't crowd out technical answers on unrelated questions.
+        const [technical, personal] = await Promise.all([
+            supabase.rpc("match_content_chunks", {
+                query_embedding: embedding,
+                match_count: 5,
+                min_similarity: 0.15,
+                filter_source_type: "blog_post",
+            }),
+            supabase.rpc("match_content_chunks", {
+                query_embedding: embedding,
+                match_count: 2,
+                min_similarity: 0.25,
+                filter_source_type: "personal",
+            }),
+        ]);
 
-        return (
-            "RELEVANT CONTEXT FROM TATIANA'S BLOG:\n" +
-            data
-                .map((c: any) => `[${c.heading ?? c.source_id}] (${c.url})\n${c.content}`)
-                .join("\n\n")
-        );
+        const sections: string[] = [];
+        if (technical.data?.length) {
+            sections.push("RELEVANT CONTEXT FROM TATIANA'S BLOG:\n" + formatChunks(technical.data));
+        }
+        if (personal.data?.length) {
+            sections.push(
+                "RELEVANT PERSONAL CONTEXT (hobbies/personality — use only if the question calls for it):\n" +
+                    formatChunks(personal.data)
+            );
+        }
+        return sections.join("\n\n");
     } catch (err) {
         console.error("RAG retrieval failed:", err);
         return "";
@@ -218,7 +242,7 @@ export async function getChatResponse(
 ): Promise<string> {
     const context = await retrieveContext(message);
     const systemPrompt = context
-        ? `${SYSTEM_PROMPT}\n\n${context}\n\nUse the context above for specific details about blog posts/projects when relevant; otherwise rely on the summary above it.`
+        ? `${SYSTEM_PROMPT}\n\n${context}\n\nPrioritize technical/professional details (skills, experience, blog/project content) over personal context. Only draw on the personal context section for questions about hobbies, interests, or personality — and even then, keep it brief. If neither context section is relevant, rely on the summary above.`
         : SYSTEM_PROMPT;
 
     const res = await fetch("https://api.openai.com/v1/chat/completions", {
