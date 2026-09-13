@@ -3,13 +3,13 @@ import { supabase } from "~/utils/supabase.server";
 export const RESUME = {
     personal: {
         name: "Tatiana Moreira",
-        title: "Senior Full-Stack Web Developer",
+        title: "Full Stack Software Engineer",
         location: "Costa Rica",
         portfolio: "https://tatimoreira.me",
         github: "https://github.com/tatimoreira",
         linkedin: "https://linkedin.com/in/tmoreirab",
         summary:
-            "Senior full-stack developer with strong experience building scalable, high-quality web applications using React, Node.js, modern databases, cloud systems, and Web3 technologies. Passionate about clean architecture, performance, and developer experience.",
+            "Full-stack software engineer with 8+ years of experience building scalable applications across backend and frontend using React, Node.js, databases, and cloud systems. Experienced with modern front-end interfaces, APIs, microservices, CI/CD workflows, and performance-focused applications for SaaS, healthtech, fintech, and ecommerce.",
     },
 
     coreSkills: {
@@ -20,14 +20,15 @@ export const RESUME = {
             "TypeScript",
             "Tailwind CSS",
             "CSS-in-JS",
+            "Apollo",
+            "Jest",
             "Material UI",
-            "Framer Motion",
-            "Three.js",
+            "React Testing Library",
         ],
         backend: [
             "Node.js",
-            "GraphQL",
             "Rust",
+            "GraphQL",
             "REST APIs",
             "Microservices",
         ],
@@ -37,44 +38,63 @@ export const RESUME = {
             "MySQL",
             "Firestore",
         ],
-        cloudAndDevOps: [
-            "Google Cloud Platform",
-            "BigQuery",
-            "CI/CD",
-            "GitHub Actions",
-        ],
-        testing: [
-            "Jest",
-            "React Testing Library",
-            "Storybook",
-        ],
         web3: [
             "Solana",
             "solana/web3.js",
+            "dApp Development",
+            "Smart Contract Integration",
+        ],
+        cmsAndEcommerce: [
+            "Shopify",
+            "Sanity",
+            "MedusaJs",
+        ],
+        uiAndAnimation: [
+            "Framer Motion",
+            "Three.js",
         ],
         aiAndTools: [
-            "AI-assisted development",
+            "Cursor",
+            "Claude Code",
             "OpenAI API (gpt-4o-mini)",
             "Prompt engineering",
             "RAG / vector search concepts",
-            "Cursor",
             "MCPs",
+        ],
+        toolsAndDx: [
+            "Git",
+            "Storybook",
+            "Bit (Bit.dev)",
         ],
     },
 
     experience: [
         {
-            company: "Augeo",
+            company: "Open Earth Foundation",
             role: "Full-Stack Developer",
-            period: "Aug 2025 – Present",
+            period: "Jun 2026 – Present",
             location: "USA (Remote)",
             highlights: [
-                "Developed and maintained a reward system platform using React, Node.js, PostgreSQL, and MongoDB.",
-                "Led migration from monolithic architecture to microservices, improving scalability and deployment velocity.",
-                "Collaborated with product and design teams to translate requirements into scalable technical solutions.",
-                "Delivered features using Scrum methodology with a strong focus on quality and performance.",
-                "Improved UX through API optimization, database tuning, and modern UI practices.",
-                "Used AI-powered development tools to accelerate delivery and improve code quality.",
+                "Helped build out the platform's support for AI agents, working on the API layer that lets AI assistants pull city climate data and interact with the product directly.",
+                "Worked on AI-powered features — an action-recommendation tool for city climate plans and a conversational climate assistant — fixing bugs and improving the experience.",
+                "Used AI-assisted coding tools day to day to move faster while ramping up solo on a large, unfamiliar codebase.",
+                "Cleaned up type safety and code quality issues to keep the codebase reliable and CI green.",
+                "Redesigned parts of the emissions dashboard UI and wrote a technical proposal for bringing a climate-risk feature natively into the platform.",
+                "Improved onboarding/login experience, fixed a redirect-link security issue, and kept tests and translations (5 languages) up to date.",
+            ],
+        },
+        {
+            company: "Augeo",
+            role: "Full-Stack Developer",
+            period: "Aug 2025 – Apr 2026",
+            location: "USA (Remote)",
+            highlights: [
+                "Developed and maintained a scalable rewards platform using React, TypeScript, Node.js, PostgreSQL, and MongoDB.",
+                "Led migration from monolithic architecture to microservices, improving deployment frequency by ~30% and reducing system coupling.",
+                "Designed and implemented RESTful and GraphQL APIs, optimizing data access patterns and reducing average response times by ~20%.",
+                "Improved performance and UX by optimizing database queries, API endpoints, and front-end rendering.",
+                "Contributed to CI/CD pipelines, automated testing, and code reviews.",
+                "Leveraged AI-assisted development tools (Cursor) to accelerate delivery and improve code consistency.",
             ],
         },
         {
@@ -83,9 +103,9 @@ export const RESUME = {
             period: "Jan 2025 – Jul 2025",
             location: "Costa Rica",
             highlights: [
-                "Maintained and customized CMS-based products for multiple clients.",
-                "Implemented responsive and accessible UIs from design specifications.",
-                "Ensured cross-browser compatibility and design consistency.",
+                "Maintained and customized CMS-driven web applications for multiple clients, ensuring responsive design and cross-browser compatibility.",
+                "Translated wireframes and high-fidelity designs into accessible, high-performance UIs.",
+                "Ensured compliance with web accessibility standards (WCAG).",
             ],
         },
         {
@@ -94,9 +114,9 @@ export const RESUME = {
             period: "Jan 2024 – Aug 2024",
             location: "USA (Remote)",
             highlights: [
-                "Built a Solana-based decentralized rewards application.",
-                "Integrated smart contracts with frontend using solana/web3.js.",
-                "Implemented wallet connectivity and token transactions.",
+                "Built a Solana-based decentralized rewards application (dApp) using JavaScript, React, and Node.js.",
+                "Integrated Solana smart contracts with frontend using solana/web3.js for real-time blockchain communication.",
+                "Implemented wallet connectivity, token transactions, and on-chain data retrieval.",
                 "Built responsive UIs with Tailwind CSS and atomic design principles.",
             ],
         },
@@ -106,9 +126,10 @@ export const RESUME = {
             period: "Dec 2021 – Aug 2023",
             location: "USA (Remote)",
             highlights: [
-                "Worked across multiple platforms improving frontend and backend systems.",
-                "Partnered with PMs and designers to deliver user-centric features.",
-                "Led team meetings and mentored developers.",
+                "Worked across established codebases and greenfield projects, both frontend and backend.",
+                "Improved legacy applications with new features, refactoring, and bug fixes.",
+                "Helped build and scale a company-wide design system using Bit.dev and Tailwind CSS.",
+                "Led team meetings and mentored new team members.",
             ],
         },
         {
@@ -120,6 +141,27 @@ export const RESUME = {
                 "Developed the YouCanTrade platform.",
                 "Contributed to frontend UI and backend functionality.",
                 "Followed modern testing and scalability standards.",
+            ],
+        },
+        {
+            company: "Proximity",
+            role: "Full-Stack Web Developer",
+            period: "Jun 2019 – Mar 2020",
+            location: "San José, Costa Rica",
+            highlights: [
+                "Built web applications with reusable UI components and REST APIs.",
+                "Played a key role developing a social job platform for professionals aged 45+.",
+                "Followed strong engineering practices — testing, pull requests, peer reviews.",
+            ],
+        },
+        {
+            company: "Softon",
+            role: "Front-End Developer",
+            period: "Oct 2018 – Apr 2019",
+            location: "San José, Costa Rica",
+            highlights: [
+                "Developed reusable UI components and managed application state using GraphQL and REST APIs.",
+                "Created test suites for UI components and data layers, working with IBM Carbon Components.",
             ],
         },
     ],
@@ -142,22 +184,24 @@ export const RESUME = {
 
 const SYSTEM_PROMPT = `You are a concise AI assistant on Tatiana Moreira's portfolio. Answer only from the info below. Keep replies to 1-2 sentences max. Be direct. If you don't have that detail, encourage them to reach out directly.
 
-TATIANA MOREIRA — Senior Full-Stack Developer, Costa Rica
-Stack: React, Next.js, Remix, TypeScript, Node.js, Tailwind CSS, GraphQL, Rust, PostgreSQL, MongoDB, GCP, Solana/Web3
+TATIANA MOREIRA — Full Stack Software Engineer, 8+ years experience, Costa Rica
+Stack: React, Next.js, Remix, TypeScript, Node.js, Tailwind CSS, GraphQL/Apollo, Rust, PostgreSQL, MongoDB, Solana/Web3, Shopify/Sanity/MedusaJs
 Languages: Spanish (native), English (advanced), Mandarin Chinese (intermediate)
 
 EXPERIENCE:
-- Augeo (Aug 2025–now): Full-stack, React/Node/PostgreSQL/MongoDB, microservices migration
+- Open Earth Foundation (Jun 2026–now): Full-stack, AI agent API layer for city climate data, conversational climate assistant, emissions dashboard UI
+- Augeo (Aug 2025–Apr 2026): Full-stack, React/TypeScript/Node/PostgreSQL/MongoDB, microservices migration
 - Granicus (Jan–Jul 2025): CMS-based products, accessible UIs
 - FrankieLabs (Jan–Aug 2024, contract): Solana Web3 app, smart contracts, solana/web3.js
-- Parsley Health (Dec 2021–Aug 2023): Full-stack, mentoring, cross-platform features, microservices
+- Parsley Health (Dec 2021–Aug 2023): Full-stack, mentoring, design system (Bit.dev)
 - TradeStation (Apr 2020–Nov 2021): Full-stack development
+- Proximity (Jun 2019–Mar 2020) & Softon (Oct 2018–Apr 2019): Earlier full-stack/front-end roles
 
 EDUCATION: MSc Computer Science — Nanjing University (China, 2016–18) | BSc Computer Science — National University of Costa Rica (2009–15)
 
-PROJECTS: Portfolio (Remix + Tailwind, 3D flip card, AI chat) | Rust GraphQL SSG serving blog posts | Solana dApp
+PROJECTS: Portfolio (Remix + Tailwind, 3D flip card, AI chat with RAG) | Rust GraphQL SSG serving blog posts | Solana dApp
 
-AVAILABILITY: Actively job hunting. Open to full-time remote/hybrid frontend or full-stack senior/lead roles.
+AVAILABILITY: Currently full-time at Open Earth Foundation. Open to hearing about interesting opportunities.
 Contact: linkedin.com/in/tmoreirab | github.com/tatimoreira
 
 PERSONALITY: Curious, disciplined, builds things to learn. Works out to recharge. Bridges cultures, stays adaptable.`;
