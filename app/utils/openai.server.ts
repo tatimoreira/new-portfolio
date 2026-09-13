@@ -228,17 +228,34 @@ async function getEmbedding(text: string): Promise<number[] | null> {
     }
 }
 
+export type ChatSource = { url: string; heading: string };
+
 function formatChunks(data: any[]): string {
     return data
         .map((c: any) => `[${c.heading ?? c.source_id}] (${c.url})\n${c.content}`)
         .join("\n\n");
 }
 
-async function retrieveContext(query: string): Promise<string> {
-    if (!supabase) return "";
+function toSources(data: any[]): ChatSource[] {
+    return data.map((c: any) => ({ url: c.url, heading: c.heading ?? c.source_id }));
+}
+
+function dedupeSources(sources: ChatSource[]): ChatSource[] {
+    const seen = new Set<string>();
+    const result: ChatSource[] = [];
+    for (const s of sources) {
+        if (seen.has(s.url)) continue;
+        seen.add(s.url);
+        result.push(s);
+    }
+    return result.slice(0, 3);
+}
+
+async function retrieveContext(query: string): Promise<{ text: string; sources: ChatSource[] }> {
+    if (!supabase) return { text: "", sources: [] };
     try {
         const embedding = await getEmbedding(query);
-        if (!embedding) return "";
+        if (!embedding) return { text: "", sources: [] };
 
         // Params passed explicitly (not omitted) — PostgREST did not reliably fall
         // through to this RPC function's SQL-level defaults for omitted args.
@@ -264,27 +281,30 @@ async function retrieveContext(query: string): Promise<string> {
         ]);
 
         const sections: string[] = [];
+        const sources: ChatSource[] = [];
         if (technical.data?.length) {
             sections.push("RELEVANT CONTEXT FROM TATIANA'S BLOG:\n" + formatChunks(technical.data));
+            sources.push(...toSources(technical.data));
         }
         if (personal.data?.length) {
             sections.push(
                 "RELEVANT PERSONAL CONTEXT (hobbies/personality — use only if the question calls for it):\n" +
                     formatChunks(personal.data)
             );
+            sources.push(...toSources(personal.data));
         }
-        return sections.join("\n\n");
+        return { text: sections.join("\n\n"), sources: dedupeSources(sources) };
     } catch (err) {
         console.error("RAG retrieval failed:", err);
-        return "";
+        return { text: "", sources: [] };
     }
 }
 
 export async function getChatResponse(
     message: string,
     conversationHistory: any[] = []
-): Promise<string> {
-    const context = await retrieveContext(message);
+): Promise<{ reply: string; sources: ChatSource[] }> {
+    const { text: context, sources } = await retrieveContext(message);
     const systemPrompt = context
         ? `${SYSTEM_PROMPT}\n\n${context}\n\nPrioritize technical/professional details (skills, experience, blog/project content) over personal context. Only draw on the personal context section for questions about hobbies, interests, or personality — and even then, keep it brief. If neither context section is relevant, rely on the summary above.`
         : SYSTEM_PROMPT;
@@ -307,5 +327,6 @@ export async function getChatResponse(
         }),
     });
     const data = await res.json();
-    return data.choices[0].message.content ?? "";
+    const reply = data.choices[0].message.content ?? "";
+    return { reply, sources };
 }

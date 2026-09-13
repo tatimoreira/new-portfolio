@@ -12,6 +12,6 @@ export const action: ActionFunction = async ({ request }) => {
         return json({ error: "Invalid message" }, { status: 400 });
     }
 
-    const reply = await getChatResponse(message, conversationHistory);
-    return json({ reply });
+    const { reply, sources } = await getChatResponse(message, conversationHistory);
+    return json({ reply, sources });
 };

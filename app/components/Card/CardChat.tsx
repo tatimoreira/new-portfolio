@@ -1,7 +1,8 @@
 import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 
-type Message = { role: "user" | "assistant"; content: string };
+type ChatSource = { url: string; heading: string };
+type Message = { role: "user" | "assistant"; content: string; sources?: ChatSource[] };
 
 const SUGGESTIONS = [
     "What's your tech stack?",
@@ -40,7 +41,7 @@ export default function CardChat({ onBack }: CardChatProps) {
                 body: JSON.stringify({ message, conversationHistory: messages }),
             });
             const data = await res.json();
-            setMessages([...newMessages, { role: "assistant", content: data.reply }]);
+            setMessages([...newMessages, { role: "assistant", content: data.reply, sources: data.sources }]);
         } catch {
             setMessages([...newMessages, { role: "assistant", content: "Something went wrong. Try again!" }]);
         } finally {
@@ -94,7 +95,7 @@ export default function CardChat({ onBack }: CardChatProps) {
                     {messages.map((m, i) => (
                         <div
                             key={i}
-                            className={`flex ${m.role === "user" ? "justify-end" : "justify-start"}`}
+                            className={`flex flex-col ${m.role === "user" ? "items-end" : "items-start"}`}
                         >
                             <span
                                 className={`text-xs sm:text-sm px-3 py-2 rounded-2xl max-w-[85%] leading-relaxed ${
@@ -105,6 +106,22 @@ export default function CardChat({ onBack }: CardChatProps) {
                             >
                                 {m.content}
                             </span>
+                            {m.role === "assistant" && !!m.sources?.length && (
+                                <div className="flex flex-wrap gap-1.5 mt-1 max-w-[85%]">
+                                    {m.sources.map((s) => (
+                                        <a
+                                            key={s.url}
+                                            href={s.url}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            title={s.heading}
+                                            className="text-[10px] px-2 py-0.5 rounded-full border border-main-color/30 frutiger:border-[#0032db]/30 text-main-color/80 frutiger:text-[#0032db]/80 hover:bg-main-color/10 frutiger:hover:bg-[#0032db]/10 transition-colors truncate max-w-[160px]"
+                                        >
+                                            {s.heading}
+                                        </a>
+                                    ))}
+                                </div>
+                            )}
                         </div>
                     ))}
                     {loading && (
